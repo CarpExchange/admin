@@ -1,0 +1,1 @@
+export const API_URL = 'https://black-pearl-kripttechnology.koyeb.app';
