@@ -4,6 +4,7 @@ import "./globals.css";
 import { QueryProvider } from "@/components/QueryClientProvider";
 import { AuthProvider } from "@/components/AuthProvider";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import NotificationProvider from "@/components/NotificationProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,13 +20,15 @@ export default function RootLayout({
 }>) {
   return (
     <QueryProvider>
-      <AuthProvider>
-        <html lang="en">
-          <body className={inter.className}>
-            <ProtectedRoute children={children} />
-          </body>
-        </html>
-      </AuthProvider>
+      <NotificationProvider>
+        <AuthProvider>
+          <html lang="en">
+            <body className={inter.className}>
+              <ProtectedRoute children={children} />
+            </body>
+          </html>
+        </AuthProvider>
+      </NotificationProvider>
     </QueryProvider>
   );
 }
