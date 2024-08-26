@@ -19,6 +19,7 @@ import eye from "@/public/assets/icons/eye.svg";
 import eyeClosed from "@/public/assets/icons/eyes-closed.svg";
 import { NotificationContext } from "@/components/NotificationProvider";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -57,7 +58,11 @@ const SigninForm = ({ mutationResult }: any) => {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const icon = showPassword ? eyeClosed : eye;
+  const icon = showPassword ? (
+    <EyeOff color="#667185" size={24} />
+  ) : (
+    <Eye color="#667185" size={24} />
+  );
 
   const togglePassword = () => setShowPassword((prev) => !prev);
 
@@ -130,12 +135,9 @@ const SigninForm = ({ mutationResult }: any) => {
                         autoComplete="on"
                         {...field}
                       />
-                      <Image
-                        src={icon}
-                        alt={`${icon}`}
-                        onClick={togglePassword}
-                        className="mr-2"
-                      />
+                      <div className="cursor-pointer mr-1" onClick={togglePassword}>
+                        {icon}
+                      </div>
                     </div>
                   </FormControl>
                   <FormMessage />
