@@ -1,9 +1,156 @@
-import React from 'react'
+"use client";
+import React, { useEffect, useState, useContext } from "react";
+import Image from "next/image";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { withLoginMutation } from "@/hooks/mutations/LoginMutation";
+import eye from "@/public/assets/icons/eye.svg";
+import eyeClosed from "@/public/assets/icons/eyes-closed.svg";
+import { NotificationContext } from "@/components/NotificationProvider";
+import { useRouter } from "next/navigation";
 
-const SigninForm = () => {
+const formSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
+
+const SigninForm = ({ mutationResult }: any) => {
+  const { dispatch: setNotificationPopUp } = useContext(NotificationContext);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (mutationResult.data) {
+      const { data } = mutationResult;
+      if (data.status === 200) {
+        router.replace("/dashboard");
+        setNotificationPopUp({
+          type: "UPDATE_MESSAGE",
+          payload: {
+            status: true,
+            message: "Log in successful",
+            type: "success",
+          },
+        });
+      }
+    }
+  }, [mutationResult]);
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const icon = showPassword ? eyeClosed : eye;
+
+  const togglePassword = () => setShowPassword((prev) => !prev);
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      await mutationResult.mutateAsync(values);
+    } catch (error: any) {
+      setNotificationPopUp({
+        type: "UPDATE_MESSAGE",
+        payload: {
+          status: true,
+          message: "Error occured during login",
+          type: "error",
+        },
+      });
+    }
+  };
   return (
-    <div>SigninForm</div>
-  )
-}
+    <div className="bg-background text-foreground w-full h-full p-4">
+      <div className="flex items-center gap-2">
+        <Image
+          alt="Kript Logo"
+          src={"/assets/kript.png"}
+          width={40}
+          height={40}
+        />
 
-export default SigninForm
+        <h1 className="text-2xl md:text-3xl font-bold text-primary">
+          Kript Admin
+        </h1>
+      </div>
+      <div className="w-full md:w-2/5 md:mx-auto rounded-[16px] mt-16">
+        <h1 className="text-xl md:text-2xl font-semibold mb-5">Log in</h1>
+
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-4"
+          >
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="me@kript.com"
+                      {...field}
+                      className="focus:border-primary focus:border-2"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <div className="bg-background flex items-center gap-2 w-full rounded-md border border-input">
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="*********"
+                        className="border-0"
+                        autoComplete="on"
+                        {...field}
+                      />
+                      <Image
+                        src={icon}
+                        alt={`${icon}`}
+                        onClick={togglePassword}
+                        className="mr-2"
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button type="submit" className="mt-6 py-6">
+              Submit
+            </Button>
+          </form>
+        </Form>
+      </div>
+    </div>
+  );
+};
+
+export default withLoginMutation(SigninForm);

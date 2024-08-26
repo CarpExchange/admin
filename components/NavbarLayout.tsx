@@ -27,7 +27,7 @@ const NavbarLayout = ({ children }: Props) => {
   };
 
   return (
-    <div className="w-full h-screen bg-secondary">
+    <div className="w-full bg-secondary">
       {/* Navbar */}
       <div className="bg-white fixed w-full flex items-center h-20 px-[5%] space-x-3 border-b-[0.5px] border-primary">
         <Image
@@ -41,79 +41,75 @@ const NavbarLayout = ({ children }: Props) => {
       </div>
       <div className="w-full h-full flex">
         {/* Sidebar */}
-        <div className="bg-white w-1/3 fixed max-w-[500px] flex flex-col gap-8 h-full mt-20 border-r border-primary py-6 px-[5%]">
-          <div className="space-y-2">
-            {navbarData.map((link, index) => {
-              const isActive = pathname === link.route;
-              const icon = isActive ? link.activeIcon : link.inactiveIcon;
+        <div className="bg-white w-1/4 fixed  h-full mt-20 border-r border-primary py-6 px-[5%]">
+          <div className="flex flex-col justify-between h-4/5">
+            <div className="space-y-2">
+              {navbarData.map((link, index) => {
+                const isActive = pathname === link.route;
+                const icon = isActive ? link.activeIcon : link.inactiveIcon;
 
-              return (
-                <Link
-                  href={link.route}
-                  key={index}
-                  className={`w-full ${
-                    isActive ? "bg-secondary" : "bg-white"
-                  }  rounded-md p-4 flex items-center space-x-3`}
-                >
-                  {icon}
-                  <p
-                    className={`${
-                      isActive
-                        ? "font-bold text-primary"
-                        : "text-secondary font-normal"
-                    }`}
+                return (
+                  <Link
+                    href={link.route}
+                    key={index}
+                    className={`w-full ${
+                      isActive ? "bg-secondary" : "bg-white"
+                    }  rounded-md p-4 flex items-center space-x-3`}
                   >
-                    {link.linkName}
-                  </p>
-                </Link>
-              );
-            })}
-          </div>
+                    {icon}
+                    <p
+                      className={`${
+                        isActive
+                          ? "font-bold text-primary"
+                          : "text-secondary font-normal"
+                      }`}
+                    >
+                      {link.linkName}
+                    </p>
+                  </Link>
+                );
+              })}
+            </div>
 
-          <div>
-            {navbarDataTwo.map((link, index) => {
-              const isActive = pathname.includes(link.route);
-              const icon = isActive ? link.activeIcon : link.inactiveIcon;
+            <div>
+              {navbarDataTwo.map((link, index) => {
+                const isActive = pathname.includes(link.route);
+                const icon = isActive ? link.activeIcon : link.inactiveIcon;
 
-              return (
-                <Link
-                  href={link.route}
-                  key={index}
-                  className={`w-full ${
-                    isActive ? "bg-secondary" : "bg-white"
-                  }  rounded-md p-4 flex items-center space-x-3`}
-                >
-                  <Image
-                    alt={link.linkName}
-                    src={`/assets/icons/${icon}`}
-                    width={24}
-                    height={24}
-                    className="size-6"
-                  />
-                  <p
-                    className={`${
-                      isActive
-                        ? "font-bold text-primary"
-                        : "text-secondary font-normal"
-                    }`}
+                return (
+                  <Link
+                    href={link.route}
+                    key={index}
+                    className={`w-full ${
+                      isActive ? "bg-secondary" : "bg-white"
+                    }  rounded-md p-4 flex items-center space-x-3`}
                   >
-                    {link.linkName}
-                  </p>
-                </Link>
-              );
-            })}
+                    {icon}
+                    <p
+                      className={`${
+                        isActive
+                          ? "font-bold text-primary"
+                          : "text-secondary font-normal"
+                      }`}
+                    >
+                      {link.linkName}
+                    </p>
+                  </Link>
+                );
+              })}
 
-            <button
-              onClick={handleLogout}
-              className={`w-full 'bg-white' rounded-md p-4 flex items-center space-x-3`}
-            >
-              <LogOut size={24} color="#000" />
-              <p className="text-secondary font-normal">Logout</p>
-            </button>
+              <button
+                onClick={handleLogout}
+                className={`w-full 'bg-white' rounded-md p-4 flex items-center space-x-3`}
+              >
+                <LogOut size={24} color="#000" />
+                <p className="text-secondary font-normal">Logout</p>
+              </button>
+            </div>
           </div>
         </div>
         {/* Body */}
-        <div className="w-2/3 ml-[33%] h-full pt-20">{children}</div>
+        <div className="w-3/4 ml-[25%] h-full pt-20">{children}</div>
       </div>
     </div>
   );
