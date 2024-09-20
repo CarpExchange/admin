@@ -16,6 +16,7 @@ export async function loginFn({ email, password }: LoginPayload) {
 }
 
 export async function logOutFn(id: string) {
+  console.log(id, "id");
   try {
     const response = await authApi.post(`/admin/${id}/logout`);
     return response.data;

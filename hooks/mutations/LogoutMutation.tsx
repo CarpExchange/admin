@@ -6,7 +6,7 @@ export function withLogoutMutation (Component: any) {
   const ComponentWithMutation = withMutation(Component, {
     mutation: logOutFn,
     onSuccess: async (response: any) => {
-      console.log(response)
+      // console.log(response)
       await localStorage.removeItem('user_info')
     },
     onError: (error) => {

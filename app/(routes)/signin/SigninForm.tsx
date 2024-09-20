@@ -42,7 +42,7 @@ const SigninForm = ({ mutationResult }: any) => {
   useEffect(() => {
     if (mutationResult.data) {
       const { data } = mutationResult;
-      if (data.status === 200) {
+      if (data.status === 200 || data.status === 201 || data.status === 202) {
         router.replace("/dashboard");
         setNotificationPopUp({
           type: "UPDATE_MESSAGE",
@@ -59,9 +59,9 @@ const SigninForm = ({ mutationResult }: any) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const icon = showPassword ? (
-    <EyeOff color="#667185" size={24} />
-  ) : (
     <Eye color="#667185" size={24} />
+  ) : (
+    <EyeOff color="#667185" size={24} />
   );
 
   const togglePassword = () => setShowPassword((prev) => !prev);

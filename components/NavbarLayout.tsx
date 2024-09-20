@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect } from "react";
 import { AuthContext } from "./AuthProvider";
 import Link from "next/link";
-import { LogOut } from "lucide-react";
+import LogoutBtn from "./LogoutBtn";
 
 type Props = {
   children: React.ReactNode;
@@ -16,15 +16,13 @@ const NavbarLayout = ({ children }: Props) => {
   const { user_info } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!user_info && user_info.access_token) {
-      router.push("/signin");
+    if (!user_info && !user_info.access_token) {
+      router.replace("/signin");
+    } else {
+      router.replace("/dashboard");
     }
   }, [router, user_info]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("user_info");
-    router.push("/signin");
-  };
 
   return (
     <div className="w-full bg-secondary">
@@ -98,13 +96,9 @@ const NavbarLayout = ({ children }: Props) => {
                 );
               })}
 
-              <button
-                onClick={handleLogout}
-                className={`w-full 'bg-white' rounded-md p-4 flex items-center space-x-3`}
-              >
-                <LogOut size={24} color="#000" />
-                <p className="text-secondary font-normal">Logout</p>
-              </button>
+              <LogoutBtn />
+
+              
             </div>
           </div>
         </div>
