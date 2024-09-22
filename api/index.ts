@@ -2,7 +2,8 @@ import { API_URL } from "../env";
 import axios from "axios";
 
 const getToken = async () => {
-  const kriptUser = await localStorage.getItem("kriptUser");
+  const kriptUser = await localStorage.getItem("user_info");
+  console.log(kriptUser, "kriptUser");
   if (kriptUser) {
     return JSON.parse(kriptUser).access_token;
   } else {
