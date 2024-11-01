@@ -19,7 +19,7 @@ const NavbarLayout = ({ children }: Props) => {
     if (!user_info && !user_info.access_token) {
       router.replace("/signin");
     } else {
-      router.replace("/dashboard");
+      router.replace("/");
     }
   }, [router, user_info]);
 

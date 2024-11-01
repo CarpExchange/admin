@@ -18,11 +18,11 @@ export const AuthProvider = ({ children }: any) => {
   useEffect(() => {
     // const user = JSON.parse(localStorage.getItem("user_info"));
     if (user_info && user_info.access_token) {
-      router.replace("/dashboard");
+      router.replace("/");
     } else {
       router.replace("/signin");
     }
-  }, []);
+  }, [router, user_info]);
 
   // console.log(localStorage.getItem("user_info"))
 
@@ -31,11 +31,11 @@ export const AuthProvider = ({ children }: any) => {
     if (user && user.access_token) {
       setUserInfo(user);
     }
-  }, []);
+  }, [user_info])
 
   useEffect(() => {
     fetchLocalStorage();
-  }, [fetchLocalStorage]);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user_info, setUserInfo }}>{children}</AuthContext.Provider>

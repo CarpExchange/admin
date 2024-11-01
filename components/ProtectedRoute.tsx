@@ -14,7 +14,6 @@ type Props = {
 
 const ProtectedRoute = ({ children }: Props) => {
   const { user_info } = useContext(AuthContext);
-  console.log(user_info, "user info");
   const router = useRouter();
 
   const { state: notificationPopUp, dispatch: setNotificationPopUp } =
@@ -38,11 +37,12 @@ const ProtectedRoute = ({ children }: Props) => {
 
   useEffect(() => {
     if (user_info && user_info.access_token) {
-      router.push("/dashboard");
+      console.log(user_info, "user info");
+      router.push("/");
     } else {
       router.replace("/signin");
     }
-  }, [router]);
+  }, [router, user_info]);
 
   const unprotectedRoute = ["/signin"];
 

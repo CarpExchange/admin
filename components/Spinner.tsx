@@ -1,10 +1,14 @@
 import { LoaderCircle } from "lucide-react";
 import React from "react";
 
-const Spinner = () => {
+type Props = {
+  color?: string;
+}
+
+const Spinner = ({color = "#1A6EFF"} : Props) => {
   return (
     <div className="h-[150px] flex justify-center items-center">
-      <LoaderCircle color="#1A6EFF" size={26} />{" "}
+      <LoaderCircle color={color} size={26} />{" "}
     </div>
   );
 };

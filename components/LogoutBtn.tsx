@@ -12,11 +12,13 @@ const LogoutBtn = ({ mutationResult }: any) => {
   // localStorage.removeItem("user_info");
   // router.push("/signin");
 
+  const { user_info, setUserInfo } = useContext(AuthContext);
+  // console.log(user_info?.uid, "user info");
+
   useEffect(() => {
     if (mutationResult.data) {
       const { data } = mutationResult;
       if (data.status === 200 || data.status === 201 || data.status === 202) {
-        // localStorage.removeItem("user_info");
         router.replace("/signin");
         setNotificationPopUp({
           type: "UPDATE_MESSAGE",
@@ -28,15 +30,12 @@ const LogoutBtn = ({ mutationResult }: any) => {
         });
       }
     }
-  }, [mutationResult]);
-
-  const { user_info } = useContext(AuthContext);
-
-  // console.log(user_info?.uid, "user info");
+  }, [mutationResult, router]);
 
   const handleLogout = async () => {
     try {
       await mutationResult.mutateAsync(user_info?.uid);
+      
     } catch (error: any) {
       console.log(error);
       setNotificationPopUp({

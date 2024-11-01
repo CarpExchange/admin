@@ -3,7 +3,7 @@ import axios from "axios";
 
 const getToken = async () => {
   const kriptUser = await localStorage.getItem("user_info");
-  console.log(kriptUser, "kriptUser");
+  // console.log(kriptUser, "kriptUser");
   if (kriptUser) {
     return JSON.parse(kriptUser).access_token;
   } else {

@@ -20,6 +20,7 @@ import eyeClosed from "@/public/assets/icons/eyes-closed.svg";
 import { NotificationContext } from "@/components/NotificationProvider";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
+import Spinner from "@/components/Spinner";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -43,7 +44,7 @@ const SigninForm = ({ mutationResult }: any) => {
     if (mutationResult.data) {
       const { data } = mutationResult;
       if (data.status === 200 || data.status === 201 || data.status === 202) {
-        router.replace("/dashboard");
+        router.replace("/");
         setNotificationPopUp({
           type: "UPDATE_MESSAGE",
           payload: {
@@ -146,7 +147,11 @@ const SigninForm = ({ mutationResult }: any) => {
             />
 
             <Button type="submit" className="mt-6 py-6">
-              Submit
+            {
+              mutationResult.isPending ? (
+                <Spinner color="#FFFFFF" />
+              ) : 'Submit'
+            }
             </Button>
           </form>
         </Form>
