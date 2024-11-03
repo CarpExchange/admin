@@ -9,33 +9,36 @@ import { AuthContext } from "./AuthProvider";
 const LogoutBtn = ({ mutationResult }: any) => {
   const router = useRouter();
   const { dispatch: setNotificationPopUp } = useContext(NotificationContext);
-  // localStorage.removeItem("user_info");
-  // router.push("/signin");
 
-  const { user_info, setUserInfo } = useContext(AuthContext);
+  const {
+    state: { user_info },
+    authContext: signOut,
+  } = useContext(AuthContext);
   // console.log(user_info?.uid, "user info");
 
   useEffect(() => {
-    if (mutationResult.data) {
-      const { data } = mutationResult;
-      if (data.status === 200 || data.status === 201 || data.status === 202) {
-        router.replace("/signin");
-        setNotificationPopUp({
-          type: "UPDATE_MESSAGE",
-          payload: {
-            status: true,
-            message: "Log out successful",
-            type: "success",
-          },
-        });
+    async () => {
+      if (mutationResult.data) {
+        const { data } = mutationResult;
+        if (data.status === 'success') {
+          await signOut();
+          router.push("/signin");
+          setNotificationPopUp({
+            type: "UPDATE_MESSAGE",
+            payload: {
+              status: true,
+              message: "Log out successful",
+              type: "success",
+            },
+          });
+        }
       }
-    }
+    };
   }, [mutationResult, router]);
 
   const handleLogout = async () => {
     try {
       await mutationResult.mutateAsync(user_info?.uid);
-      
     } catch (error: any) {
       console.log(error);
       setNotificationPopUp({

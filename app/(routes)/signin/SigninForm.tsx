@@ -15,12 +15,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { withLoginMutation } from "@/hooks/mutations/LoginMutation";
-import eye from "@/public/assets/icons/eye.svg";
-import eyeClosed from "@/public/assets/icons/eyes-closed.svg";
 import { NotificationContext } from "@/components/NotificationProvider";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import Spinner from "@/components/Spinner";
+import { AuthContext } from "@/components/AuthProvider";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -30,6 +29,8 @@ const formSchema = z.object({
 const SigninForm = ({ mutationResult }: any) => {
   const { dispatch: setNotificationPopUp } = useContext(NotificationContext);
 
+  const {authContext: {signIn}} = useContext(AuthContext);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,13 +39,14 @@ const SigninForm = ({ mutationResult }: any) => {
     },
   });
 
-  const router = useRouter();
+  // const router = useRouter();
 
   useEffect(() => {
     if (mutationResult.data) {
       const { data } = mutationResult;
-      if (data.status === 200 || data.status === 201 || data.status === 202) {
-        router.replace("/");
+      if (data.status === 'success') {
+        // router.replace("/");
+        signIn(data.data)
         setNotificationPopUp({
           type: "UPDATE_MESSAGE",
           payload: {

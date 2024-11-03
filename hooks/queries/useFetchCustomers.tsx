@@ -1,4 +1,4 @@
-import { fetchFiatDepositsFn } from '@/api/fiat-transaction';
+import { fetchAllUsersFn } from '@/api/users';
 import ServiceError from '@/components/ServiceError';
 import Spinner from '@/components/Spinner';
 import { useQuery } from '@tanstack/react-query';
@@ -17,10 +17,10 @@ const components = {
  * @param {object} [options] withQuery Options
  * @return {JSX.Element}
  */
-export function withFetchFiatDepositsQuery(Component, options) {
+export function withFetchCustomersQuery(Component, options) {
   return (props) => {
     return withQuery(Component, {
-      hook: (hookProps) => useFetchFiatDepositsQuery({ ...hookProps }), // Passed from props
+      hook: (hookProps) => useFetchCustomersQuery({ ...hookProps }), // Passed from props
       components,
       ...options,
     })(props);
@@ -36,9 +36,7 @@ export function withFetchFiatDepositsQuery(Component, options) {
  * @return {object} Massaged Query
  */
 
-export function useFetchFiatDepositsQuery({
-  page_start,
-  page_end,
+export function useFetchCustomersQuery({
   options = {
     refetchInterval,
     notifyOnChangeProps: ['data', 'error'],
@@ -47,24 +45,24 @@ export function useFetchFiatDepositsQuery({
   const { state: {user_info} } = useContext(AuthContext)
   const id = user_info?.uid
   const response = useQuery({
-    queryKey: ['fiatDeposits', id], // Add  to the query key
-    queryFn: () => fetchFiatDepositsFn(id), // Pass  to fetchTasksFn
+    queryKey: ['allCustomers', id], // Add  to the query key
+    queryFn: () => fetchAllUsersFn(id), // Pass  to fetchTasksFn
     options,
   });
 
-  const { data: fiatDeposits, ...rest } = response;
+  const { data: allCustomers, ...rest } = response;
 
   const retdata = useMemo(() => {
     const retdata = {
       data: {
-        fiatDeposits: fiatDeposits?.data ? fiatDeposits.data : null,
+        allCustomers: allCustomers?.data ? allCustomers.data : null,
       },
     };
     return retdata;
-  }, [fiatDeposits]);
+  }, [allCustomers]);
 
   return { ...retdata, ...rest };
 }
 
-export default useFetchFiatDepositsQuery;
+export default useFetchCustomersQuery;
 

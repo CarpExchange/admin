@@ -1,10 +1,11 @@
-import { fetchFiatDepositsFn } from '@/api/fiat-transaction';
+import { fetchAUserDetailsFn } from '@/api/users';
 import ServiceError from '@/components/ServiceError';
 import Spinner from '@/components/Spinner';
 import { useQuery } from '@tanstack/react-query';
 import { useContext, useMemo } from 'react';
 import withQuery from '../Helpers/withQuery';
 import { AuthContext } from '@/components/AuthProvider';
+import { useSearchParams } from 'next/navigation';
 const refetchInterval = 3000;
 
 const components = {
@@ -17,10 +18,10 @@ const components = {
  * @param {object} [options] withQuery Options
  * @return {JSX.Element}
  */
-export function withFetchFiatDepositsQuery(Component, options) {
+export function withFetchAUserQuery(Component, options) {
   return (props) => {
     return withQuery(Component, {
-      hook: (hookProps) => useFetchFiatDepositsQuery({ ...hookProps }), // Passed from props
+      hook: (hookProps) => useFetchAUserQuery({ ...hookProps }), // Passed from props
       components,
       ...options,
     })(props);
@@ -36,35 +37,36 @@ export function withFetchFiatDepositsQuery(Component, options) {
  * @return {object} Massaged Query
  */
 
-export function useFetchFiatDepositsQuery({
-  page_start,
-  page_end,
+export function useFetchAUserQuery({
   options = {
     refetchInterval,
     notifyOnChangeProps: ['data', 'error'],
   },
 } = {}) {
+  const { id } = useSearchParams()
   const { state: {user_info} } = useContext(AuthContext)
-  const id = user_info?.uid
+  const uid = user_info?.uid
+  const data = { id, uid }
+
   const response = useQuery({
-    queryKey: ['fiatDeposits', id], // Add  to the query key
-    queryFn: () => fetchFiatDepositsFn(id), // Pass  to fetchTasksFn
+    queryKey: ['singleUserDetails', id, uid], // Add  to the query key
+    queryFn: () => fetchAUserDetailsFn(data), // Pass  to fetchTasksFn
     options,
   });
 
-  const { data: fiatDeposits, ...rest } = response;
+  const { data: singleUserDetails, ...rest } = response;
 
   const retdata = useMemo(() => {
     const retdata = {
       data: {
-        fiatDeposits: fiatDeposits?.data ? fiatDeposits.data : null,
+        singleUserDetails: singleUserDetails?.data ? singleUserDetails.data : null,
       },
     };
     return retdata;
-  }, [fiatDeposits]);
+  }, [singleUserDetails]);
 
   return { ...retdata, ...rest };
 }
 
-export default useFetchFiatDepositsQuery;
+export default useFetchAUserQuery;
 
