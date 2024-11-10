@@ -1,43 +1,75 @@
-"use client";
-import {
-  useContext,
-  createContext,
-  useState,
-  useCallback,
-  useEffect,
-} from "react";
-import { useRouter } from "next/navigation";
+'use client';
 
-export const AuthContext = createContext<any>(null);
+import React, { useReducer, useMemo, createContext, useEffect } from 'react';
+
+
+export const AuthContext = createContext<any>({})
+
 
 export const AuthProvider = ({ children }: any) => {
-  const [user_info, setUserInfo] = useState<any>({});
 
-  const router = useRouter();
-
-  useEffect(() => {
-    // const user = JSON.parse(localStorage.getItem("user_info"));
-    if (user_info && user_info.access_token) {
-      router.replace("/dashboard");
-    } else {
-      router.replace("/signin");
+  const [state, dispatch] = useReducer((prevState: any, action: any) => {
+    switch (action.type) {
+      case 'RESTORE_TOKEN':
+        return {
+          ...prevState,
+          access_token: action.payload.access_token,
+          user_info: action.payload,
+        };
+      case 'SIGN_IN':
+        return {
+          ...prevState,
+          access_token: action.payload.access_token,
+          user_info: action.payload,
+        };
+      case 'SIGN_OUT':
+        return {
+          ...prevState,
+          access_token: '',
+          user_info: {},
+        };
     }
-  }, []);
-
-  // console.log(localStorage.getItem("user_info"))
-
-  const fetchLocalStorage = useCallback(() => {
-    const user =   JSON.parse(localStorage.getItem("user_info"));
-    if (user && user.access_token) {
-      setUserInfo(user);
+  },
+    {
+      access_token: '',
+      user_info: {},
     }
-  }, []);
-
-  useEffect(() => {
-    fetchLocalStorage();
-  }, [fetchLocalStorage]);
-
-  return (
-    <AuthContext.Provider value={{ user_info, setUserInfo }}>{children}</AuthContext.Provider>
   );
-};
+
+  useEffect(() => {
+    const bootstrapAsync = async () => {
+      try {
+        const user = await localStorage.getItem('user_info');
+        if (user) {
+          dispatch({ type: 'RESTORE_TOKEN', payload: JSON.parse(user) });
+        } else {
+          dispatch({ type: 'SIGN_OUT' });
+        }
+      } catch (e) {
+        // Restoring token failed
+      }
+    }
+    bootstrapAsync();
+  }, []);
+  
+  const authContext = useMemo(() => ({
+    signIn: async (data: any) => {
+      dispatch({ type: 'RESTORE_TOKEN', payload: data });
+    },
+    signUp: async (data: any) => {
+      dispatch({ type: 'SIGN_IN', payload: data });
+    },
+    signOut: async () => {
+      await localStorage.removeItem('user_info');
+      dispatch({ type: 'SIGN_OUT' });
+    },
+  }), [state]);
+
+
+  return <AuthContext.Provider value={{state, authContext}}>
+    {children}
+  </AuthContext.Provider>
+}
+
+export default AuthProvider
+

@@ -13,13 +13,11 @@ type Props = {
 const NavbarLayout = ({ children }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
-  const { user_info } = useContext(AuthContext);
+  const { state: {user_info} } = useContext(AuthContext);
 
   useEffect(() => {
     if (!user_info && !user_info.access_token) {
-      router.replace("/signin");
-    } else {
-      router.replace("/dashboard");
+      router.push("/signin");
     }
   }, [router, user_info]);
 
@@ -96,8 +94,7 @@ const NavbarLayout = ({ children }: Props) => {
                 );
               })}
 
-              <LogoutBtn />
-
+              <LogoutBtn />              
               
             </div>
           </div>

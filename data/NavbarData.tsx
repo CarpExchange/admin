@@ -26,9 +26,16 @@ export const navbarData: NavbarData[] = [
   {
     activeIcon: <ArrowRightLeft color="#039" size={24} />,
     inactiveIcon: <ArrowRightLeft color="#000" size={24} />,
-    linkName: 'Orders',
-    route: '/orders',
-    exactRoute: 'orders'
+    linkName: 'Fiat Deposits',
+    route: '/fiat-deposits',
+    exactRoute: 'fiat-deposits'
+  },
+  {
+    activeIcon: <ArrowRightLeft color="#039" size={24} />,
+    inactiveIcon: <ArrowRightLeft color="#000" size={24} />,
+    linkName: 'Fiat Withdrawals',
+    route: '/fiat-withdrawals',
+    exactRoute: 'fiat-withdrawals'
   },
   {
     activeIcon: <History color="#039" size={24} />,

@@ -1,9 +1,13 @@
-import React from 'react'
+import ServiceError from "@/components/ServiceError";
+import Spinner from "@/components/Spinner";
+import { withFetchAUserQuery } from "@/hooks/queries/useFetchSingleUser";
+import React from "react";
 
-const CustomerDetails = () => {
-  return (
-    <div>CustomerDetails</div>
-  )
-}
+const CustomerDetails = ({ singleUserDetails }: any) => {
+  console.log(singleUserDetails, "singleUserDetails");
+  return <div>CustomerDetails</div>;
+};
 
-export default CustomerDetails
+export default withFetchAUserQuery(CustomerDetails, {
+  components: { ServiceError: ServiceError, Loading: Spinner },
+});
