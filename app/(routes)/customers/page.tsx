@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Search, ListFilter, XIcon } from 'lucide-react';

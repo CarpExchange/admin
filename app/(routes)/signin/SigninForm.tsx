@@ -29,7 +29,9 @@ const formSchema = z.object({
 const SigninForm = ({ mutationResult }: any) => {
   const { dispatch: setNotificationPopUp } = useContext(NotificationContext);
 
-  const {authContext: {signIn}} = useContext(AuthContext);
+  const {
+    authContext: { signIn },
+  } = useContext(AuthContext);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,20 +44,18 @@ const SigninForm = ({ mutationResult }: any) => {
   // const router = useRouter();
 
   useEffect(() => {
-    if (mutationResult.data) {
-      const { data } = mutationResult;
-      if (data.status === 'success') {
-        // router.replace("/");
-        signIn(data.data)
-        setNotificationPopUp({
-          type: "UPDATE_MESSAGE",
-          payload: {
-            status: true,
-            message: "Log in successful",
-            type: "success",
-          },
-        });
-      }
+    if (mutationResult?.data?.status === "success") {
+      // router.replace("/");
+      console.log(mutationResult?.data?.data);
+      signIn(mutationResult?.data?.data);
+      setNotificationPopUp({
+        type: "UPDATE_MESSAGE",
+        payload: {
+          status: true,
+          message: "Log in successful",
+          type: "success",
+        },
+      });
     }
   }, [mutationResult]);
 
@@ -138,7 +138,10 @@ const SigninForm = ({ mutationResult }: any) => {
                         autoComplete="on"
                         {...field}
                       />
-                      <div className="cursor-pointer mr-1" onClick={togglePassword}>
+                      <div
+                        className="cursor-pointer mr-1"
+                        onClick={togglePassword}
+                      >
                         {icon}
                       </div>
                     </div>
@@ -149,11 +152,11 @@ const SigninForm = ({ mutationResult }: any) => {
             />
 
             <Button type="submit" className="mt-6 py-6">
-            {
-              mutationResult.isPending ? (
+              {mutationResult.isPending ? (
                 <Spinner color="#FFFFFF" />
-              ) : 'Submit'
-            }
+              ) : (
+                "Submit"
+              )}
             </Button>
           </form>
         </Form>

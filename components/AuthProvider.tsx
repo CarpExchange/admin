@@ -13,13 +13,13 @@ export const AuthProvider = ({ children }: any) => {
       case 'RESTORE_TOKEN':
         return {
           ...prevState,
-          access_token: action.payload.token,
+          access_token: action.payload.access_token,
           user_info: action.payload,
         };
       case 'SIGN_IN':
         return {
           ...prevState,
-          access_token: action.payload.token,
+          access_token: action.payload.access_token,
           user_info: action.payload,
         };
       case 'SIGN_OUT':

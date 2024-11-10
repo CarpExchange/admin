@@ -37,7 +37,7 @@ const ProtectedRoute = ({ children }: Props) => {
 
   useEffect(() => {
     if (user_info && user_info.access_token) {
-      console.log(user_info, "user info");
+      // console.log(user_info, "user info");
       router.push("/");
     } else {
       router.push("/signin");
