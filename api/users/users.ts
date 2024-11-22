@@ -45,7 +45,7 @@ export async function deleteUserFn({ id, uid }: DeleteUserPayload) {
 
 export async function fetchAUserDetailsFn({ id, uid }: GetUserDetailsPayload) {
   try {
-    const response = await authApi.get(`/admin/${id}/users/${uid}`);
+    const response = await authApi.get(`/admin/${uid}/users/${id}`);
     return response.data;
   } catch (error: any) {
     throw error.response;

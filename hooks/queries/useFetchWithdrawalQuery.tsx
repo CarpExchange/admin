@@ -1,11 +1,11 @@
-import { fetchAUserDetailsFn } from '@/api/users';
+'use client';
+import { fetchFiatWithdrawalFn } from '@/api/fiat-transaction';
 import ServiceError from '@/components/ServiceError';
 import Spinner from '@/components/Spinner';
 import { useQuery } from '@tanstack/react-query';
 import { useContext, useMemo } from 'react';
 import withQuery from '../Helpers/withQuery';
 import { AuthContext } from '@/components/AuthProvider';
-import { useParams, useSearchParams } from 'next/navigation';
 const refetchInterval = 3000;
 
 const components = {
@@ -18,10 +18,10 @@ const components = {
  * @param {object} [options] withQuery Options
  * @return {JSX.Element}
  */
-export function withFetchAUserQuery(Component, options) {
+export function withFetchFiatWithdrawalQuery(Component, options) {
   return (props) => {
     return withQuery(Component, {
-      hook: (hookProps) => useFetchAUserQuery({ ...hookProps }), // Passed from props
+      hook: (hookProps) => useFetchFiatWithdrawalQuery({ ...hookProps }), // Passed from props
       components,
       ...options,
     })(props);
@@ -37,36 +37,36 @@ export function withFetchAUserQuery(Component, options) {
  * @return {object} Massaged Query
  */
 
-export function useFetchAUserQuery({
+export function useFetchFiatWithdrawalQuery({
+  page_start,
+  page_end,
   options = {
     refetchInterval,
     notifyOnChangeProps: ['data', 'error'],
   },
 } = {}) {
-  const { id } = useParams()
-  const { state: {user_info} } = useContext(AuthContext)
-  const uid = user_info?.uid
-  const data = { id, uid }
-  console.log(data, 'data')
+  const {
+    state: { user_info },
+  } = useContext(AuthContext);
+  const id = user_info?.uid;
   const response = useQuery({
-    queryKey: ['singleUserDetails', id, uid], // Add  to the query key
-    queryFn: () => fetchAUserDetailsFn(data), // Pass  to fetchTasksFn
+    queryKey: ['fiatWithdrawals', id], // Add  to the query key
+    queryFn: () => fetchFiatWithdrawalFn(id, page_start, page_end), // Pass  to fetchTasksFn
     options,
   });
 
-  const { data: singleUserDetails, ...rest } = response;
+  const { data: fiatWithdrawals, ...rest } = response;
 
   const retdata = useMemo(() => {
     const retdata = {
       data: {
-        singleUserDetails: singleUserDetails?.data ? singleUserDetails.data : null,
+        fiatWithdrawals: fiatWithdrawals?.data ? fiatWithdrawals.data : null,
       },
     };
     return retdata;
-  }, [singleUserDetails]);
+  }, [fiatWithdrawals]);
 
   return { ...retdata, ...rest };
 }
 
-export default useFetchAUserQuery;
-
+export default useFetchFiatWithdrawalQuery;

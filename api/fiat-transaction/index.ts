@@ -7,6 +7,7 @@ export async function fetchFiatDepositsFn({
   page_end = 10,
 }: FetchFiatDepositPayload) {
   try {
+    console.log(id, page_start)
     const response = await authApi.get(
       `/admin/${id}/users/deposits?page=${page_start}&page_size=${page_end}`
     );

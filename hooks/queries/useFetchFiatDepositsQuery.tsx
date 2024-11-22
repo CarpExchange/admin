@@ -1,3 +1,4 @@
+"use client"
 import { fetchFiatDepositsFn } from '@/api/fiat-transaction';
 import ServiceError from '@/components/ServiceError';
 import Spinner from '@/components/Spinner';
@@ -48,7 +49,7 @@ export function useFetchFiatDepositsQuery({
   const id = user_info?.uid
   const response = useQuery({
     queryKey: ['fiatDeposits', id], // Add  to the query key
-    queryFn: () => fetchFiatDepositsFn(id), // Pass  to fetchTasksFn
+    queryFn: () => fetchFiatDepositsFn(id, page_start, page_end), // Pass  to fetchTasksFn
     options,
   });
 

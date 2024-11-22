@@ -19,66 +19,55 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import StatusBadge from "@/components/StatusBadge";
+import { EllipsisVertical } from "lucide-react";
 
 const UsersTable = ({ allCustomers, query, statusType }: any) => {
-  console.log(allCustomers);
-  console.log(typeof statusType);
   const router = useRouter();
 
   const [customers, setAllCustomers] = useState([]);
 
   useEffect(() => {
-    if (allCustomers?.length > 0) {
-      if (statusType === "all") {
-        console.log('dont play')
-        setAllCustomers(allCustomers);
-      } else if (statusType === "verified") {
-        console.log('dont play two')
-        const filterVerified = allCustomers?.filter(
-          (customer: any) => customer.nin_is_verified || customer.bvn_is_verified
-        );
-        setAllCustomers(filterVerified);
-      } else if (statusType === "unverified") {
-        console.log('dont play three')
-        const filterUnverified = allCustomers?.filter(
-          (customer: any) => !customer.nin_is_verified && !customer.bvn_is_verified
-        );
-        setAllCustomers(filterUnverified);
-      } else {
-        setAllCustomers([]);
-      }
+    let filteredCustomers = allCustomers;
+
+    if (statusType === 'verified') {
+      filteredCustomers = allCustomers?.filter(
+        (customer: any) => customer.nin_is_verified || customer.bvn_is_verified
+      );
+    } else if (statusType === 'unverified') {
+      filteredCustomers = allCustomers?.filter(
+        (customer: any) => !customer.nin_is_verified && !customer.bvn_is_verified
+      );
+    } else if (statusType !== 'all') {
+      filteredCustomers = [];
     }
-  }, [allCustomers]);
 
-  console.log(customers, "customers");
-
-  const handleSearch = (word: string) => {
-    const filteredCustomer = searchFunction(customers ?? [], word, [
-      "item.name",
-      "customer.first_name",
-      "customer.last_name",
-    ]);
-    if (filteredCustomer !== undefined) {
-      setAllCustomers(filteredCustomer);
-    } else {
-      setAllCustomers([]);
-    }
-  };
-
-  useEffect(() => {
     if (query) {
-      handleSearch(query);
-    } else {
-      setAllCustomers(customers);
+      filteredCustomers = searchFunction(filteredCustomers, query, [
+        'phone_number',
+        'first_name',
+        'email',
+        'last_name',
+      ]);
     }
-  }, [query]);
+
+    setAllCustomers(filteredCustomers || []);
+  }, [allCustomers, statusType, query]);
 
   if (!customers || customers.length === 0) {
     return (
       <div>
-        <p>No {statusType} users found!</p>
+        <p className="capitalize"> {statusType} users not found!</p>
       </div>
     );
+  }
+
+  const verificationStatus = (customer: any) => {
+    if (customer.nin_is_verified || customer.bvn_is_verified) {
+      return "verified";
+    } else {
+      return "unverified";
+    }
   }
 
   return (
@@ -99,14 +88,11 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
               <TableHead className="text-center font-semibold text-secondary w-[140px]">
                 Staus
               </TableHead>
-              <TableHead className="w-[140px] text-center font-semibold text-secondary">
-                Date
-              </TableHead>
               <TableHead className="w-[46px] border-b border-table-bottom"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {customers?.map((customer) => (
+            {customers?.map((customer: any) => (
               <TableRow
                 key={customer?.id}
                 onClick={() => {
@@ -117,68 +103,65 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <div className="w-[36px] h-[36px] rounded-full bg-gray-500 flex justify-center items-center">
-                      <Image src={customer?.profile_picture?.image_url} width={36} height={36} alt={customer?.first_name} />
+                      <Image
+                        src={customer?.profile_picture?.image_url ? `${customer?.profile_picture?.image_url}` : '/assets/avatar.png'}
+                        width={36}
+                        height={36}
+                        alt={customer?.first_name}
+                      />
                     </div>
                     <div>
                       <p className="font-medium text-secondary">
                         {customer?.first_name} {customer?.last_name}
                       </p>
                       <span className="italic text-[14px]">
-                        <span>Role</span> &bull;{" "}
-                        <span className="text-primary">
-                          {customer?.role}
-                        </span>
+                        <span>Role</span> &bull;{' '}
+                        <span className="text-primary">{customer?.role}</span>
                       </span>
                     </div>
                   </div>
                 </TableCell>
-                <TableCell>
-                  {customer?.email}
-                </TableCell>
+                <TableCell>{customer?.email}</TableCell>
                 <TableCell className="font-bold text-secondary italic pl-3">
                   {customer?.phone_number}
                 </TableCell>
                 <TableCell>
-                  <StatusBadge width={79} statusType={"active"} />
+                  <StatusBadge width={79} statusType={verificationStatus(customer)} />
                 </TableCell>
                 <TableCell
-                className="w-[46px]"
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                <Popover>
-                  <PopoverTrigger>
-                    <div className="flex items-center justify-center">
-                      <EllipsisVertical color="#475467" size={24} />
-                    </div>
-                  </PopoverTrigger>
-                  <PopoverContent className="!translate-x-[-60px] !translate-y-[5px]">
-                    <div className="flex flex-col justify-center items-center gap-1">
-                      <DisableButton
-                      // @ts-ignore
-                        technicianId={technician.id}
-                        currentState={technician.availability}
-                      />
-                      <SuspendButton
-                      // @ts-ignore
-                        technicianId={technician.id}
-                        currentState={technician.is_active}
-                      />
-                    </div>
-                  </PopoverContent>
-                </Popover>
-              </TableCell>
+                  className="w-[46px]"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <Popover>
+                    <PopoverTrigger>
+                      <div className="flex items-center justify-center">
+                        <EllipsisVertical color="#475467" size={24} />
+                      </div>
+                    </PopoverTrigger>
+                    <PopoverContent className="!translate-x-[-50px] !translate-y-[5px] bg-white border-none w-[220px]">
+                      <div className="flex flex-col justify-center items-center gap-1">
+                        <button
+                          className="py-[10px] text-[14px] px-[15px] hover:bg-blue-200"
+                          // onClick={(e: any) => handleSubmit(e)}
+                        >
+                          Mark as Verified
+                        </button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
       <div className="bg-white flex items-center justify-end space-x-3 p-3 rounded-lg">
-        <p>1 - 10 of 100</p>
+        <p>1 - {customers?.length} of {allCustomers?.length}</p>
         <div className="flex items-center space-x-5">
-          <ChevronLeft color={"#4C52594D"} />
-          <ChevronRight color={"#4C5259"} />
+          <ChevronLeft color={'#4C52594D'} />
+          <ChevronRight color={'#4C5259'} />
         </div>
       </div>
     </>

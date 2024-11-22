@@ -1,3 +1,4 @@
+"use client"
 import ServiceError from "@/components/ServiceError";
 import Spinner from "@/components/Spinner";
 import { withFetchAUserQuery } from "@/hooks/queries/useFetchSingleUser";

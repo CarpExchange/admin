@@ -21,7 +21,7 @@ const Customers = () => {
               <TabsList>
                 <TabsTrigger value="all">All</TabsTrigger>
                 <TabsTrigger value="verified">Verified</TabsTrigger>
-                <TabsTrigger value="unverified">Inverified</TabsTrigger>
+                <TabsTrigger value="unverified">Unverified</TabsTrigger>
               </TabsList>
 
               <div className="flex items-center space-x-3">
