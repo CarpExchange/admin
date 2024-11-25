@@ -1,5 +1,32 @@
 import authApi from "..";
-import { FetchFiatDepositPayload, UpdateFiatDepositPayload, UpdateFiatWithdrawalPayload } from "./types";
+import { FetchFiatDepositPayload, UpdateAdminAccountDetailPayload, UpdateFiatDepositPayload, UpdateFiatWithdrawalPayload } from "./types";
+
+
+export async function updateAdminAccountDetailFn({
+  id,
+  account_name,
+  account_number,
+  bank_name,
+}: UpdateAdminAccountDetailPayload) {
+  try {
+    const body = { account_name, account_number, bank_name };
+    const response = await authApi.put(`/admin/${id}/bank-account`, body);
+    return response.data;
+  } catch (error: any) {
+    throw error.response;
+  }
+}
+
+export async function fetchKriptDepositAccountDetail(id: string) {
+  try {
+    const response = await authApi.get(
+      `/users/${id}/accounts/admin/bank-account`
+    );
+    return response.data;
+  } catch (error: any) {
+    throw error?.response;
+  }
+}
 
 export async function fetchFiatDepositsFn({
   id,

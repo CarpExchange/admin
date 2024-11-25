@@ -73,19 +73,19 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
   return (
     <>
       <div className="h-[55vh] overflow-auto">
-        <Table className="bg-white rounded-lg p-1 table-fixed">
+        <Table className="bg-white rounded-lg p-1">
           <TableHeader className="bg-[#F9FAFB]">
             <TableRow>
-              <TableHead className="text-left font-semibold text-secondary w-[277px]">
+              <TableHead className="text-left font-semibold text-secondary w-[200px]">
                 Customer
               </TableHead>
-              <TableHead className="text-left font-semibold text-secondary w-[217px]">
+              <TableHead className="text-left font-semibold text-secondary w-[180px]">
                 Email
               </TableHead>
-              <TableHead className="text-left font-semibold text-secondary w-[150px]">
+              <TableHead className="text-left font-semibold text-secondary w-[140px]">
                 Phone Number
               </TableHead>
-              <TableHead className="text-center font-semibold text-secondary w-[140px]">
+              <TableHead className="text-center font-semibold text-secondary w-[130px]">
                 Staus
               </TableHead>
               <TableHead className="w-[46px] border-b border-table-bottom"></TableHead>
@@ -122,7 +122,7 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
                   </div>
                 </TableCell>
                 <TableCell>{customer?.email}</TableCell>
-                <TableCell className="font-bold text-secondary italic pl-3">
+                <TableCell className="font-medium text-secondary italic pl-3">
                   {customer?.phone_number}
                 </TableCell>
                 <TableCell>

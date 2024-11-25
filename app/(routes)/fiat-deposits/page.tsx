@@ -6,6 +6,7 @@ import Spinner from '@/components/Spinner'
 
 const FiatDeposits = ({ fiatDeposits }: any) => {
   console.log(fiatDeposits)
+  
   return (
     <div>FiatDeposits</div>
   )

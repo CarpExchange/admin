@@ -1,4 +1,10 @@
 
+export type UpdateAdminAccountDetailPayload = {
+  id: string;
+  account_name: string;
+  account_number: string;
+  bank_name: string;
+}
 
 export type FetchFiatDepositPayload = {
   id: string;
