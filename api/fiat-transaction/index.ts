@@ -1,6 +1,10 @@
-import authApi from "..";
-import { FetchFiatDepositPayload, UpdateAdminAccountDetailPayload, UpdateFiatDepositPayload, UpdateFiatWithdrawalPayload } from "./types";
-
+import authApi from '..';
+import {
+  FetchFiatDepositPayload,
+  UpdateAdminAccountDetailPayload,
+  UpdateFiatDepositPayload,
+  UpdateFiatWithdrawalPayload,
+} from './types';
 
 export async function updateAdminAccountDetailFn({
   id,
@@ -28,15 +32,10 @@ export async function fetchKriptDepositAccountDetail(id: string) {
   }
 }
 
-export async function fetchFiatDepositsFn({
-  id,
-  page_start = 1,
-  page_end = 10,
-}: FetchFiatDepositPayload) {
+export async function fetchFiatDepositsFn(id: string, page: number) {
   try {
-    console.log(id, page_start)
     const response = await authApi.get(
-      `/admin/${id}/users/deposits?page=${page_start}&page_size=${page_end}`
+      `/admin/${id}/users/deposits?page=${page}&page_size=10`
     );
     return response.data;
   } catch (error: any) {
@@ -44,14 +43,11 @@ export async function fetchFiatDepositsFn({
   }
 }
 
-export async function fetchFiatWithdrawalFn({
-  id,
-  page_start = 1,
-  page_end = 10,
-}: FetchFiatDepositPayload) {
+export async function fetchFiatWithdrawalsFn(id: string, page: number) {
   try {
+    console.log(id, page, 'body');
     const response = await authApi.get(
-      `/admin/${id}/users/withdrawals?page=${page_start}&page_size=${page_end}`
+      `/admin/${id}/users/withdrawals?page=${page}&page_size=10`
     );
     return response.data;
   } catch (error: any) {

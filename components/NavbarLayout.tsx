@@ -25,7 +25,7 @@ const NavbarLayout = ({ children }: Props) => {
   return (
     <div className="w-full bg-secondary">
       {/* Navbar */}
-      <div className="bg-white fixed w-full flex items-center h-20 px-[5%] space-x-3 border-b-[0.5px] border-primary">
+      <div className="bg-white fixed w-full flex items-center h-20 px-[1%] space-x-3 border-b-[0.5px] border-primary">
         <Image
           alt="Logo"
           src={"/assets/kript.png"}
@@ -37,7 +37,7 @@ const NavbarLayout = ({ children }: Props) => {
       </div>
       <div className="w-full h-full flex">
         {/* Sidebar */}
-        <div className="bg-white w-1/4 fixed  h-full mt-20 border-r border-primary py-6 px-[5%]">
+        <div className="bg-white w-1/4 fixed h-full mt-20 border-r border-primary py-6 px-[1%]">
           <div className="flex flex-col justify-between h-4/5">
             <div className="space-y-2">
               {navbarData.map((link, index) => {

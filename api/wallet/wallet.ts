@@ -11,9 +11,9 @@ export async function updateExchangeRateFn ({id, buy_rate, sell_rate}: UpdateExc
   }
 }
 
-export async function fetchAllDepositsFn ({id, page, page_size}: fetchAllDepositsPayload ) {
+export async function fetchAllDepositsFn ({id, page}: fetchAllDepositsPayload ) {
   try {  
-    const response = await authApi.get(`/admin/${id}/users/deposits?page=${page}&page_size=${page_size}`);
+    const response = await authApi.get(`/admin/${id}/users/deposits?page=${page}&page_size='10'`);
     return response.data;
   } catch (error: any) {
     throw error.response;

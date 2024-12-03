@@ -1,5 +1,5 @@
 'use client';
-import { fetchFiatWithdrawalFn } from '@/api/fiat-transaction';
+import { fetchFiatWithdrawalsFn } from '@/api/fiat-transaction';
 import ServiceError from '@/components/ServiceError';
 import Spinner from '@/components/Spinner';
 import { useQuery } from '@tanstack/react-query';
@@ -18,10 +18,10 @@ const components = {
  * @param {object} [options] withQuery Options
  * @return {JSX.Element}
  */
-export function withFetchFiatWithdrawalQuery(Component, options) {
+export function withFetchFiatWithdrawalsQuery(Component, options) {
   return (props) => {
     return withQuery(Component, {
-      hook: (hookProps) => useFetchFiatWithdrawalQuery({ ...hookProps }), // Passed from props
+      hook: (hookProps) => useFetchFiatWithdrawalsQuery({ ...hookProps }), // Passed from props
       components,
       ...options,
     })(props);
@@ -37,9 +37,8 @@ export function withFetchFiatWithdrawalQuery(Component, options) {
  * @return {object} Massaged Query
  */
 
-export function useFetchFiatWithdrawalQuery({
-  page_start,
-  page_end,
+export function useFetchFiatWithdrawalsQuery({
+  page,
   options = {
     refetchInterval,
     notifyOnChangeProps: ['data', 'error'],
@@ -50,8 +49,8 @@ export function useFetchFiatWithdrawalQuery({
   } = useContext(AuthContext);
   const id = user_info?.uid;
   const response = useQuery({
-    queryKey: ['fiatWithdrawals', id], // Add  to the query key
-    queryFn: () => fetchFiatWithdrawalFn(id, page_start, page_end), // Pass  to fetchTasksFn
+    queryKey: ['fiatWithdrawals', id, page], // Add  to the query key
+    queryFn: () => fetchFiatWithdrawalsFn(id, page), // Pass  to fetchTasksFn
     options,
   });
 
@@ -61,6 +60,7 @@ export function useFetchFiatWithdrawalQuery({
     const retdata = {
       data: {
         fiatWithdrawals: fiatWithdrawals?.data ? fiatWithdrawals.data : null,
+        refetch: response.refetch
       },
     };
     return retdata;
@@ -69,4 +69,4 @@ export function useFetchFiatWithdrawalQuery({
   return { ...retdata, ...rest };
 }
 
-export default useFetchFiatWithdrawalQuery;
+export default useFetchFiatWithdrawalsQuery;

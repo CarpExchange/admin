@@ -102,11 +102,12 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
               >
                 <TableCell>
                   <div className="flex items-center gap-2">
-                    <div className="w-[36px] h-[36px] rounded-full bg-gray-500 flex justify-center items-center">
+                    <div className="w-[40px] h-[40px] rounded-full bg-gray-500 flex justify-center items-center">
                       <Image
                         src={customer?.profile_picture?.image_url ? `${customer?.profile_picture?.image_url}` : '/assets/avatar.png'}
                         width={36}
                         height={36}
+                        className="rounded-full h-[40px] w-[40px]"
                         alt={customer?.first_name}
                       />
                     </div>

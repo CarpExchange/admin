@@ -8,8 +8,7 @@ export type UpdateAdminAccountDetailPayload = {
 
 export type FetchFiatDepositPayload = {
   id: string;
-  page_start?: number;
-  page_end?: number
+  page: number;
 }
 
 export type UpdateFiatDepositPayload = {

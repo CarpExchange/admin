@@ -38,18 +38,18 @@ export function withFetchFiatDepositsQuery(Component, options) {
  */
 
 export function useFetchFiatDepositsQuery({
-  page_start,
-  page_end,
+  page,
   options = {
     refetchInterval,
     notifyOnChangeProps: ['data', 'error'],
   },
 } = {}) {
+  console.log(page)
   const { state: {user_info} } = useContext(AuthContext)
   const id = user_info?.uid
   const response = useQuery({
-    queryKey: ['fiatDeposits', id], // Add  to the query key
-    queryFn: () => fetchFiatDepositsFn(id, page_start, page_end), // Pass  to fetchTasksFn
+    queryKey: ['fiatDeposits', id, page], // Add  to the query key
+    queryFn: () => fetchFiatDepositsFn(id, page), // Pass  to fetchTasksFn
     options,
   });
 
@@ -59,6 +59,7 @@ export function useFetchFiatDepositsQuery({
     const retdata = {
       data: {
         fiatDeposits: fiatDeposits?.data ? fiatDeposits.data : null,
+        refetch: response.refetch
       },
     };
     return retdata;
