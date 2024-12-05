@@ -12,7 +12,7 @@ const Settings = () => {
     },
     {
       id: 2,
-      title: 'Update Admin Bank Acount',
+      title: 'Update Admin Bank Account',
       link: '/settings/admin-account'
     },
   ]

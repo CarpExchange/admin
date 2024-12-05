@@ -1,27 +1,14 @@
 'use client';
-import ServiceError from '@/components/ServiceError';
-import Spinner from '@/components/Spinner';
-import useFetchFiatWithdrawalsQuery from '@/hooks/queries/useFetchWithdrawalQuery';
 import React, { useState } from 'react';
 import { Search, XIcon, ListFilter } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import FiatWithdrawalTable from './FiatWithdrawalTable';
 
 const FiatWithdrawals = ({}: any) => {
-  const [page, setPage] = useState<number>(1);
-  const { data, isPending, isSuccess, isError } = useFetchFiatWithdrawalsQuery({
-    page,
-  });
-
-  const { fiatWithdrawals, refetch } = data
-  console.log(fiatWithdrawals)
   const [query, setQuery] = useState('')
-
 
   return (
     <>
-      {isError && <ServiceError />}
-      {isPending && <Spinner />}
-      {isSuccess && (
         <div className="w-full max-w-full h-full px-6 py-8">
           <div>
             <div className="space-y-0.5">
@@ -61,15 +48,12 @@ const FiatWithdrawals = ({}: any) => {
               </div>
             </div>
           </div>
+
+          <FiatWithdrawalTable query={query} />
         </div>
-      )}
     </>
   );
 };
 
 
 export default FiatWithdrawals
-
-// export default withFetchFiatWithdrawalsQuery(FiatWithdrawals, {
-//   components: { ServiceError: ServiceError, Loading: Spinner },
-// });
