@@ -86,7 +86,7 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
                 Phone Number
               </TableHead>
               <TableHead className="text-center font-semibold text-secondary w-[130px]">
-                Staus
+                Status
               </TableHead>
               <TableHead className="w-[46px] border-b border-table-bottom"></TableHead>
             </TableRow>
