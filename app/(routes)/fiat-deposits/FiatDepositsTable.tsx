@@ -27,11 +27,11 @@ const FiatDepositsTable = ({ query }: any) => {
   const { fiatDeposits, refetch } = data;
   console.log(fiatDeposits);
 
-  const canGo = (type: 'forward' | 'backward') => {
-    // if (!observationsData?.pageCount) return false;
+  // const canGo = (type: 'forward' | 'backward') => {
+  //   // if (!observationsData?.pageCount) return false;
 
-    return type === 'forward' ? page < observationsData.pageCount : page > 1; // Backward only if page > 1
-  };
+  //   return type === 'forward' ? page < observationsData.pageCount : page > 1; // Backward only if page > 1
+  // };
 
   const handlePageCount = (type: 'forward' | 'backward') => {
     // if (canGo(type)) {
@@ -56,6 +56,7 @@ const FiatDepositsTable = ({ query }: any) => {
       {isSuccess && (
         <>
           <div className="h-[55vh] overflow-auto">
+            <h6 className="text-lg font-semibold text-primary">Page {page}</h6>
             <Table className="bg-white rounded-lg p-1">
               <TableHeader className="bg-[#F9FAFB]">
                 <TableRow>
