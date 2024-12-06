@@ -25,7 +25,7 @@ const FiatDepositsTable = ({ query }: any) => {
   const router = useRouter();
 
   const { fiatDeposits, refetch } = data;
-  console.log(fiatDeposits);
+  // console.log(fiatDeposits);
 
   // const canGo = (type: 'forward' | 'backward') => {
   //   // if (!observationsData?.pageCount) return false;
@@ -56,7 +56,7 @@ const FiatDepositsTable = ({ query }: any) => {
       {isSuccess && (
         <>
           <div className="h-[55vh] overflow-auto">
-            <h6 className="text-lg font-semibold text-primary">Page {page}</h6>
+            <h6 className="text-lg font-semibold text-primary my-2">Page {page}</h6>
             <Table className="bg-white rounded-lg p-1">
               <TableHeader className="bg-[#F9FAFB]">
                 <TableRow>
@@ -84,7 +84,7 @@ const FiatDepositsTable = ({ query }: any) => {
                   <TableRow
                     key={deposit?.id}
                     onClick={() => {
-                      router.push(`/fiat-deposits/${deposit?.name?.replace(' ', '-')?.toLowerCase()}`);
+                      router.push(`/fiat-deposits/${deposit?.id}`);
                     }}
                     className="cursor-pointer border-t border-[#EAECF0]"
                   >
@@ -99,7 +99,7 @@ const FiatDepositsTable = ({ query }: any) => {
                       <StatusBadge width={60} statusType={deposit?.status} />
                     </TableCell>
                     <TableCell className="w-[46px]">
-                      <Link
+                      {/* <Link
                         key={deposit?.id}
                         href={{
                           pathname: `/fiat-deposits/${deposit?.name
@@ -111,7 +111,7 @@ const FiatDepositsTable = ({ query }: any) => {
                         <div className="flex items-center justify-center">
                           <ArrowRight color="#475467" size={24} />
                         </div>
-                      </Link>
+                      </Link> */}
                     </TableCell>
                   </TableRow>
                 ))}

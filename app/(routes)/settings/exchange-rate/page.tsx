@@ -89,6 +89,7 @@ const ExchangeRate = ({ mutationResult }: any) => {
       });
     }
   };
+  
   return (
     <div className="bg-gray-100 h-full max-h-full pt-[24px] pb-[48px] px-[20px]">
       <Link

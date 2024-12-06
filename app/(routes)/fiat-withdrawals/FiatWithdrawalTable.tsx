@@ -28,9 +28,31 @@ const FiatWithdrawalTable = ({ query }: any) => {
   });
 
   const { fiatWithdrawals, refetch } = data;
-  console.log(fiatWithdrawals);
+  // console.log(fiatWithdrawals);
 
   const router = useRouter();
+
+  // const canGo = (type: 'forward' | 'backward') => {
+  //   // if (!observationsData?.pageCount) return false;
+
+  //   return type === 'forward' ? page < observationsData.pageCount : page > 1; // Backward only if page > 1
+  // };
+
+  const handlePageCount = (type: "forward" | "backward") => {
+    // if (canGo(type)) {
+    setPage(type === "forward" ? page + 1 : page - 1);
+    // }
+  };
+
+  // const getPageDescription = (
+  //   page: number,
+  //   itemsPerPage: number,
+  //   totalItems: number,
+  // ): string => {
+  //   const start = (page - 1) * itemsPerPage + 1; // Starting index for the current page
+  //   const end = Math.min(page * itemsPerPage, totalItems); // Ending index for the current page
+  //   return `${start}-${end}`;
+  // };
 
   return (
     <>
@@ -39,12 +61,13 @@ const FiatWithdrawalTable = ({ query }: any) => {
       {isSuccess && (
         <>
           <div className="h-[55vh] overflow-auto">
+          <h6 className="text-lg font-semibold text-primary my-2">Page {page}</h6>
             <Table className="bg-white rounded-lg p-1">
               <TableHeader className="bg-[#F9FAFB]">
                 <TableRow>
                   <TableHead className="w-[20px] border-b border-table-bottom"></TableHead>
                   <TableHead className="text-left font-semibold text-secondary w-[140px]">
-                    Amount
+                    Amount of USDT
                   </TableHead>
                   <TableHead className="text-left font-semibold text-secondary w-[180px]">
                     Rate
@@ -60,42 +83,35 @@ const FiatWithdrawalTable = ({ query }: any) => {
                   <TableRow
                     key={withdrawal?.id}
                     onClick={() => {
-                      router.push(
-                        `/fiat-withdrawals/${withdrawal?.name
-                          ?.replace(" ", "-")
-                          ?.toLowerCase()}`
-                      );
+                      router.push(`/fiat-withdrawals/${withdrawal?.id}`);
                     }}
                     className="cursor-pointer border-t border-[#EAECF0]"
                   >
                     <TableCell className="w-[20px]">{index + 1}.</TableCell>
 
-                    <TableCell className="font-medium text-secondary">
+                    <TableCell className="font-semibold text-secondary ">
                       {withdrawal?.amount?.toLocaleString()}
                     </TableCell>
                     <TableCell>₦{withdrawal?.rate?.toLocaleString()}</TableCell>
                     <TableCell>
                       <div>
-                      <StatusBadge
-                        width={60}
-                        statusType={withdrawal?.status?.toLowerCase()}
-                      />
+                        <StatusBadge
+                          width={60}
+                          statusType={withdrawal?.status?.toLowerCase()}
+                        />
                       </div>
                     </TableCell>
                     <TableCell className="w-[46px]">
-                      <Link
+                      {/* <Link
                         key={withdrawal?.id}
                         href={{
-                          pathname: `/fiat-withdrawals/${withdrawal?.name
-                            ?.replace(" ", "-")
-                            ?.toLowerCase()}`,
-                          query: { id: withdrawal?.id },
+                          pathname: `/fiat-withdrawals/${withdrawal?.id})}`,
                         }}
                       >
                         <div className="flex items-center justify-center">
                           <ArrowRight color="#475467" size={24} />
                         </div>
-                      </Link>
+                      </Link> */}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -107,8 +123,23 @@ const FiatWithdrawalTable = ({ query }: any) => {
               1 - {customers?.length} of {allCustomers?.length}
             </p> */}
             <div className="flex items-center space-x-5">
-              <ChevronLeft color={"#4C52594D"} />
-              <ChevronRight color={"#4C5259"} />
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  handlePageCount("backward");
+                }}
+              >
+                <ChevronLeft color={"#4C5259"} />
+              </div>
+
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  handlePageCount("forward");
+                }}
+              >
+                <ChevronRight color={"#4C5259"} />
+              </div>
             </div>
           </div>
         </>
