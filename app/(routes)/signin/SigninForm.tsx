@@ -16,7 +16,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { withLoginMutation } from "@/hooks/mutations/LoginMutation";
 import { NotificationContext } from "@/components/NotificationProvider";
-import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import Spinner from "@/components/Spinner";
 import { AuthContext } from "@/components/AuthProvider";

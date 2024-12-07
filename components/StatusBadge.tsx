@@ -2,17 +2,21 @@ import useHexToRGBA from '@/hooks/useHexToRGBA';
 import React from 'react';
 
 type Props = {
-  statusType: 'verified' | 'unverified';
+  statusType: 'verified' | 'unverified' | 'processing' | 'accepted' | 'rejected' ;
   radius?: string;
   width?: number;
 };
 
 const statusConfig = {
   verified: { color: '#07A559', status: 'Verified' },
+  accepted: { color: '#07A559', status: 'Accepted' },
+  successful: { color: '#07A559', status: 'Accepted' },
   'in-progress': { color: '#1A6EFF', status: 'In progress' },
   pending: { color: '#4C5259B2', status: 'Pending' },
+  processing: { color: '#4C5259B2', status: 'Processing' },
   upcoming: { color: '#E58C33', status: 'Upcoming' },
   unverified: { color: '#EB5757', status: 'Unverified' },
+  rejected: { color: '#EB5757', status: 'Rejected' },
 };
 
 const StatusBadge = ({ statusType, radius = 'md', width = 120 }: Props) => {
@@ -21,7 +25,7 @@ const StatusBadge = ({ statusType, radius = 'md', width = 120 }: Props) => {
 
   return (
     <div
-      className={`min-w-[${width}px] mx-auto flex items-center justify-center space-x-2 px-3 py-1 rounded-${radius}`}
+      className={`w-fit mx-auto flex items-center justify-center space-x-2 px-3 py-1 rounded-${radius}`}
       style={{ backgroundColor: useHexToRGBA(color, 0.1) }}
     >
       <div className="size-2 rounded-full" style={{ backgroundColor: color }} />

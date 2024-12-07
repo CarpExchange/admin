@@ -45,7 +45,7 @@ export async function fetchFiatDepositsFn(id: string, page: number) {
 
 export async function fetchFiatWithdrawalsFn(id: string, page: number) {
   try {
-    console.log(id, page, 'body');
+    // console.log(id, page, 'body');
     const response = await authApi.get(
       `/admin/${id}/users/withdrawals?page=${page}&page_size=10`
     );

@@ -1,26 +1,13 @@
 'use client';
-import useFetchFiatDepositsQuery from '@/hooks/queries/useFetchFiatDepositsQuery';
 import React, { useState } from 'react';
-import ServiceError from '@/components/ServiceError';
-import Spinner from '@/components/Spinner';
 import { Search, XIcon, ListFilter } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import FiatDepositsTable from './FiatDepositsTable';
 
 const FiatDeposits = ({}: any) => {
-  const [page, setPage] = useState<number>(1);
-  const { data, isPending, isSuccess, isError } = useFetchFiatDepositsQuery({
-    page,
-  });
-
-  const { fiatDeposits, refetch } = data;
-  console.log(fiatDeposits);
-
   const [query, setQuery] = useState('')
   return (
     <>
-      {isError && <ServiceError />}
-      {isPending && <Spinner />}
-      {isSuccess && (
         <div className="w-full max-w-full h-full px-6 py-8">
           <div>
             <div className="space-y-0.5">
@@ -60,8 +47,9 @@ const FiatDeposits = ({}: any) => {
               </div>
             </div>
           </div>
+
+          <FiatDepositsTable query={query} />
         </div>
-      )}
     </>
   );
 };
