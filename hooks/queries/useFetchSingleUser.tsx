@@ -38,16 +38,19 @@ export function withFetchAUserQuery(Component, options) {
  */
 
 export function useFetchAUserQuery({
+  userId,
   options = {
     refetchInterval,
     notifyOnChangeProps: ['data', 'error'],
   },
 } = {}) {
-  const { id } = useParams()
+  const { id: user_id } = useParams()
+  // console.log(user_id, 'user_id')
   const { state: {user_info} } = useContext(AuthContext)
   const uid = user_info?.uid
+  const id = userId || user_id
   const data = { id, uid }
-  console.log(data, 'data')
+  // console.log(data, 'data')
   const response = useQuery({
     queryKey: ['singleUserDetails', id, uid], // Add  to the query key
     queryFn: () => fetchAUserDetailsFn(data), // Pass  to fetchTasksFn

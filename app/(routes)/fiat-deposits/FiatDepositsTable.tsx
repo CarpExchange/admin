@@ -15,6 +15,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, EllipsisVertical } from "lucide-
 import StatusBadge from "@/components/StatusBadge";
 import useFetchFiatDepositsQuery from "@/hooks/queries/useFetchFiatDepositsQuery";
 import Link from "next/link";
+import FiatDepositActionModal from "./FiatDepositActionModal";
 
 const FiatDepositsTable = ({ query }: any) => {
   const [page, setPage] = useState<number>(1);
@@ -83,10 +84,10 @@ const FiatDepositsTable = ({ query }: any) => {
                 {fiatDeposits?.map((deposit: any, index: any) => (
                   <TableRow
                     key={deposit?.id}
-                    onClick={() => {
-                      router.push(`/fiat-deposits/${deposit?.id}`);
-                    }}
-                    className="cursor-pointer border-t border-[#EAECF0]"
+                    // onClick={() => {
+                    //   router.push(`/fiat-deposits/${deposit?.id}`);
+                    // }}
+                    className=" border-t border-[#EAECF0]"
                   >
                     <TableCell className="w-[20px]">{index + 1}.</TableCell>
                     <TableCell>{deposit?.name}</TableCell>
@@ -112,6 +113,7 @@ const FiatDepositsTable = ({ query }: any) => {
                           <ArrowRight color="#475467" size={24} />
                         </div>
                       </Link> */}
+                      <FiatDepositActionModal depositDetail={deposit} />
                     </TableCell>
                   </TableRow>
                 ))}

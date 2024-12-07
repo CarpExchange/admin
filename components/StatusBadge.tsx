@@ -10,6 +10,7 @@ type Props = {
 const statusConfig = {
   verified: { color: '#07A559', status: 'Verified' },
   accepted: { color: '#07A559', status: 'Accepted' },
+  successful: { color: '#07A559', status: 'Accepted' },
   'in-progress': { color: '#1A6EFF', status: 'In progress' },
   pending: { color: '#4C5259B2', status: 'Pending' },
   processing: { color: '#4C5259B2', status: 'Processing' },

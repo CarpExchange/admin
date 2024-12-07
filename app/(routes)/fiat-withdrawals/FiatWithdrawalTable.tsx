@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import useFetchFiatWithdrawalsQuery from "@/hooks/queries/useFetchWithdrawalQuery";
-import Link from "next/link";
+import FiatWithdrawalActionModal from "./FiatWIthdrawalActionModal";
 
 const FiatWithdrawalTable = ({ query }: any) => {
   const [page, setPage] = useState<number>(1);
@@ -82,9 +82,6 @@ const FiatWithdrawalTable = ({ query }: any) => {
                 {fiatWithdrawals?.map((withdrawal: any, index: any) => (
                   <TableRow
                     key={withdrawal?.id}
-                    onClick={() => {
-                      router.push(`/fiat-withdrawals/${withdrawal?.id}`);
-                    }}
                     className="cursor-pointer border-t border-[#EAECF0]"
                   >
                     <TableCell className="w-[20px]">{index + 1}.</TableCell>
@@ -112,6 +109,7 @@ const FiatWithdrawalTable = ({ query }: any) => {
                           <ArrowRight color="#475467" size={24} />
                         </div>
                       </Link> */}
+                      <FiatWithdrawalActionModal withdrawalDetail={withdrawal} />
                     </TableCell>
                   </TableRow>
                 ))}

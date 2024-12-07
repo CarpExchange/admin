@@ -5,6 +5,7 @@ import { QueryProvider } from "@/components/QueryClientProvider";
 import { AuthProvider } from "@/components/AuthProvider";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import NotificationProvider from "@/components/NotificationProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
           <html lang="en">
             <body className={inter.className}>
               <ProtectedRoute children={children} />
+              <Toaster />
             </body>
           </html>
         </AuthProvider>
