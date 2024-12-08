@@ -10,6 +10,7 @@ const AcceptFiatWithdrawalBtn = ({
   withdrawal_id,
   paid = true,
   status = 'accepted',
+  refetch,
   mutationResult,
 }: any) => {
   const {
@@ -21,6 +22,7 @@ const AcceptFiatWithdrawalBtn = ({
 
   useEffect(() => {
     if (mutationResult?.data?.status === 'success') {
+      refetch();
       toast({
         description: 'Withdrawal accepted!!!',
         variant: 'success',

@@ -5,7 +5,7 @@ import React, { useContext, useEffect } from 'react';
 import Spinner from '@/components/Spinner';
 import { useToast } from '@/hooks/use-toast';
 
-const RejectFiatDepositBtn = ({ uid, deposit_id, mutationResult }: any) => {
+const RejectFiatDepositBtn = ({ uid, deposit_id, refetch, mutationResult }: any) => {
   const {
     state: { user_info },
   } = useContext(AuthContext);
@@ -15,6 +15,7 @@ const RejectFiatDepositBtn = ({ uid, deposit_id, mutationResult }: any) => {
 
   useEffect(() => {
     if (mutationResult?.data?.status === 'success') {
+      refetch()
       toast({
         description: 'Deposit rejected!!!',
         variant: 'success',

@@ -5,7 +5,7 @@ import Spinner from '@/components/Spinner';
 import { useToast } from '@/hooks/use-toast';
 import { withUpdateFiatWithdrawalActionMutation } from '@/hooks/mutations/UpdateFiatWithdrawalActionMutation';
 
-const RejectFiatWithdrawalBtn = ({ uid, withdrawal_id, mutationResult }: any) => {
+const RejectFiatWithdrawalBtn = ({ uid, withdrawal_id, refetch, mutationResult }: any) => {
   const {
     state: { user_info },
   } = useContext(AuthContext);
@@ -15,6 +15,7 @@ const RejectFiatWithdrawalBtn = ({ uid, withdrawal_id, mutationResult }: any) =>
 
   useEffect(() => {
     if (mutationResult?.data?.status === 'success') {
+      refetch();
       toast({
         description: 'Withdrawal rejected!!!',
         variant: 'success',

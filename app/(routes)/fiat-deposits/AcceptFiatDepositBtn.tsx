@@ -11,6 +11,7 @@ const AcceptFiatDepositBtn = ({
   deposit_id,
   paid = true,
   status = 'accepted',
+  refetch,
   mutationResult,
 }: any) => {
   const {
@@ -22,6 +23,7 @@ const AcceptFiatDepositBtn = ({
 
   useEffect(() => {
     if (mutationResult?.data?.status === 'success') {
+      refetch()
       toast({
         description: 'Deposit accepted!!!',
         variant: 'success',
