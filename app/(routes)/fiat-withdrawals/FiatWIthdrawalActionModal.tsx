@@ -33,7 +33,9 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
     }
   }, [showCopy]);
 
-  const { data: { refetch } } = useFetchFiatWithdrawalsQuery({
+  const {
+    data: { refetch },
+  } = useFetchFiatWithdrawalsQuery({
     page,
   });
 
@@ -94,8 +96,8 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
 
             <div className="flex flex-col md:flex-row gap-3 items-center">
               <div className="w-full md:w-1/2">
-                <p>
-                  <b>NGN to be Received:</b> ₦
+                <p className="text-[20px]">
+                  <span className="text-[16px]"><b>NGN to be Received:</b></span> ₦
                   {(
                     withdrawalDetail?.amount * withdrawalDetail?.rate
                   )?.toLocaleString()}
@@ -112,7 +114,9 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
                 </div>
               </div>
             </div>
+          </div>
 
+          <div className="mt-6">
             <div className="w-full">
               <p>
                 <b>Withdrawal account details</b>{" "}
@@ -171,7 +175,7 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
           ) : null}
 
           {withdrawalDetail?.status === "accepted" && (
-            <p>
+            <p className="mt-4">
               <b>Paid:</b>{" "}
               {moment(withdrawalDetail?.UpdatedAt).format(
                 "MMMM Do YYYY, h:mm:ss a"
@@ -180,7 +184,7 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
           )}
 
           {withdrawalDetail?.status === "rejected" && (
-            <p>
+            <p className="mt-4">
               <b>Rejected:</b>{" "}
               {moment(withdrawalDetail?.UpdatedAt).format(
                 "MMMM Do YYYY, h:mm:ss a"

@@ -108,7 +108,7 @@ const AdminAccount = ({}: any) => {
                             <FormLabel>Account Number</FormLabel>
                             <FormControl>
                               <Input
-                                placeholder="Enter sell rate"
+                                placeholder="Enter account number"
                                 className="bg-transparent"
                                 {...field}
                               />

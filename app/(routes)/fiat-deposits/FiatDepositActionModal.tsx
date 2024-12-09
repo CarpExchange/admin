@@ -113,7 +113,9 @@ const FiatDepositActionModal = ({ depositDetail, page }: any) => {
               </p>
             </div>
           </div>
+        </div>
 
+        <div className="mt-6">
           {depositDetail?.status !== "accepted" &&
             depositDetail?.status !== "successful" &&
             depositDetail?.status !== "rejected" && (
@@ -133,17 +135,17 @@ const FiatDepositActionModal = ({ depositDetail, page }: any) => {
             )}
 
           {depositDetail?.status?.toLowerCase() === "accepted" ||
-            depositDetail?.status?.toLowerCase() === "successful" && (
-              <p>
+            (depositDetail?.status?.toLowerCase() === "successful" && (
+              <p className="mt-4">
                 <b>Coin deposited:</b>{" "}
                 {moment(depositDetail?.UpdatedAt).format(
                   "MMMM Do YYYY, h:mm:ss a"
                 )}
               </p>
-            )}
+            ))}
 
           {depositDetail?.status === "rejected" && (
-            <p>
+            <p className="mt-4">
               <b>Rejected:</b>{" "}
               {moment(depositDetail?.UpdatedAt).format(
                 "MMMM Do YYYY, h:mm:ss a"
