@@ -24,6 +24,14 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
     });
   };
 
+  const verificationStatus = (customer: any) => {
+    if (customer.nin_is_verified || customer.bvn_is_verified) {
+      return 'verified';
+    } else {
+      return 'unverified';
+    }
+  };
+
   return (
     <div className="bg-gray-100 h-full max-h-full pt-[24px]">
       <div className="w-full px-[20px] border-b border-b-primary">
@@ -49,7 +57,7 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
             </div>
           </div>
           <div className="mt-6 bg-white rounded-[8px] px-5 py-4">
-            <div className="flex flex-col gap-5 ">
+            <div className="flex flex-col gap-8 ">
               <div className="w-full flex flex-row justify-between">
                 <div className="w-full md:w-1/2 flex gap-2 items-center">
                   <h5 className="font-figtree leading-[22px] text-black-200">
@@ -58,7 +66,7 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
 
                   <span>
                     <StatusBadge
-                      statusType={singleUserDetails?.status?.toLowerCase()}
+                      statusType={verificationStatus(singleUserDetails)}
                       width={79}
                     />
                   </span>
@@ -67,9 +75,9 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
                 <div className="w-full md:w-1/2">
                   <h5 className="font-figtree  leading-[22px] text-black-200">
                     <b>Last login: </b>{' '}
-                    {moment(
+                    {singleUserDetails?.security_data ? moment(
                       singleUserDetails?.security_data?.last_login_time
-                    ).format('MMMM Do YYYY, h:mm:ss a') ?? 'NA'}
+                    ).format('MMMM Do YYYY, h:mm:ss a') : 'NA'}
                   </h5>
                 </div>
               </div>

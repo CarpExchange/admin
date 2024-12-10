@@ -14,3 +14,9 @@ export type GetUserDetailsPayload = {
   id: string;
   uid: string;
 }
+
+export type UpdateVerificationStatusPayload = {
+  id: string;
+  email: string;
+  verification_type: 'bvn' | 'nin';
+}

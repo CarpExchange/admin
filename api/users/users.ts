@@ -3,6 +3,7 @@ import {
   DeleteUserPayload,
   GetUserDetailsPayload,
   LoginPayload,
+  UpdateVerificationStatusPayload,
 } from "./types";
 
 export async function loginFn({ email, password }: LoginPayload) {
@@ -46,6 +47,16 @@ export async function deleteUserFn({ id, uid }: DeleteUserPayload) {
 export async function fetchAUserDetailsFn({ id, uid }: GetUserDetailsPayload) {
   try {
     const response = await authApi.get(`/admin/${uid}/users/${id}`);
+    return response.data;
+  } catch (error: any) {
+    throw error.response;
+  }
+}
+
+
+export async function updateUserVerficationStatusFn({id, email, verification_type}: UpdateVerificationStatusPayload) {
+  try {
+    const response = await authApi.put(`/admin/${id}/user/${email}/verify?verification_type=${verification_type}&status=true`);
     return response.data;
   } catch (error: any) {
     throw error.response;

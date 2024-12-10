@@ -2,7 +2,7 @@ import ServiceError from "@/components/ServiceError";
 import Spinner from "@/components/Spinner";
 import { withFetchCustomersQuery } from "@/hooks/queries/useFetchCustomers";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { searchFunction } from "@/hooks/useSearchFunction";
 import {
   Table,
@@ -21,9 +21,17 @@ import {
 } from '@/components/ui/popover';
 import StatusBadge from "@/components/StatusBadge";
 import { EllipsisVertical } from "lucide-react";
+import ManualBVNVerification from "./ManualBVNVerification";
+import ManualNINVerification from "./ManualNINVerification";
+import { AuthContext } from "@/components/AuthProvider";
 
 const UsersTable = ({ allCustomers, query, statusType }: any) => {
   const router = useRouter();
+
+  const {
+    state: { user_info },
+  } = useContext(AuthContext);
+  const uid = user_info?.uid;
 
   const [customers, setAllCustomers] = useState([]);
 
@@ -104,7 +112,11 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
                   <div className="flex items-center gap-2">
                     <div className="w-[40px] h-[40px] rounded-full bg-gray-500 flex justify-center items-center">
                       <Image
-                        src={customer?.profile_picture?.image_url ? `${customer?.profile_picture?.image_url}` : '/assets/avatar.png'}
+                        src={
+                          customer?.profile_picture?.image_url
+                            ? `${customer?.profile_picture?.image_url}`
+                            : '/assets/avatar.png'
+                        }
                         width={36}
                         height={36}
                         className="rounded-full h-[40px] w-[40px]"
@@ -127,7 +139,10 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
                   {customer?.phone_number}
                 </TableCell>
                 <TableCell>
-                  <StatusBadge width={79} statusType={verificationStatus(customer)} />
+                  <StatusBadge
+                    width={79}
+                    statusType={verificationStatus(customer)}
+                  />
                 </TableCell>
                 <TableCell
                   className="w-[46px]"
@@ -135,23 +150,27 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
                     e.stopPropagation();
                   }}
                 >
-                  <Popover>
-                    <PopoverTrigger>
-                      <div className="flex items-center justify-center">
-                        <EllipsisVertical color="#475467" size={24} />
-                      </div>
-                    </PopoverTrigger>
-                    <PopoverContent className="!translate-x-[-50px] !translate-y-[5px] bg-white border-none w-[220px]">
-                      <div className="flex flex-col justify-center items-center gap-1">
-                        <button
-                          className="py-[10px] text-[14px] px-[15px] hover:bg-blue-200"
-                          // onClick={(e: any) => handleSubmit(e)}
-                        >
-                          Mark as Verified
-                        </button>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
+                  {!customer?.bvn_is_verified && !customer?.nin_is_verified && (
+                    <Popover>
+                      <PopoverTrigger>
+                        <div className="flex items-center justify-center">
+                          <EllipsisVertical color="#475467" size={24} />
+                        </div>
+                      </PopoverTrigger>
+                      <PopoverContent className="!translate-x-[-50px] !translate-y-[5px] bg-white border-none w-[220px]">
+                        <div className="flex flex-col justify-center items-center gap-1">
+                          <ManualBVNVerification
+                            id={uid}
+                            email={customer?.email}
+                          />
+                          <ManualNINVerification
+                            id={uid}
+                            email={customer?.email}
+                          />
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
@@ -159,7 +178,9 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
         </Table>
       </div>
       <div className="bg-white flex items-center justify-end space-x-3 p-3 rounded-lg">
-        <p>1 - {customers?.length} of {allCustomers?.length}</p>
+        <p>
+          1 - {customers?.length} of {allCustomers?.length}
+        </p>
         <div className="flex items-center space-x-5">
           <ChevronLeft color={'#4C52594D'} />
           <ChevronRight color={'#4C5259'} />

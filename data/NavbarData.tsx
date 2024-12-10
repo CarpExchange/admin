@@ -37,13 +37,13 @@ export const navbarData: NavbarData[] = [
     route: '/fiat-withdrawals',
     exactRoute: 'fiat-withdrawals'
   },
-  {
-    activeIcon: <History color="#039" size={24} />,
-    inactiveIcon: <History color="#000" size={24} />,
-    linkName: 'History',
-    route: '/history',
-    exactRoute: 'history'
-  },
+  // {
+  //   activeIcon: <History color="#039" size={24} />,
+  //   inactiveIcon: <History color="#000" size={24} />,
+  //   linkName: 'History',
+  //   route: '/history',
+  //   exactRoute: 'history'
+  // },
 ];
 
 export const navbarDataTwo: NavbarData[] = [
