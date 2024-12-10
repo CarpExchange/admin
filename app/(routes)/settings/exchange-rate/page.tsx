@@ -89,7 +89,7 @@ const ExchangeRate = ({ mutationResult }: any) => {
       });
     }
   };
-  
+
   return (
     <div className="bg-gray-100 h-full max-h-full pt-[24px] pb-[48px] px-[20px]">
       <Link
@@ -157,7 +157,7 @@ const ExchangeRate = ({ mutationResult }: any) => {
                         name="sell_rate"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Sell Rate Charges</FormLabel>
+                            <FormLabel>Withdrawal Rate Charges</FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="Enter sell rate"

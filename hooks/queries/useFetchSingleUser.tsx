@@ -63,6 +63,7 @@ export function useFetchAUserQuery({
     const retdata = {
       data: {
         singleUserDetails: singleUserDetails?.data ? singleUserDetails.data : null,
+        refetch: response.refetch
       },
     };
     return retdata;

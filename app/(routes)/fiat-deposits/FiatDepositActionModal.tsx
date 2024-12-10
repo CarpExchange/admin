@@ -4,16 +4,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import React, { useContext, useEffect, useState } from 'react';
-import { ArrowRight, Copy } from 'lucide-react';
-import copy from 'copy-to-clipboard';
-import { Button } from '@/components/ui/button';
-import AcceptFiatDepositBtn from './AcceptFiatDepositBtn';
-import RejectFiatDepositBtn from './RejectFiatDepositBtn';
+} from "@/components/ui/dialog";
+import React, { useContext, useEffect, useState } from "react";
+import { ArrowRight, Copy } from "lucide-react";
+import copy from "copy-to-clipboard";
+import AcceptFiatDepositBtn from "./AcceptFiatDepositBtn";
+import RejectFiatDepositBtn from "./RejectFiatDepositBtn";
+import useFetchFiatDepositsQuery from "@/hooks/queries/useFetchFiatDepositsQuery";
+import moment from "moment";
 
-
-const FiatDepositActionModal = ({ depositDetail }: any) => {
+const FiatDepositActionModal = ({ depositDetail, page }: any) => {
   console.log(depositDetail);
   const [showCopy, setShowCopy] = useState(false);
 
@@ -30,6 +30,13 @@ const FiatDepositActionModal = ({ depositDetail }: any) => {
       return () => clearTimeout(notificationTimeout);
     }
   }, [showCopy]);
+
+  const {
+    data: { refetch },
+  } = useFetchFiatDepositsQuery({
+    page,
+  });
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -40,7 +47,7 @@ const FiatDepositActionModal = ({ depositDetail }: any) => {
       <DialogContent className="bg-white">
         <DialogHeader>
           <DialogTitle>Fiat Deposit Details</DialogTitle>
-          <p>
+          <p className="mt-2">
             Manage and update <b>{depositDetail?.name}</b> deposit.
           </p>
         </DialogHeader>
@@ -77,7 +84,7 @@ const FiatDepositActionModal = ({ depositDetail }: any) => {
             <div className="flex flex-col md:flex-row gap-3 items-center">
               <div className="w-full md:w-1/2">
                 <p>
-                  <b>USDT to be Received:</b>{' '}
+                  <b>USDT to be Received:</b>{" "}
                   {(depositDetail?.amount / depositDetail?.rate)?.toFixed(2)}
                 </p>
               </div>
@@ -90,13 +97,13 @@ const FiatDepositActionModal = ({ depositDetail }: any) => {
 
             <div className="w-full">
               <p>
-                <b>Recipient Kript mail:</b>{' '}
+                <b>Recipient Kript mail:</b>{" "}
                 {/* <span className="flex flex-row items-center gap-1.5"> */}
                 <span className="text-sm">{depositDetail?.recipient}</span>
                 <span
                   className="inline-block ml-1"
                   onClick={() =>
-                    handleCopyRecipientEmail('Email', depositDetail?.recipient)
+                    handleCopyRecipientEmail("Email", depositDetail?.recipient)
                   }
                 >
                   <Copy color="#039" size={20} />
@@ -106,19 +113,44 @@ const FiatDepositActionModal = ({ depositDetail }: any) => {
               </p>
             </div>
           </div>
+        </div>
 
-          {!(depositDetail?.coin_deposited) && (
-            <div className="flex flex-row gap-6 mt-6">
-              <AcceptFiatDepositBtn
-                uid={depositDetail?.uid}
-                deposit_id={depositDetail?.id}
-              />
+        <div className="mt-6">
+          {depositDetail?.status !== "accepted" &&
+            depositDetail?.status !== "successful" &&
+            depositDetail?.status !== "rejected" && (
+              <div className="flex flex-row gap-6 mt-6">
+                <AcceptFiatDepositBtn
+                  uid={depositDetail?.uid}
+                  deposit_id={depositDetail?.id}
+                  refetch={refetch}
+                />
 
-              <RejectFiatDepositBtn
-                uid={depositDetail?.uid}
-                deposit_id={depositDetail?.id}
-              />
-            </div>
+                <RejectFiatDepositBtn
+                  uid={depositDetail?.uid}
+                  deposit_id={depositDetail?.id}
+                  refetch={refetch}
+                />
+              </div>
+            )}
+
+          {depositDetail?.status?.toLowerCase() === "accepted" ||
+            (depositDetail?.status?.toLowerCase() === "successful" && (
+              <p className="mt-4">
+                <b>Coin deposited:</b>{" "}
+                {moment(depositDetail?.UpdatedAt).format(
+                  "MMMM Do YYYY, h:mm:ss a"
+                )}
+              </p>
+            ))}
+
+          {depositDetail?.status === "rejected" && (
+            <p className="mt-4">
+              <b>Rejected:</b>{" "}
+              {moment(depositDetail?.UpdatedAt).format(
+                "MMMM Do YYYY, h:mm:ss a"
+              )}
+            </p>
           )}
         </div>
       </DialogContent>

@@ -99,17 +99,7 @@ const FiatWithdrawalTable = ({ query }: any) => {
                       </div>
                     </TableCell>
                     <TableCell className="w-[46px]">
-                      {/* <Link
-                        key={withdrawal?.id}
-                        href={{
-                          pathname: `/fiat-withdrawals/${withdrawal?.id})}`,
-                        }}
-                      >
-                        <div className="flex items-center justify-center">
-                          <ArrowRight color="#475467" size={24} />
-                        </div>
-                      </Link> */}
-                      <FiatWithdrawalActionModal withdrawalDetail={withdrawal} />
+                      <FiatWithdrawalActionModal page={page} withdrawalDetail={withdrawal} />
                     </TableCell>
                   </TableRow>
                 ))}
