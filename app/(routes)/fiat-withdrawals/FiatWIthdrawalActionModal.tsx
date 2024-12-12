@@ -56,10 +56,10 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
         <DialogHeader>
           <DialogTitle>Fiat Withdrawal Details</DialogTitle>
           <p>
-            Manage and update{" "}
+            Manage and update{' '}
             <b>
               {singleUserDetails?.first_name} {singleUserDetails?.last_name}
-            </b>{" "}
+            </b>{' '}
             deposit.
           </p>
         </DialogHeader>
@@ -69,7 +69,7 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
             <div className="flex flex-col md:flex-row gap-3 items-center">
               <div className="w-full md:w-1/2">
                 <p>
-                  <b>Name:</b> {singleUserDetails?.first_name}{" "}
+                  <b>Name:</b> {singleUserDetails?.first_name}{' '}
                   {singleUserDetails?.last_name}
                 </p>
               </div>
@@ -83,7 +83,7 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
             <div className="flex flex-col md:flex-row gap-3 items-center">
               <div className="w-full md:w-1/2">
                 <p>
-                  <b>Amount Deposited:</b>{" "}
+                  <b>Amount Deposited:</b>{' '}
                   {withdrawalDetail?.amount?.toLocaleString()}
                 </p>
               </div>
@@ -97,7 +97,10 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
             <div className="flex flex-col md:flex-row gap-3 items-center">
               <div className="w-full md:w-1/2">
                 <p className="text-[20px]">
-                  <span className="text-[16px]"><b>NGN to be Received:</b></span> ₦
+                  <span className="text-[16px]">
+                    <b>NGN to be Received:</b>
+                  </span>{' '}
+                  ₦
                   {(
                     withdrawalDetail?.amount * withdrawalDetail?.rate
                   )?.toLocaleString()}
@@ -107,33 +110,46 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
                 <div className="flex flex-row gap-2">
                   <p>
                     <b>Status:</b>
-                  </p>{" "}
-                  <StatusBadge
-                    statusType={withdrawalDetail?.status.toLowerCase()}
-                  />
+                  </p>{' '}
+                  <div>
+                    <StatusBadge
+                      statusType={withdrawalDetail?.status.toLowerCase()}
+                    />
+                  </div>
                 </div>
               </div>
+            </div>
+
+            <div className="w-full">
+              <p>
+                <b>Created_at:</b>{' '}
+                <span className="text-sm">
+                  {moment(withdrawalDetail?.CreatedAt).format(
+                    'MMMM Do YYYY, h:mm:ss a'
+                  )}
+                </span>
+              </p>
             </div>
           </div>
 
           <div className="mt-6">
             <div className="w-full">
               <p>
-                <b>Withdrawal account details</b>{" "}
+                <b>Withdrawal account details</b>{' '}
                 {/* <span className="flex flex-row items-center gap-1.5"> */}
                 {singleUserDetails?.withdrawal_account ? (
                   <div className="flex flex-col gap-1.5 mt-3">
                     <p>
-                      <b>Account Name:</b>{" "}
+                      <b>Account Name:</b>{' '}
                       {singleUserDetails?.withdrawal_account?.account_name}
                     </p>
                     <p>
-                      <b>Bank Name:</b>{" "}
+                      <b>Bank Name:</b>{' '}
                       {singleUserDetails?.withdrawal_account?.bank_name}
                     </p>
                     <div className="flex flex-row gap-1.5 items-center">
                       <p>
-                        <b>Account Number:</b>{" "}
+                        <b>Account Number:</b>{' '}
                         {singleUserDetails?.withdrawal_account?.account_number}
                       </p>
                       <Copy
@@ -141,7 +157,7 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
                         className="cursor-pointer"
                         onClick={() =>
                           handleCopyRecipientEmail(
-                            "Withdrawal Account Number",
+                            'Withdrawal Account Number',
                             singleUserDetails?.withdrawal_account
                               ?.account_number
                           )
@@ -157,8 +173,8 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
             </div>
           </div>
 
-          {withdrawalDetail?.status !== "accepted" &&
-          withdrawalDetail?.status !== "rejected" ? (
+          {withdrawalDetail?.status !== 'accepted' &&
+          withdrawalDetail?.status !== 'rejected' ? (
             <div className="flex flex-row gap-6 mt-6">
               <AcceptFiatWithdrawalBtn
                 uid={withdrawalDetail?.uid}
@@ -174,20 +190,20 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
             </div>
           ) : null}
 
-          {withdrawalDetail?.status === "accepted" && (
+          {withdrawalDetail?.status === 'accepted' && (
             <p className="mt-4">
-              <b>Paid:</b>{" "}
+              <b>Paid:</b>{' '}
               {moment(withdrawalDetail?.UpdatedAt).format(
-                "MMMM Do YYYY, h:mm:ss a"
+                'MMMM Do YYYY, h:mm:ss a'
               )}
             </p>
           )}
 
-          {withdrawalDetail?.status === "rejected" && (
+          {withdrawalDetail?.status === 'rejected' && (
             <p className="mt-4">
-              <b>Rejected:</b>{" "}
+              <b>Rejected:</b>{' '}
               {moment(withdrawalDetail?.UpdatedAt).format(
-                "MMMM Do YYYY, h:mm:ss a"
+                'MMMM Do YYYY, h:mm:ss a'
               )}
             </p>
           )}

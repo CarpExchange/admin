@@ -36,7 +36,7 @@ const RejectFiatDepositBtn = ({ uid, deposit_id, refetch, mutationResult }: any)
       await mutationResult.mutateAsync(formData);
     } catch (error: any) {
       toast({
-        description: 'Error occured',
+        description: error?.data?.message || 'Error occured',
         variant: 'destructive',
       });
     }

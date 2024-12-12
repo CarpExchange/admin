@@ -8,6 +8,7 @@ export function withUpdateFiatDepositActionMutation(Component: any) {
       console.log(response);
     },
     onError: (error) => {
+      console.log(error?.data, 'Update Fiat Deposit -');
       console.log(error, 'Update Fiat Deposit - error message');
     },
   });

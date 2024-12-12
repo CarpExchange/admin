@@ -19,6 +19,7 @@ import { NotificationContext } from "@/components/NotificationProvider";
 import { Eye, EyeOff } from "lucide-react";
 import Spinner from "@/components/Spinner";
 import { AuthContext } from "@/components/AuthProvider";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -41,19 +42,15 @@ const SigninForm = ({ mutationResult }: any) => {
   });
 
   // const router = useRouter();
-
+  const { toast } = useToast()
   useEffect(() => {
     if (mutationResult?.data?.status === "success") {
       // router.replace("/");
       console.log(mutationResult?.data?.data);
       signIn(mutationResult?.data?.data);
-      setNotificationPopUp({
-        type: "UPDATE_MESSAGE",
-        payload: {
-          status: true,
-          message: "Log in successful",
-          type: "success",
-        },
+      toast({
+        description: "Log in successful",
+        variant: "success",
       });
     }
   }, [mutationResult]);
@@ -72,13 +69,9 @@ const SigninForm = ({ mutationResult }: any) => {
     try {
       await mutationResult.mutateAsync(values);
     } catch (error: any) {
-      setNotificationPopUp({
-        type: "UPDATE_MESSAGE",
-        payload: {
-          status: true,
-          message: "Error occured during login",
-          type: "error",
-        },
+     toast({
+        description: error?.data?.message || "Error occured during login",
+        variant: "destructive",
       });
     }
   };
