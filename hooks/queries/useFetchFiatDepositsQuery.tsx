@@ -44,7 +44,7 @@ export function useFetchFiatDepositsQuery({
     notifyOnChangeProps: ['data', 'error'],
   },
 } = {}) {
-  console.log(page)
+  // console.log(page)
   const { state: {user_info} } = useContext(AuthContext)
   const id = user_info?.uid
   const response = useQuery({
