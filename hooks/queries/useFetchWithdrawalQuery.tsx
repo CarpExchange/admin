@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+//@ts-nocheck
 'use client';
 import { fetchFiatWithdrawalsFn } from '@/api/fiat-transaction';
 import ServiceError from '@/components/ServiceError';
@@ -60,7 +62,7 @@ export function useFetchFiatWithdrawalsQuery({
     const retdata = {
       data: {
         fiatWithdrawals: fiatWithdrawals?.data ? fiatWithdrawals.data : null,
-        refetch: response.refetch
+        refetch: response.refetch,
       },
     };
     return retdata;

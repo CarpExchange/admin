@@ -15,7 +15,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { withLoginMutation } from "@/hooks/mutations/LoginMutation";
-import { NotificationContext } from "@/components/NotificationProvider";
 import { Eye, EyeOff } from "lucide-react";
 import Spinner from "@/components/Spinner";
 import { AuthContext } from "@/components/AuthProvider";
@@ -27,8 +26,6 @@ const formSchema = z.object({
 });
 
 const SigninForm = ({ mutationResult }: any) => {
-  const { dispatch: setNotificationPopUp } = useContext(NotificationContext);
-
   const {
     authContext: { signIn },
   } = useContext(AuthContext);
@@ -42,7 +39,7 @@ const SigninForm = ({ mutationResult }: any) => {
   });
 
   // const router = useRouter();
-  const { toast } = useToast()
+  const { toast } = useToast();
   useEffect(() => {
     if (mutationResult?.data?.status === "success") {
       // router.replace("/");
@@ -53,7 +50,7 @@ const SigninForm = ({ mutationResult }: any) => {
         variant: "success",
       });
     }
-  }, [mutationResult]);
+  }, [mutationResult, signIn, toast]);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -69,7 +66,7 @@ const SigninForm = ({ mutationResult }: any) => {
     try {
       await mutationResult.mutateAsync(values);
     } catch (error: any) {
-     toast({
+      toast({
         description: error?.data?.message || "Error occured during login",
         variant: "destructive",
       });

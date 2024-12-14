@@ -21,7 +21,7 @@ const RejectFiatDepositBtn = ({ uid, deposit_id, refetch, mutationResult }: any)
         variant: 'success',
       });
     }
-  }, [mutationResult]);
+  }, [mutationResult, refetch, toast]);
 
   const handleSubmit = async (e: any) => {
     try {

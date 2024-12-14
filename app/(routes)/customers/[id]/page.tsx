@@ -8,12 +8,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import StatusBadge from '@/components/StatusBadge';
 import copy from 'copy-to-clipboard';
-import { NotificationContext } from '@/components/NotificationProvider';
 import { useToast } from '@/hooks/use-toast';
 import moment from 'moment';
 
 const CustomerDetails = ({ singleUserDetails }: any) => {
-  console.log(singleUserDetails, 'singleUserDetails');
+  // console.log(singleUserDetails, 'singleUserDetails');
   const { toast } = useToast();
 
   const handleCopy = (title: string, value: string) => {

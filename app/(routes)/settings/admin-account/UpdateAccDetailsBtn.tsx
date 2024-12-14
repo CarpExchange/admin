@@ -1,39 +1,33 @@
 import { withUpdateAdminAccountDetailMutation } from '@/hooks/mutations/UpdateAdminAccDetails';
-import React, { useContext, useEffect } from 'react'
-import { NotificationContext } from '@/components/NotificationProvider';
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
 
 const UpdateAccDetailsBtn = ({ mutationResult, formData }: any) => {
-    const { dispatch: setNotificationPopUp } = useContext(NotificationContext);
+    const { toast } = useToast()
     const router = useRouter();
 
     useEffect(() => {
       if (mutationResult?.data?.status === 'success') {
-        setNotificationPopUp({
-          type: 'UPDATE_MESSAGE',
-          payload: {
-            status: true,
-            message: 'Admin account updated successfully',
-            type: 'success',
-          },
-        });
+        toast({
+          description: 'Admin account updated successfully',
+          variant: 'success',
+
+        })
+        
         router.push('/settings');
       }
-    }, [mutationResult]);
+    }, [mutationResult, router, toast]);
 
     const onSubmit = async (e: any) => {
       try {
         e.preventDefault();
         await mutationResult.mutateAsync(formData);
-      } catch (error) {
+      } catch (error: any) {
         // console.log(error, 'error');
-        setNotificationPopUp({
-          type: 'UPDATE_MESSAGE',
-          payload: {
-            status: true,
-            message: 'Error occured during update',
-            type: 'error',
-          },
+        toast({
+          description: error?.data?.message || "Error occured during update",
+          variant: "destructive",
         });
       }
     };

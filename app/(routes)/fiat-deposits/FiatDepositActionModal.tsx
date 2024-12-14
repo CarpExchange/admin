@@ -146,12 +146,14 @@ const FiatDepositActionModal = ({ depositDetail, page }: any) => {
                 <AcceptFiatDepositBtn
                   uid={depositDetail?.uid}
                   deposit_id={depositDetail?.id}
+                  // @ts-ignore
                   refetch={refetch}
                 />
 
                 <RejectFiatDepositBtn
                   uid={depositDetail?.uid}
                   deposit_id={depositDetail?.id}
+                  // @ts-ignore
                   refetch={refetch}
                 />
               </div>

@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+//@ts-nocheck
 import { fetchAUserDetailsFn } from '@/api/users';
 import ServiceError from '@/components/ServiceError';
 import Spinner from '@/components/Spinner';
@@ -44,12 +46,14 @@ export function useFetchAUserQuery({
     notifyOnChangeProps: ['data', 'error'],
   },
 } = {}) {
-  const { id: user_id } = useParams()
+  const { id: user_id } = useParams();
   // console.log(user_id, 'user_id')
-  const { state: {user_info} } = useContext(AuthContext)
-  const uid = user_info?.uid
-  const id = userId || user_id
-  const data = { id, uid }
+  const {
+    state: { user_info },
+  } = useContext(AuthContext);
+  const uid = user_info?.uid;
+  const id = userId || user_id;
+  const data = { id, uid };
   // console.log(data, 'data')
   const response = useQuery({
     queryKey: ['singleUserDetails', id, uid], // Add  to the query key
@@ -62,8 +66,10 @@ export function useFetchAUserQuery({
   const retdata = useMemo(() => {
     const retdata = {
       data: {
-        singleUserDetails: singleUserDetails?.data ? singleUserDetails.data : null,
-        refetch: response.refetch
+        singleUserDetails: singleUserDetails?.data
+          ? singleUserDetails.data
+          : null,
+        refetch: response.refetch,
       },
     };
     return retdata;
@@ -73,4 +79,3 @@ export function useFetchAUserQuery({
 }
 
 export default useFetchAUserQuery;
-

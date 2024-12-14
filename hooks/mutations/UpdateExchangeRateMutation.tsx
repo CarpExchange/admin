@@ -5,7 +5,7 @@ export function withUpdateExchangeRateMutation(Component: any) {
   const ComponentWithMutation = withMutation(Component, {
     mutation: updateExchangeRateFn,
     onSuccess: async (response: any) => {
-      console.log(response)
+      // console.log(response)
     },
     onError: (error) => {
       console.log(error, 'Log in - error message');

@@ -7,9 +7,9 @@ export function withUpdateFiatDepositActionMutation(Component: any) {
     onSuccess: async (response: any) => {
       console.log(response);
     },
-    onError: (error) => {
-      console.log(error?.data, 'Update Fiat Deposit -');
-      console.log(error, 'Update Fiat Deposit - error message');
+    onError: (error: any) => {
+      // console.log(error?.data, 'Update Fiat Deposit -');
+      // console.log(error, 'Update Fiat Deposit - error message');
     },
   });
 

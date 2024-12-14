@@ -1,11 +1,12 @@
 import authApi from '..';
-import { fetchAllDepositsPayload, UpdateExchangeRatePayload } from './types';
+import { fetchAllDepositsPayload, updateExchangeRatePayload } from './types';
+// import { UpdateExchangeRatePayload } from './types';
 
 export async function updateExchangeRateFn({
   id,
   buy_rate,
   sell_rate,
-}: UpdateExchangeRatePayload) {
+}: any) {
   try {
     const body = { buy_rate, sell_rate };
     const response = await authApi.put(`admin/${id}/exchange-rate`, body);
