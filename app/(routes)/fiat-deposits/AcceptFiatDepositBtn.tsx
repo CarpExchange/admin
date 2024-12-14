@@ -1,5 +1,4 @@
 import { AuthContext } from '@/components/AuthProvider';
-import { NotificationContext } from '@/components/NotificationProvider';
 import { Button } from '@/components/ui/button';
 import { withUpdateFiatDepositActionMutation } from '@/hooks/mutations/UpdateFiatDepositActionMutation';
 import React, { useContext, useEffect } from 'react';

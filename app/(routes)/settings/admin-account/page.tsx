@@ -1,6 +1,5 @@
 'use client';
 import React, { useContext, useEffect } from 'react';
-import { useExchangeRateData } from '@/hooks/queries/FetchExchangeRate';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -14,12 +13,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { AuthContext } from '@/components/AuthProvider';
-import { NotificationContext } from '@/components/NotificationProvider';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
-import { withFetchkriptDepositAccountDetailQuery } from '@/hooks/queries/useFetchKriptDepositDetail';
-import ServiceError from '@/components/ServiceError';
-import Spinner from '@/components/Spinner';
 import UpdateAccDetailsBtn from './UpdateAccDetailsBtn';
 
 const formSchema = z.object({

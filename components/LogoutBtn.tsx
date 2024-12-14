@@ -3,12 +3,12 @@ import React, { useEffect, useContext } from "react";
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { withLogoutMutation } from "@/hooks/mutations/LogoutMutation";
-import { NotificationContext } from "./NotificationProvider";
 import { AuthContext } from "./AuthProvider";
+import { useToast } from "@/hooks/use-toast";
 
 const LogoutBtn = ({ mutationResult }: any) => {
   const router = useRouter();
-  const { dispatch: setNotificationPopUp } = useContext(NotificationContext);
+  const { toast } = useToast()
 
   const {
     state: { user_info },
@@ -30,14 +30,11 @@ const LogoutBtn = ({ mutationResult }: any) => {
   useEffect(() => {
     if (mutationResult?.data?.status === "success") {
       handleLogoutTwo();
-      setNotificationPopUp({
-        type: "UPDATE_MESSAGE",
-        payload: {
-          status: true,
-          message: "Log out successful",
-          type: "success",
-        },
+      toast({
+        description: "Log out successful",
+        variant: "success",
       });
+      
     }
   }, [mutationResult]);
 
@@ -46,13 +43,9 @@ const LogoutBtn = ({ mutationResult }: any) => {
       await mutationResult.mutateAsync(user_info?.uid);
     } catch (error: any) {
       console.log(error);
-      setNotificationPopUp({
-        type: "UPDATE_MESSAGE",
-        payload: {
-          status: true,
-          message: "Error occured during logout",
-          type: "error",
-        },
+      toast({
+        description: error?.data?.message || "Error occured during logout",
+        variant: "destructive",
       });
     }
   };

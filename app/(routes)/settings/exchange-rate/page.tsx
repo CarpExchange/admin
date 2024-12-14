@@ -1,11 +1,11 @@
-'use client';
-import React, { useContext, useEffect } from 'react';
-import { useExchangeRateData } from '@/hooks/queries/FetchExchangeRate';
-import { useMarketData } from '@/hooks/queries/FetchMarketData';
-import { withUpdateExchangeRateMutation } from '@/hooks/mutations/UpdateExchangeRateMutation';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+"use client";
+import React, { useContext, useEffect } from "react";
+import { useExchangeRateData } from "@/hooks/queries/FetchExchangeRate";
+import { useMarketData } from "@/hooks/queries/FetchMarketData";
+import { withUpdateExchangeRateMutation } from "@/hooks/mutations/UpdateExchangeRateMutation";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -13,16 +13,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { AuthContext } from '@/components/AuthProvider';
-import { NotificationContext } from '@/components/NotificationProvider';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { AuthContext } from "@/components/AuthProvider";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
-  buy_rate: z.number().min(1, { message: 'Buy rate is required' }),
-  sell_rate: z.number().min(1, { message: 'Sell rate is required' }),
+  buy_rate: z.number(),
+  sell_rate: z.number(),
 });
 
 const ExchangeRate = ({ mutationResult }: any) => {
@@ -30,9 +30,10 @@ const ExchangeRate = ({ mutationResult }: any) => {
     state: { user_info },
   } = useContext(AuthContext);
   const id = user_info?.uid;
-  const { dispatch: setNotificationPopUp } = useContext(NotificationContext);
   const { exchangeRateData } = useExchangeRateData();
-  const { marketData } = useMarketData('usdtngn');
+  const { marketData } = useMarketData("usdtngn");
+
+  const { toast } = useToast();
 
   const usdtPrice = parseFloat(marketData?.ticker?.sell);
   const depositCharges = exchangeRateData?.sell_price?.current_sell_price;
@@ -40,7 +41,7 @@ const ExchangeRate = ({ mutationResult }: any) => {
   const depositRate =
     !!usdtPrice && !!depositCharges
       ? usdtPrice + depositCharges
-      : 'Fetching rate...';
+      : "Fetching rate...";
 
   const usdtPriceForWithdrawal = parseFloat(marketData?.ticker?.buy);
   // console.log(usdtPrice, 'usdtPrice');
@@ -50,17 +51,13 @@ const ExchangeRate = ({ mutationResult }: any) => {
   const withdrawalRate =
     !!usdtPriceForWithdrawal && !!withdrawalCharges
       ? usdtPriceForWithdrawal - withdrawalCharges
-      : 'Fetching rate...';
+      : "Fetching rate...";
 
   useEffect(() => {
-    if (mutationResult?.data?.status === 'success') {
-      setNotificationPopUp({
-        type: 'UPDATE_MESSAGE',
-        payload: {
-          status: true,
-          message: 'Exchange rate updated successfully',
-          type: 'success',
-        },
+    if (mutationResult?.data?.status === "success") {
+      toast({
+        description: "Exchange rate updated successfully",
+        variant: "success",
       });
     }
   }, [mutationResult]);
@@ -73,19 +70,16 @@ const ExchangeRate = ({ mutationResult }: any) => {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+   async function onSubmit (data: z.infer<typeof formSchema>) {
     try {
       const formData = { id, ...data };
+      // console.log(formData)
       await mutationResult.mutateAsync(formData);
-    } catch (error) {
+    } catch (error: any) {
       // console.log(error, 'error');
-      setNotificationPopUp({
-        type: 'UPDATE_MESSAGE',
-        payload: {
-          status: true,
-          message: 'Error occured during update',
-          type: 'error',
-        },
+      toast({
+        description: error?.data?.message || "Error occured during update",
+        variant: "destructive",
       });
     }
   };
@@ -111,13 +105,15 @@ const ExchangeRate = ({ mutationResult }: any) => {
 
         <div>
           <h3>
-            Current Deposit Rate: <span>1 USDT = ₦{depositRate.toLocaleString()}</span> {'  '} -
-            {'  '} Added charges = ₦{depositCharges}
+            Current Deposit Rate:{" "}
+            <span>1 USDT = ₦{depositRate.toLocaleString()}</span> {"  "} -{"  "}{" "}
+            Added charges = ₦{depositCharges}
           </h3>
 
           <h3 className="mt-2">
-            Current Withdrawal Rate: <span>1 USDT = ₦{withdrawalRate.toLocaleString()}</span>
-            {'  '} - {'  '}
+            Current Withdrawal Rate:{" "}
+            <span>1 USDT = ₦{withdrawalRate.toLocaleString()}</span>
+            {"  "} - {"  "}
             Added charges = ₦{withdrawalCharges}
           </h3>
 
@@ -140,9 +136,12 @@ const ExchangeRate = ({ mutationResult }: any) => {
                             <FormLabel>Deposit Rate Charges</FormLabel>
                             <FormControl>
                               <Input
-                                placeholder="Enter buy rate"
+                              type="number"
+                                placeholder="Enter deposit rate"
                                 className="bg-transparent"
                                 {...field}
+                                value={field.value || ""} 
+                                onChange={(e) => field.onChange(e.target.valueAsNumber)}
                               />
                             </FormControl>
                             <FormMessage />
@@ -160,9 +159,12 @@ const ExchangeRate = ({ mutationResult }: any) => {
                             <FormLabel>Withdrawal Rate Charges</FormLabel>
                             <FormControl>
                               <Input
-                                placeholder="Enter sell rate"
+                              type="number"
+                                placeholder="Enter withdrawal rate"
                                 className="bg-transparent"
                                 {...field}
+                                value={field.value || ""} 
+                                onChange={(e) => field.onChange(e.target.valueAsNumber)}
                               />
                             </FormControl>
                             <FormMessage />
