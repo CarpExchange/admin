@@ -60,7 +60,7 @@ const ExchangeRate = ({ mutationResult }: any) => {
         variant: "success",
       });
     }
-  }, [mutationResult]);
+  }, [mutationResult, toast]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

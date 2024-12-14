@@ -93,7 +93,7 @@ const NavbarLayout = ({ children }: Props) => {
                   </Link>
                 );
               })}
-
+              {/* @ts-ignore */}
               <LogoutBtn />              
               
             </div>

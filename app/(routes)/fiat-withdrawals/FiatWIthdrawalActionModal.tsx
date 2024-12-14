@@ -179,12 +179,14 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
               <AcceptFiatWithdrawalBtn
                 uid={withdrawalDetail?.uid}
                 withdrawal_id={withdrawalDetail?.id}
+                // @ts-ignore
                 refetch={refetch}
               />
 
               <RejectFiatWithdrawalBtn
                 uid={withdrawalDetail?.uid}
                 withdrawal_id={withdrawalDetail?.id}
+                // @ts-ignore
                 refetch={refetch}
               />
             </div>

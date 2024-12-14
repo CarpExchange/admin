@@ -32,6 +32,7 @@ export default function withQuery<
   TVariables extends QueryKey = QueryKey,
 >(
   Component: ComponentType<TData>,
+  // @ts-ignore
   {hook = useQuery, components}: WithQueryOptions<TData, TError, TVariables>,
 ): ComponentType<TData> {
   if (

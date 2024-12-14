@@ -23,7 +23,9 @@ export default function RootLayout({
         <AuthProvider>
           <html lang="en">
             <body className={inter.className}>
-              <ProtectedRoute children={children} />
+              <ProtectedRoute>
+                {children}
+              </ProtectedRoute> 
               <Toaster />
             </body>
           </html>

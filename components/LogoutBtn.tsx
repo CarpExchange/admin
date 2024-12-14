@@ -36,7 +36,7 @@ const LogoutBtn = ({ mutationResult }: any) => {
       });
       
     }
-  }, [mutationResult]);
+  }, [handleLogoutTwo, mutationResult, toast]);
 
   const handleLogout = async () => {
     try {

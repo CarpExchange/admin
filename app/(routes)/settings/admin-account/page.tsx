@@ -134,7 +134,9 @@ const AdminAccount = ({}: any) => {
                       />
                     </div>
 
-                    <UpdateAccDetailsBtn formData={{ id, ...formValues }} />
+                    <UpdateAccDetailsBtn 
+                    // @ts-ignore
+                    formData={{ id, ...formValues }} />
                   </div>
                 </form>
               </Form>

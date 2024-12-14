@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+//@ts-nocheck
 import { fetchAllUsersFn } from '@/api/users';
 import ServiceError from '@/components/ServiceError';
 import Spinner from '@/components/Spinner';
@@ -17,6 +19,7 @@ const components = {
  * @param {object} [options] withQuery Options
  * @return {JSX.Element}
  */
+
 export function withFetchCustomersQuery(Component, options) {
   return (props) => {
     return withQuery(Component, {

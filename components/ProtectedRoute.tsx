@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import dynamic from "next/dynamic";
-import { usePathname, useRouter } from "next/navigation";
-import React, { useContext, useEffect } from "react";
-import { AuthContext } from "./AuthProvider";
+import dynamic from 'next/dynamic';
+import { usePathname, useRouter } from 'next/navigation';
+import React, { useContext, useEffect } from 'react';
+import { AuthContext } from './AuthProvider';
 
 type Props = {
   children: React.ReactNode;
@@ -16,23 +16,24 @@ const ProtectedRoute = ({ children }: Props) => {
   useEffect(() => {
     if (user_info && user_info.access_token) {
       // console.log(user_info, "user info");
-      router.push("/");
+      router.push('/');
     } else {
-      router.push("/signin");
+      router.push('/signin');
     }
   }, [router, user_info]);
 
-  const unprotectedRoute = ["/signin"];
+  const unprotectedRoute = ['/signin'];
 
   const isProtectedRoute = !unprotectedRoute.includes(usePathname());
 
-  const NavbarLayout = dynamic(() => import("@/components/NavbarLayout"), {
+  const NavbarLayout = dynamic(() => import('@/components/NavbarLayout'), {
     ssr: false,
   });
 
   return (
     <div>
-      {isProtectedRoute && <NavbarLayout children={children} />}
+      {isProtectedRoute && <NavbarLayout>{children}</NavbarLayout>}
+
       {!isProtectedRoute && children}
     </div>
   );

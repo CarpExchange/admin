@@ -1,7 +1,7 @@
 
 
-export type UpdateExchangeRatePayload = {
-  id?: string;
+export type updateExchangeRatePayload = {
+  id: string;
   sell_rate: number;
   buy_rate: number;
 }

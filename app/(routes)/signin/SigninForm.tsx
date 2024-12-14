@@ -50,7 +50,7 @@ const SigninForm = ({ mutationResult }: any) => {
         variant: "success",
       });
     }
-  }, [mutationResult]);
+  }, [mutationResult, signIn, toast]);
 
   const [showPassword, setShowPassword] = useState(false);
 

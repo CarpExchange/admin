@@ -21,7 +21,7 @@ const RejectFiatWithdrawalBtn = ({ uid, withdrawal_id, refetch, mutationResult }
         variant: 'success',
       });
     }
-  }, [mutationResult]);
+  }, [mutationResult, refetch, toast]);
 
   const handleSubmit = async (e: any) => {
     try {
