@@ -8,7 +8,7 @@ export function withUpdateExchangeRateMutation(Component: any) {
       // console.log(response)
     },
     onError: (error) => {
-      console.log(error, 'Log in - error message');
+      console.log(error, 'Update rate - error message');
     },
   });
 

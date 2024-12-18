@@ -1,11 +1,11 @@
-"use client";
-import React, { useContext, useEffect } from "react";
-import { useExchangeRateData } from "@/hooks/queries/FetchExchangeRate";
-import { useMarketData } from "@/hooks/queries/FetchMarketData";
-import { withUpdateExchangeRateMutation } from "@/hooks/mutations/UpdateExchangeRateMutation";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+'use client';
+import React, { useContext, useEffect } from 'react';
+import { useExchangeRateData } from '@/hooks/queries/FetchExchangeRate';
+import { useMarketData } from '@/hooks/queries/FetchMarketData';
+import { withUpdateExchangeRateMutation } from '@/hooks/mutations/UpdateExchangeRateMutation';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
@@ -13,12 +13,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { AuthContext } from "@/components/AuthProvider";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { AuthContext } from '@/components/AuthProvider';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
   buy_rate: z.number(),
@@ -31,7 +32,7 @@ const ExchangeRate = ({ mutationResult }: any) => {
   } = useContext(AuthContext);
   const id = user_info?.uid;
   const { exchangeRateData } = useExchangeRateData();
-  const { marketData } = useMarketData("usdtngn");
+  const { marketData } = useMarketData('usdtngn');
 
   const { toast } = useToast();
 
@@ -41,7 +42,7 @@ const ExchangeRate = ({ mutationResult }: any) => {
   const depositRate =
     !!usdtPrice && !!depositCharges
       ? usdtPrice + depositCharges
-      : "Fetching rate...";
+      : 'Fetching rate...';
 
   const usdtPriceForWithdrawal = parseFloat(marketData?.ticker?.buy);
   // console.log(usdtPrice, 'usdtPrice');
@@ -51,16 +52,19 @@ const ExchangeRate = ({ mutationResult }: any) => {
   const withdrawalRate =
     !!usdtPriceForWithdrawal && !!withdrawalCharges
       ? usdtPriceForWithdrawal - withdrawalCharges
-      : "Fetching rate...";
+      : 'Fetching rate...';
+
+  const router = useRouter();
 
   useEffect(() => {
-    if (mutationResult?.data?.status === "success") {
+    if (mutationResult?.data?.status === 'success') {
       toast({
-        description: "Exchange rate updated successfully",
-        variant: "success",
+        description: 'Exchange rate updated successfully',
+        variant: 'success',
       });
+      router.push('/settings');
     }
-  }, [mutationResult, toast]);
+  }, [mutationResult, toast, router]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -70,7 +74,7 @@ const ExchangeRate = ({ mutationResult }: any) => {
     },
   });
 
-   async function onSubmit (data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
       const formData = { id, ...data };
       // console.log(formData)
@@ -78,11 +82,11 @@ const ExchangeRate = ({ mutationResult }: any) => {
     } catch (error: any) {
       // console.log(error, 'error');
       toast({
-        description: error?.data?.message || "Error occured during update",
-        variant: "destructive",
+        description: error?.data?.message || 'Error occured during update',
+        variant: 'destructive',
       });
     }
-  };
+  }
 
   return (
     <div className="bg-gray-100 h-full max-h-full pt-[24px] pb-[48px] px-[20px]">
@@ -105,15 +109,15 @@ const ExchangeRate = ({ mutationResult }: any) => {
 
         <div>
           <h3>
-            Current Deposit Rate:{" "}
-            <span>1 USDT = ₦{depositRate.toLocaleString()}</span> {"  "} -{"  "}{" "}
+            Current Deposit Rate:{' '}
+            <span>1 USDT = ₦{depositRate.toLocaleString()}</span> {'  '} -{'  '}{' '}
             Added charges = ₦{depositCharges}
           </h3>
 
           <h3 className="mt-2">
-            Current Withdrawal Rate:{" "}
+            Current Withdrawal Rate:{' '}
             <span>1 USDT = ₦{withdrawalRate.toLocaleString()}</span>
-            {"  "} - {"  "}
+            {'  '} - {'  '}
             Added charges = ₦{withdrawalCharges}
           </h3>
 
@@ -136,12 +140,14 @@ const ExchangeRate = ({ mutationResult }: any) => {
                             <FormLabel>Deposit Rate Charges</FormLabel>
                             <FormControl>
                               <Input
-                              type="number"
+                                type="number"
                                 placeholder="Enter deposit rate"
                                 className="bg-transparent"
                                 {...field}
-                                value={field.value || ""} 
-                                onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                                value={field.value || ''}
+                                onChange={(e) =>
+                                  field.onChange(e.target.valueAsNumber)
+                                }
                               />
                             </FormControl>
                             <FormMessage />
@@ -159,12 +165,14 @@ const ExchangeRate = ({ mutationResult }: any) => {
                             <FormLabel>Withdrawal Rate Charges</FormLabel>
                             <FormControl>
                               <Input
-                              type="number"
+                                type="number"
                                 placeholder="Enter withdrawal rate"
                                 className="bg-transparent"
                                 {...field}
-                                value={field.value || ""} 
-                                onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                                value={field.value || ''}
+                                onChange={(e) =>
+                                  field.onChange(e.target.valueAsNumber)
+                                }
                               />
                             </FormControl>
                             <FormMessage />
