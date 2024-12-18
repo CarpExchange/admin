@@ -9,7 +9,10 @@ export async function updateExchangeRateFn({
 }: any) {
   try {
     const body = { buy_rate, sell_rate };
-    const response = await authApi.put(`admin/${id}/exchange-rate`, body);
+    const response = await authApi.put(
+      `admin/${id}/exchange-rate?buy_pair=usdtngn&sell_pair=ngnusdt`,
+      body
+    );
     return response.data;
   } catch (error: any) {
     throw error.response;
