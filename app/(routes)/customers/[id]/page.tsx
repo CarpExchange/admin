@@ -12,7 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import moment from 'moment';
 
 const CustomerDetails = ({ singleUserDetails }: any) => {
-  // console.log(singleUserDetails, 'singleUserDetails');
+  console.log(singleUserDetails, 'singleUserDetails');
   const { toast } = useToast();
 
   const handleCopy = (title: string, value: string) => {
@@ -74,9 +74,11 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
                 <div className="w-full md:w-1/2">
                   <h5 className="font-figtree  leading-[22px] text-black-200">
                     <b>Last login: </b>{' '}
-                    {singleUserDetails?.security_data ? moment(
-                      singleUserDetails?.security_data?.last_login_time
-                    ).format('MMMM Do YYYY, h:mm:ss a') : 'NA'}
+                    {singleUserDetails?.security_data
+                      ? moment(
+                          singleUserDetails?.security_data?.last_login_time
+                        ).format('MMMM Do YYYY, h:mm:ss a')
+                      : 'NA'}
                   </h5>
                 </div>
               </div>
@@ -120,6 +122,74 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
                     {singleUserDetails?.has_pin ? 'Yes' : 'Not yet added'}
                   </h5>
                 </div>
+              </div>
+
+              <div>
+                <h5 className="font-bold">KYC Details</h5>
+                {singleUserDetails?.kyc ? (
+                  <div className="flex flex-col gap-3 mt-4">
+                    <p className="text-sm">
+                      <b>First Name:</b> {'  '}
+                      {singleUserDetails?.kyc?.last_name ?? 'NA'}
+                    </p>
+                    <p className="text-sm">
+                      <b>Middle Name:</b> {'  '}
+                      {singleUserDetails?.kyc?.middle_name ?? 'NA'}
+                    </p>
+                    <p className="text-sm">
+                      <b>Last Name:</b> {'  '}
+                      {singleUserDetails?.kyc?.last_name ?? 'NA'}
+                    </p>
+                    <p className="text-sm">
+                      <b>DOB:</b> {'  '}
+                      {singleUserDetails?.kyc?.date_of_birth ?? 'NA'}
+                    </p>
+                    <p className="text-sm">
+                      <b>Gender:</b> {'  '}
+                      {singleUserDetails?.kyc?.gender ?? 'NA'}
+                    </p>
+                    <p className="text-sm">
+                      <b>Phone Number:</b> {'  '}
+                      {singleUserDetails?.kyc?.phone_number ?? 'NA'}
+                    </p>
+                    <p className="text-sm">
+                      <b>BVN:</b> {'  '}
+                      {singleUserDetails?.kyc?.bvn ?? 'NA'}
+                    </p>
+                    <p className="text-sm">
+                      <b>BVN Confidence Level:</b> {'  '}
+                      {singleUserDetails?.kyc?.bvn_confidence_level ?? 'NA'}
+                    </p>
+                    <p className="text-sm">
+                      <b>NIN:</b> {'  '}
+                      {singleUserDetails?.kyc?.nin ?? 'NA'}
+                    </p>
+                    <p className="text-sm">
+                      <b>NIN Confidence Level:</b> {'  '}
+                      {singleUserDetails?.kyc?.nin_confidence_level ?? 'NA'}
+                    </p>
+                    <div>
+                      <p className="text-sm">
+                        <b>Image Submitted:</b> 
+                      </p>
+                      <Image
+                        src={
+                          singleUserDetails?.kyc?.selfie_image_url
+                            ? `${singleUserDetails?.kyc?.selfie_image_url}`
+                            : '/assets/avatar.png'
+                        }
+                        alt={`${singleUserDetails?.first_name} image`}
+                        className="w-[100px] h-[100px] rounded-full object-cover"
+                        width={100}
+                        height={100}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-sm">
+                    <b>KYC details:</b> NA
+                  </p>
+                )}
               </div>
 
               <div>
