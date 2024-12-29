@@ -36,7 +36,8 @@ const LogoutBtn = ({ mutationResult }: any) => {
       });
       
     }
-  }, [handleLogoutTwo, mutationResult, toast]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mutationResult, toast]);
 
   const handleLogout = async () => {
     try {

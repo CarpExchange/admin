@@ -16,7 +16,7 @@ import moment from "moment";
 import useFetchFiatWithdrawalsQuery from "@/hooks/queries/useFetchWithdrawalQuery";
 
 const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
-  console.log(withdrawalDetail);
+  // console.log(withdrawalDetail);
   const [showCopy, setShowCopy] = useState(false);
 
   const handleCopyRecipientEmail = (title: string, value: string) => {
@@ -44,7 +44,7 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
   });
 
   const { singleUserDetails } = data;
-  console.log(singleUserDetails, "singleUserDetails");
+  // console.log(singleUserDetails, "singleUserDetails");
   return (
     <Dialog>
       <DialogTrigger asChild>

@@ -14,10 +14,7 @@ const ProtectedRoute = ({ children }: Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (user_info && user_info.access_token) {
-      // console.log(user_info, "user info");
-      router.push('/');
-    } else {
+    if (!user_info && !user_info.access_token) {
       router.push('/signin');
     }
   }, [router, user_info]);

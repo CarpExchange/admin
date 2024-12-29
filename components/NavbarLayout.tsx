@@ -46,7 +46,7 @@ const NavbarLayout = ({ children }: Props) => {
 
                 return (
                   <Link
-                    href={link.route}
+                    href={`${link.route}`}
                     key={index}
                     className={`w-full ${
                       isActive ? "bg-secondary" : "bg-white"

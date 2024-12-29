@@ -19,6 +19,7 @@ import { Eye, EyeOff } from "lucide-react";
 import Spinner from "@/components/Spinner";
 import { AuthContext } from "@/components/AuthProvider";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -38,19 +39,21 @@ const SigninForm = ({ mutationResult }: any) => {
     },
   });
 
-  // const router = useRouter();
+  const router = useRouter();
   const { toast } = useToast();
   useEffect(() => {
     if (mutationResult?.data?.status === "success") {
       // router.replace("/");
-      console.log(mutationResult?.data?.data);
+      // console.log(mutationResult?.data?.data);
       signIn(mutationResult?.data?.data);
       toast({
         description: "Log in successful",
         variant: "success",
       });
+      router.push("/");
     }
-  }, [mutationResult, signIn, toast]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mutationResult, toast]);
 
   const [showPassword, setShowPassword] = useState(false);
 
