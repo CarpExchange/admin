@@ -85,8 +85,22 @@ const FiatDepositActionModal = ({ depositDetail, page }: any) => {
             <div className="flex flex-col md:flex-row gap-3 items-center">
               <div className="w-full md:w-1/2">
                 <p>
+                  <b>Processing Fee:</b> ₦
+                  200
+                </p>
+              </div>
+              <div className="w-full md:w-1/2">
+                <p>
+                  <b>Updated Deposit Amount:</b> ₦{(depositDetail?.amount - 200)?.toLocaleString()}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-3 items-center">
+              <div className="w-full md:w-1/2">
+                <p>
                   <b>USDT to be Received:</b>{' '}
-                  {(depositDetail?.amount / depositDetail?.rate)?.toFixed(2)}
+                  {((depositDetail?.amount - 200) / depositDetail?.rate)?.toFixed(2)}
                 </p>
               </div>
               <div className="w-full md:w-1/2">
