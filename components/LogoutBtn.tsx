@@ -34,7 +34,6 @@ const LogoutBtn = ({ mutationResult }: any) => {
         description: "Log out successful",
         variant: "success",
       });
-      
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mutationResult, toast]);
