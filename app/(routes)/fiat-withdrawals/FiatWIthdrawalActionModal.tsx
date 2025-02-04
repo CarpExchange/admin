@@ -44,7 +44,7 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
   });
 
   const { singleUserDetails } = data;
-  console.log(singleUserDetails, "singleUserDetails");
+  // console.log(singleUserDetails, "singleUserDetails");
   return (
     <Dialog>
       <DialogTrigger asChild>

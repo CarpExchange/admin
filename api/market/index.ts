@@ -18,7 +18,7 @@ export async function fetchAMarket(currency_pair: string) {
     );
     return response.data.data.data;
   } catch (error: any) {
-    console.log(error.response);
+    // console.log(error.response);
     throw error.message;
   }
 }
