@@ -5,10 +5,9 @@ export function withUpdateFiatDepositActionMutation(Component: any) {
   const ComponentWithMutation = withMutation(Component, {
     mutation: updateFiatDepositStatusFn,
     onSuccess: async (response: any) => {
-      console.log(response);
+      // console.log(response);
     },
-    onError: (error: any) => {
-      // console.log(error?.data, 'Update Fiat Deposit -');
+    onError: (error) => {
       // console.log(error, 'Update Fiat Deposit - error message');
     },
   });

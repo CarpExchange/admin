@@ -12,7 +12,7 @@ export function withLoginMutation (Component: any) {
       await localStorage.setItem('user_info', JSON.stringify(response.data))
     },
     onError: (error) => {
-      console.log(error, 'Log in - error message')
+      // console.log(error, 'Log in - error message')
     }
   })
 
