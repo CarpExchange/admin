@@ -162,10 +162,12 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
                           <ManualBVNVerification
                             id={uid}
                             email={customer?.email}
+                            verification_type="bvn"
                           />
                           <ManualNINVerification
                             id={uid}
                             email={customer?.email}
+                            verification_type="nin"
                           />
                         </div>
                       </PopoverContent>

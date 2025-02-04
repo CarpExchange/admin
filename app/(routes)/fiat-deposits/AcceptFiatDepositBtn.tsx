@@ -28,7 +28,7 @@ const AcceptFiatDepositBtn = ({
         variant: 'success',
       });
     }
-  }, [mutationResult]);
+  }, [mutationResult, refetch, toast]);
 
   const handleSubmit = async (e: any) => {
     try {

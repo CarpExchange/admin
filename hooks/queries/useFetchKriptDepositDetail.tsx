@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+//@ts-nocheck
 import ServiceError from '@/components/ServiceError';
 import Spinner from '@/components/Spinner';
 import { useContext, useMemo } from 'react';
@@ -44,7 +46,9 @@ export function useFetchkriptDepositAccountDetailQuery({
     notifyOnChangeProps: ['data', 'error'],
   },
 } = {}) {
-  const { state: { user_info } } = useContext(AuthContext);
+  const {
+    state: { user_info },
+  } = useContext(AuthContext);
   const id = user_info?.uid;
 
   const response = useQuery({

@@ -3,7 +3,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect } from 'react'
 
-const ManualBVNVerification = ({ id, email, verification_type = 'bvn', mutationResult }: any) => {
+const ManualBVNVerification = ({ id, email, verification_type, mutationResult }: any) => {
   const { toast } = useToast();
 
   const queryClient = useQueryClient();
@@ -16,7 +16,7 @@ const ManualBVNVerification = ({ id, email, verification_type = 'bvn', mutationR
         variant: 'success',
       });
     }
-  }, [mutationResult]);
+  }, [mutationResult, queryClient, toast, verification_type]);
 
   const handleSubmit = async (e: any) => {
     try {

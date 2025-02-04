@@ -7,7 +7,7 @@ import React, { useEffect } from 'react';
 const ManualNINVerification = ({
   id,
   email,
-  verification_type = 'nin',
+  verification_type,
   mutationResult,
 }: any) => {
   const { toast } = useToast();
@@ -22,7 +22,7 @@ const ManualNINVerification = ({
         variant: 'success',
       });
     }
-  }, [mutationResult]);
+  }, [mutationResult, queryClient, toast, verification_type]);
 
   const handleSubmit = async (e: any) => {
     try {

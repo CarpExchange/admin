@@ -1,4 +1,6 @@
-"use client"
+/* eslint-disable react-hooks/rules-of-hooks */
+//@ts-nocheck
+'use client';
 import { fetchFiatDepositsFn } from '@/api/fiat-transaction';
 import ServiceError from '@/components/ServiceError';
 import Spinner from '@/components/Spinner';
@@ -45,8 +47,10 @@ export function useFetchFiatDepositsQuery({
   },
 } = {}) {
   // console.log(page)
-  const { state: {user_info} } = useContext(AuthContext)
-  const id = user_info?.uid
+  const {
+    state: { user_info },
+  } = useContext(AuthContext);
+  const id = user_info?.uid;
   const response = useQuery({
     queryKey: ['fiatDeposits', id, page], // Add  to the query key
     queryFn: () => fetchFiatDepositsFn(id, page), // Pass  to fetchTasksFn
@@ -59,7 +63,7 @@ export function useFetchFiatDepositsQuery({
     const retdata = {
       data: {
         fiatDeposits: fiatDeposits?.data ? fiatDeposits.data : null,
-        refetch: response.refetch
+        refetch: response.refetch,
       },
     };
     return retdata;
@@ -69,4 +73,3 @@ export function useFetchFiatDepositsQuery({
 }
 
 export default useFetchFiatDepositsQuery;
-

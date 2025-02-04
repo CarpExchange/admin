@@ -17,7 +17,7 @@ const UpdateAccDetailsBtn = ({ mutationResult, formData }: any) => {
         
         router.push('/settings');
       }
-    }, [mutationResult]);
+    }, [mutationResult, router, toast]);
 
     const onSubmit = async (e: any) => {
       try {

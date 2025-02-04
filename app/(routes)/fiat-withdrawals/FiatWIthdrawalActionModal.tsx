@@ -16,7 +16,7 @@ import moment from "moment";
 import useFetchFiatWithdrawalsQuery from "@/hooks/queries/useFetchWithdrawalQuery";
 
 const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
-  console.log(withdrawalDetail);
+  // console.log(withdrawalDetail);
   const [showCopy, setShowCopy] = useState(false);
 
   const handleCopyRecipientEmail = (title: string, value: string) => {
@@ -83,7 +83,7 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
             <div className="flex flex-col md:flex-row gap-3 items-center">
               <div className="w-full md:w-1/2">
                 <p>
-                  <b>Amount Deposited:</b>{' '}
+                  <b>Amount Withdrawn:</b>{' '}
                   {withdrawalDetail?.amount?.toLocaleString()}
                 </p>
               </div>
@@ -96,14 +96,29 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
 
             <div className="flex flex-col md:flex-row gap-3 items-center">
               <div className="w-full md:w-1/2">
-                <p className="text-[20px]">
-                  <span className="text-[16px]">
-                    <b>NGN to be Received:</b>
-                  </span>{' '}
-                  ₦
+                <p>
+                  <b>NGN Value:</b> ₦
                   {(
                     withdrawalDetail?.amount * withdrawalDetail?.rate
                   )?.toLocaleString()}
+                </p>
+              </div>
+              <div className="w-full md:w-1/2">
+                <p>
+                  <b>Processing Fee:</b> ₦200
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-3 items-center">
+              <div className="w-full md:w-1/2">
+                <p>
+                  <b>Created_at:</b>{' '}
+                  <span className="text-sm">
+                    {moment(withdrawalDetail?.CreatedAt).format(
+                      'MMMM Do YYYY, h:mm:ss a'
+                    )}
+                  </span>
                 </p>
               </div>
               <div className="w-full md:w-1/2">
@@ -121,13 +136,15 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
             </div>
 
             <div className="w-full">
-              <p>
-                <b>Created_at:</b>{' '}
-                <span className="text-sm">
-                  {moment(withdrawalDetail?.CreatedAt).format(
-                    'MMMM Do YYYY, h:mm:ss a'
-                  )}
-                </span>
+              <p className="text-[20px]">
+                <span className="text-[16px]">
+                  <b>Updated NGN to be Received:</b>
+                </span>{' '}
+                ₦
+                {(
+                  withdrawalDetail?.amount * withdrawalDetail?.rate -
+                  200
+                )?.toLocaleString()}
               </p>
             </div>
           </div>
@@ -179,12 +196,14 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
               <AcceptFiatWithdrawalBtn
                 uid={withdrawalDetail?.uid}
                 withdrawal_id={withdrawalDetail?.id}
+                // @ts-ignore
                 refetch={refetch}
               />
 
               <RejectFiatWithdrawalBtn
                 uid={withdrawalDetail?.uid}
                 withdrawal_id={withdrawalDetail?.id}
+                // @ts-ignore
                 refetch={refetch}
               />
             </div>

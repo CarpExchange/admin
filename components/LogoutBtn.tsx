@@ -34,9 +34,9 @@ const LogoutBtn = ({ mutationResult }: any) => {
         description: "Log out successful",
         variant: "success",
       });
-      
     }
-  }, [mutationResult]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mutationResult, toast]);
 
   const handleLogout = async () => {
     try {

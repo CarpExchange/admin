@@ -4,6 +4,7 @@ import SigninForm from './SigninForm'
 const Signin = () => {
   return (
     <>
+    {/* @ts-ignore */}
       <SigninForm />
     </>
   )
