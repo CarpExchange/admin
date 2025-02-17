@@ -10,12 +10,12 @@ type Props = {
 };
 
 const ProtectedRoute = ({ children }: Props) => {
-  const { state: user_info } = useContext(AuthContext);
+  const { state: { user_info } } = useContext(AuthContext);
   const router = useRouter();
 
   useEffect(() => {
-    if (!user_info && !user_info.access_token) {
-      router.push('/signin');
+    if (!user_info.access_token) {
+      router.replace('/signin');
     }
   }, [router, user_info]);
 
@@ -30,7 +30,6 @@ const ProtectedRoute = ({ children }: Props) => {
   return (
     <div>
       {isProtectedRoute && <NavbarLayout>{children}</NavbarLayout>}
-
       {!isProtectedRoute && children}
     </div>
   );
