@@ -16,7 +16,7 @@ const NavbarLayout = ({ children }: Props) => {
   const { state: {user_info} } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!user_info && !user_info.access_token) {
+    if (!user_info.access_token) {
       router.push("/signin");
     }
   }, [router, user_info]);
