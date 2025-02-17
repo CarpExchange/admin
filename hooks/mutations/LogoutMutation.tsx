@@ -10,7 +10,7 @@ export function withLogoutMutation (Component: any) {
       await localStorage.removeItem('user_info')
     },
     onError: (error) => {
-      console.log(error, 'Log out - error message')
+      // console.log(error, 'Log out - error message')
     }
   })
 
