@@ -16,6 +16,7 @@ import StatusBadge from "@/components/StatusBadge";
 import useFetchFiatDepositsQuery from "@/hooks/queries/useFetchFiatDepositsQuery";
 import Link from "next/link";
 import FiatDepositActionModal from "./FiatDepositActionModal";
+import moment from "moment";
 
 const FiatDepositsTable = ({ query }: any) => {
   const [page, setPage] = useState<number>(1);
@@ -62,7 +63,7 @@ const FiatDepositsTable = ({ query }: any) => {
               <TableHeader className="bg-[#F9FAFB]">
                 <TableRow>
                   <TableHead className="w-[20px] border-b border-table-bottom"></TableHead>
-                  <TableHead className="text-left font-semibold text-secondary w-[200px]">
+                  <TableHead className="text-left font-semibold text-secondary w-[180px]">
                     Account Name
                   </TableHead>
                   <TableHead className="text-left font-semibold text-secondary w-[180px]">
@@ -73,6 +74,9 @@ const FiatDepositsTable = ({ query }: any) => {
                   </TableHead>
                   <TableHead className="text-left font-semibold text-secondary w-[180px]">
                     Rate
+                  </TableHead>
+                  <TableHead className="w-[167px] text-center">
+                    Created Date
                   </TableHead>
                   <TableHead className="text-center font-semibold text-secondary w-[130px]">
                     Status
@@ -96,6 +100,18 @@ const FiatDepositsTable = ({ query }: any) => {
                       ₦{deposit?.amount?.toLocaleString()}
                     </TableCell>
                     <TableCell>₦{deposit?.rate?.toLocaleString()}</TableCell>
+                    <TableCell>
+                    <div>
+                    <div className="font-medium">
+                      {moment(deposit?.CreatedAt).format(
+                        'DD, MMM YYYY'
+                      )}
+                    </div>
+                    <span>
+                      {moment(deposit?.CreatedAt).format('hh:mm a')}
+                    </span>
+                  </div>
+                    </TableCell>
                     <TableCell>
                       <StatusBadge width={60} statusType={deposit?.status} />
                     </TableCell>

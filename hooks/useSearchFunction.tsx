@@ -9,7 +9,7 @@
 export function searchFunction<T>(
   array: T[],
   keyword: string,
-  searchKeys: string[], // Now an array of keys (including nested keys)
+  searchKeys: string[] // Now an array of keys (including nested keys)
 ): T[] | undefined {
   if (!keyword) {
     return undefined;
@@ -19,7 +19,7 @@ export function searchFunction<T>(
     // Check if any key matches the keyword
     return searchKeys.some((key) => {
       const itemData = getNestedValue(item, key);
-      const itemDataString = itemData ? String(itemData).toUpperCase() : '';
+      const itemDataString = itemData ? String(itemData).toUpperCase() : "";
       const text = keyword.toUpperCase();
       return itemDataString.includes(text);
     });
@@ -31,6 +31,22 @@ export function searchFunction<T>(
 // Helper function to get the value of a nested property
 function getNestedValue(obj: any, key: string): any {
   return key
-    .split('.')
+    .split(".")
     .reduce((o, k) => (o && o[k] !== undefined ? o[k] : undefined), obj);
+}
+
+export function searchInDataset<T extends Object>(
+  data: T[],
+  searchTerm: string,
+  keys: (keyof T)[]
+) {
+  if (!searchTerm) return data; // return full data set if searchTerm is empty
+
+  const lowerCaseSearch = searchTerm.toLowerCase();
+
+  return data.filter((item) =>
+    keys.some((key) =>
+      item[key]?.toString().toLowerCase().includes(lowerCaseSearch)
+    )
+  );
 }

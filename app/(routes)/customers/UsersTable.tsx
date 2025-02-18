@@ -2,8 +2,8 @@ import ServiceError from "@/components/ServiceError";
 import Spinner from "@/components/Spinner";
 import { withFetchCustomersQuery } from "@/hooks/queries/useFetchCustomers";
 import { useRouter } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
-import { searchFunction } from "@/hooks/useSearchFunction";
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { searchFunction, searchInDataset } from "@/hooks/useSearchFunction";
 import {
   Table,
   TableBody,
@@ -18,7 +18,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
+} from "@/components/ui/popover";
 import StatusBadge from "@/components/StatusBadge";
 import { EllipsisVertical } from "lucide-react";
 import ManualBVNVerification from "./ManualBVNVerification";
@@ -33,36 +33,33 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
   } = useContext(AuthContext);
   const uid = user_info?.uid;
 
-  const [customers, setAllCustomers] = useState([]);
+  // const [customers, setAllCustomers] = useState([]);
 
-  useEffect(() => {
-    let filteredCustomers = allCustomers;
-
-    if (statusType === 'verified') {
-      filteredCustomers = allCustomers?.filter(
-        (customer: any) => customer.nin_is_verified || customer.bvn_is_verified
-      );
-    } else if (statusType === 'unverified') {
-      filteredCustomers = allCustomers?.filter(
-        (customer: any) => !customer.nin_is_verified && !customer.bvn_is_verified
-      );
-    } else if (statusType !== 'all') {
-      filteredCustomers = [];
-    }
-
+  const filteredCustomers = useMemo(() => {
     if (query) {
-      filteredCustomers = searchFunction(filteredCustomers, query, [
-        'phone_number',
-        'first_name',
-        'email',
-        'last_name',
+      return searchInDataset(allCustomers ?? [], query || "", [
+        "phone_number",
+        "first_name",
+        "email",
+        "last_name",
       ]);
     }
 
-    setAllCustomers(filteredCustomers || []);
+    if (statusType === "all") {
+      return allCustomers;
+    } else if (statusType === "verified") {
+      return allCustomers?.filter(
+        (customer: any) => customer.nin_is_verified || customer.bvn_is_verified
+      );
+    } else if (statusType === "unverified") {
+      return allCustomers?.filter(
+        (customer: any) =>
+          !customer.nin_is_verified && !customer.bvn_is_verified
+      );
+    }
   }, [allCustomers, statusType, query]);
 
-  if (!customers || customers.length === 0) {
+  if (!filteredCustomers || filteredCustomers.length === 0) {
     return (
       <div>
         <p className="capitalize"> {statusType} users not found!</p>
@@ -76,7 +73,7 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
     } else {
       return "unverified";
     }
-  }
+  };
 
   return (
     <>
@@ -100,7 +97,7 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {customers?.map((customer: any) => (
+            {filteredCustomers?.map((customer: any) => (
               <TableRow
                 key={customer?.id}
                 onClick={() => {
@@ -115,7 +112,7 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
                         src={
                           customer?.profile_picture?.image_url
                             ? `${customer?.profile_picture?.image_url}`
-                            : '/assets/avatar.png'
+                            : "/assets/avatar.png"
                         }
                         width={36}
                         height={36}
@@ -128,7 +125,7 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
                         {customer?.first_name} {customer?.last_name}
                       </p>
                       <span className="italic text-[14px]">
-                        <span>Role</span> &bull;{' '}
+                        <span>Role</span> &bull;{" "}
                         <span className="text-primary">{customer?.role}</span>
                       </span>
                     </div>
@@ -181,11 +178,11 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
       </div>
       <div className="bg-white flex items-center justify-end space-x-3 p-3 rounded-lg">
         <p>
-          1 - {customers?.length} of {allCustomers?.length}
+          1 - {filteredCustomers?.length} of {allCustomers?.length}
         </p>
         <div className="flex items-center space-x-5">
-          <ChevronLeft color={'#4C52594D'} />
-          <ChevronRight color={'#4C5259'} />
+          <ChevronLeft color={"#4C52594D"} />
+          <ChevronRight color={"#4C5259"} />
         </div>
       </div>
     </>
