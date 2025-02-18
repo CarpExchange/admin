@@ -1,8 +1,7 @@
 import { navbarData, navbarDataTwo } from "@/data/NavbarData";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import React, { useContext, useEffect } from "react";
-import { AuthContext } from "./AuthProvider";
+import { usePathname } from "next/navigation";
+import React from "react";
 import Link from "next/link";
 import LogoutBtn from "./LogoutBtn";
 
@@ -12,15 +11,6 @@ type Props = {
 
 const NavbarLayout = ({ children }: Props) => {
   const pathname = usePathname();
-  const router = useRouter();
-  const { state: {user_info} } = useContext(AuthContext);
-
-  useEffect(() => {
-    if (!user_info.access_token) {
-      router.push("/signin");
-    }
-  }, [router, user_info]);
-
 
   return (
     <div className="w-full bg-secondary">

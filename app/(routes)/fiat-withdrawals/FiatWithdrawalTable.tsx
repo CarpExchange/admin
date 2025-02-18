@@ -20,6 +20,7 @@ import {
 import StatusBadge from "@/components/StatusBadge";
 import useFetchFiatWithdrawalsQuery from "@/hooks/queries/useFetchWithdrawalQuery";
 import FiatWithdrawalActionModal from "./FiatWIthdrawalActionModal";
+import moment from "moment";
 
 const FiatWithdrawalTable = ({ query }: any) => {
   const [page, setPage] = useState<number>(1);
@@ -61,7 +62,9 @@ const FiatWithdrawalTable = ({ query }: any) => {
       {isSuccess && (
         <>
           <div className="h-[55vh] overflow-auto">
-          <h6 className="text-lg font-semibold text-primary my-2">Page {page}</h6>
+            <h6 className="text-lg font-semibold text-primary my-2">
+              Page {page}
+            </h6>
             <Table className="bg-white rounded-lg p-1">
               <TableHeader className="bg-[#F9FAFB]">
                 <TableRow>
@@ -71,6 +74,9 @@ const FiatWithdrawalTable = ({ query }: any) => {
                   </TableHead>
                   <TableHead className="text-left font-semibold text-secondary w-[180px]">
                     Rate
+                  </TableHead>
+                  <TableHead className="w-[167px] text-center">
+                    Created Date
                   </TableHead>
                   <TableHead className="text-center font-semibold text-secondary w-[130px]">
                     Status
@@ -91,6 +97,16 @@ const FiatWithdrawalTable = ({ query }: any) => {
                     </TableCell>
                     <TableCell>₦{withdrawal?.rate?.toLocaleString()}</TableCell>
                     <TableCell>
+                      <div className="ml-10">
+                        <div className="font-medium">
+                          {moment(withdrawal?.CreatedAt).format("DD, MMM YYYY")}
+                        </div>
+                        <span>
+                          {moment(withdrawal?.CreatedAt).format("hh:mm a")}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
                       <div>
                         <StatusBadge
                           width={60}
@@ -99,7 +115,10 @@ const FiatWithdrawalTable = ({ query }: any) => {
                       </div>
                     </TableCell>
                     <TableCell className="w-[46px]">
-                      <FiatWithdrawalActionModal page={page} withdrawalDetail={withdrawal} />
+                      <FiatWithdrawalActionModal
+                        page={page}
+                        withdrawalDetail={withdrawal}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
