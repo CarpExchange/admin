@@ -82,7 +82,7 @@ const ExchangeRate = ({ mutationResult }: any) => {
     } catch (error: any) {
       // console.log(error, 'error');
       toast({
-        description: error?.data?.message || 'Error occured during update',
+        description: error?.data?.message || 'Error occurred during update',
         variant: 'destructive',
       });
     }
