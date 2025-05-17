@@ -1,5 +1,5 @@
 import authApi from '..';
-import { fetchAllDepositsPayload, updateExchangeRatePayload } from './types';
+import { fetchAllDepositsPayload, updateExchangeRatePayload, UpdateProcessingFeePayload } from './types';
 // import { UpdateExchangeRatePayload } from './types';
 
 export async function updateExchangeRateFn({
@@ -41,6 +41,31 @@ export async function fetchAllWithdrawalsFn({
   try {
     const response = await authApi.get(
       `/admin/${id}/users/withdrawals?page=${page}&page_size=${page_size}`
+    );
+    return response.data;
+  } catch (error: any) {
+    throw error.response;
+  }
+}
+
+export async function fetchProcessingFeeFn(id: string) {
+  try {
+    const response = await authApi.get(`/admin/${id}/processing-fee`);
+    return response.data;
+  } catch (error: any) {
+    throw error.response;
+  }
+}
+
+export async function updateProcessingFeeFn({
+  id,
+  fee,
+}: UpdateProcessingFeePayload) {
+  try {
+    const body = { fee };
+    const response = await authApi.put(
+      `/admin/${id}/processing-fee`,
+      body
     );
     return response.data;
   } catch (error: any) {

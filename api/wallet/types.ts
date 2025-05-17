@@ -11,3 +11,8 @@ export type fetchAllDepositsPayload = {
   page: number;
   page_size: number;
 }
+
+export type UpdateProcessingFeePayload = {
+  id: string;
+  fee: number;
+}
