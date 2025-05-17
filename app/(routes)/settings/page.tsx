@@ -15,6 +15,11 @@ const Settings = () => {
       title: 'Update Admin Bank Account',
       link: '/settings/admin-account'
     },
+    {
+      id: 3,
+      title: 'Update Processing Fee',
+      link: '/settings/processing-fee'
+    }
   ]
 
   return (
