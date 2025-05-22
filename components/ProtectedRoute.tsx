@@ -78,7 +78,7 @@ const ProtectedRoute = ({ children }: Props) => {
       }
     }
     setIsAuthLoaded(true);
-  }, []);
+  }, [signIn]);
 
   // Redirect only after auth state is fully loaded
   useEffect(() => {

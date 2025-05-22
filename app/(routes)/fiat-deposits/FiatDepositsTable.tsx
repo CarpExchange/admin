@@ -136,7 +136,7 @@ const FiatDepositsTable = ({ query }: any) => {
               </TableBody>
             </Table>
           </div>
-          <div className="bg-white flex items-center justify-end space-x-3 p-3 rounded-lg">
+          <div className="sticky bottom-0 bg-white flex items-center justify-end space-x-3 p-3 rounded-lg">
             {/* <p>
               1 - {customers?.length} of {allCustomers?.length}
             </p> */}

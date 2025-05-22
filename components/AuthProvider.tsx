@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }: any) => {
       await localStorage.removeItem('user_info');
       dispatch({ type: 'SIGN_OUT' });
     },
-  }), [state]);
+  }), []);
 
 
   return <AuthContext.Provider value={{state, authContext}}>

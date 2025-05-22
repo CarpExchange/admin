@@ -27,7 +27,7 @@ const formSchema = z.object({
   }),
 });
 
-const ProcessingFee = ({ mutationResult }: any) => {
+const ProcessingFeeComp = ({ mutationResult }: any) => {
   const router = useRouter();
   const {
     state: { user_info },
@@ -57,7 +57,7 @@ const ProcessingFee = ({ mutationResult }: any) => {
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
-      const formData = { id, ...data };
+      const formData = { id, fee: data.fee };
       // console.log(formData)
       await mutationResult.mutateAsync(formData);
     } catch (error: any) {
@@ -154,4 +154,4 @@ const ProcessingFee = ({ mutationResult }: any) => {
   );
 };
 
-export default withUpdateProcessingFeeMutation(ProcessingFee);
+export default withUpdateProcessingFeeMutation(ProcessingFeeComp);
