@@ -1,12 +1,8 @@
 import authApi from '..';
-import { fetchAllDepositsPayload, updateExchangeRatePayload, UpdateProcessingFeePayload } from './types';
+import { fetchAllDepositsPayload, updateProcessingFeePayload } from './types';
 // import { UpdateExchangeRatePayload } from './types';
 
-export async function updateExchangeRateFn({
-  id,
-  buy_rate,
-  sell_rate,
-}: any) {
+export async function updateExchangeRateFn({ id, buy_rate, sell_rate }: any) {
   try {
     const body = { buy_rate, sell_rate };
     const response = await authApi.put(
@@ -60,13 +56,10 @@ export async function fetchProcessingFeeFn(id: string) {
 export async function updateProcessingFeeFn({
   id,
   fee,
-}: UpdateProcessingFeePayload) {
+}: any) {
   try {
     const body = { fee };
-    const response = await authApi.put(
-      `/admin/${id}/processing-fee`,
-      body
-    );
+    const response = await authApi.put(`/admin/${id}/processing-fee`, body);
     return response.data;
   } catch (error: any) {
     throw error.response;

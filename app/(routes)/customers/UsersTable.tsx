@@ -176,7 +176,7 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
           </TableBody>
         </Table>
       </div>
-      <div className="bg-white flex items-center justify-end space-x-3 p-3 rounded-lg">
+      <div className="bg-white sticky bottom-0 flex items-center justify-end space-x-3 p-3 rounded-lg">
         <p>
           1 - {filteredCustomers?.length} of {allCustomers?.length}
         </p>
