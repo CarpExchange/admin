@@ -63,8 +63,10 @@ export async function updateFiatDepositStatusFn({
   status,
 }: UpdateFiatDepositPayload) {
   try {
+    const body = { paid, status };
     const response = await authApi.put(
-      `/admin/${id}/users/${uid}/deposits/${deposit_id}?paid=${paid}&status=${status}`
+      `/admin/${id}/users/${uid}/deposits/${deposit_id}`,
+      body
     );
     return response.data;
   } catch (error: any) {
