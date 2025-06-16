@@ -86,7 +86,7 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
               <div className="w-full flex flex-row justify-between">
                 <div className="w-full md:w-1/2">
                   <h5 className="font-figtree leading-[22px] text-black-200">
-                    <b>Verifiation Methods: </b>
+                    <b>Verification Methods: </b>
                   </h5>
                   <div className="flex flex-col gap-2">
                     <div className="flex flex-row gap-2 items-center">
@@ -119,7 +119,7 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
                 <div className="w-full md:w-1/2">
                   <h5 className="font-figtree  leading-[22px] text-black-200">
                     <b>Transaction Pin: </b>{' '}
-                    {singleUserDetails?.has_pin ? 'Yes' : 'Not yet added'}
+                    {singleUserDetails?.has_pin ? 'Added' : 'Not added'}
                   </h5>
                 </div>
               </div>
