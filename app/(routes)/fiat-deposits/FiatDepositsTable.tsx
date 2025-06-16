@@ -58,9 +58,11 @@ const FiatDepositsTable = ({ query }: any) => {
       {isSuccess && (
         <>
           <div className="h-[55vh] overflow-auto">
-            <h6 className="text-lg font-semibold text-primary my-2">Page {page}</h6>
-            <Table className="bg-white rounded-lg p-1">
-              <TableHeader className="bg-[#F9FAFB]">
+            <h6 className="text-lg font-semibold text-primary my-2">
+              Page {page}
+            </h6>
+            <Table className="bg-white rounded-lg p-1 table-fixed xl:table-auto overflow-auto">
+              <TableHeader className="bg-[#F9FAFB] sticky top-0 z-10">
                 <TableRow>
                   <TableHead className="w-[20px] border-b border-table-bottom"></TableHead>
                   <TableHead className="text-left font-semibold text-secondary w-[180px]">
@@ -101,16 +103,14 @@ const FiatDepositsTable = ({ query }: any) => {
                     </TableCell>
                     <TableCell>₦{deposit?.rate?.toLocaleString()}</TableCell>
                     <TableCell>
-                    <div>
-                    <div className="font-medium">
-                      {moment(deposit?.CreatedAt).format(
-                        'DD, MMM YYYY'
-                      )}
-                    </div>
-                    <span>
-                      {moment(deposit?.CreatedAt).format('hh:mm a')}
-                    </span>
-                  </div>
+                      <div>
+                        <div className="font-medium">
+                          {moment(deposit?.CreatedAt).format('DD, MMM YYYY')}
+                        </div>
+                        <span>
+                          {moment(deposit?.CreatedAt).format('hh:mm a')}
+                        </span>
+                      </div>
                     </TableCell>
                     <TableCell>
                       <StatusBadge width={60} statusType={deposit?.status} />
@@ -141,13 +141,13 @@ const FiatDepositsTable = ({ query }: any) => {
               1 - {customers?.length} of {allCustomers?.length}
             </p> */}
             <div className="flex items-center space-x-5">
-            <div
+              <div
                 className="cursor-pointer"
                 onClick={() => {
                   handlePageCount('backward');
                 }}
               >
-              <ChevronLeft color={"#4C5259"} />
+                <ChevronLeft color={'#4C5259'} />
               </div>
 
               <div
@@ -156,7 +156,7 @@ const FiatDepositsTable = ({ query }: any) => {
                   handlePageCount('forward');
                 }}
               >
-              <ChevronRight color={"#4C5259"} />
+                <ChevronRight color={'#4C5259'} />
               </div>
             </div>
           </div>

@@ -58,7 +58,12 @@ export function useFetchCustomersQuery({
   const retdata = useMemo(() => {
     const retdata = {
       data: {
-        allCustomers: allCustomers?.data ? allCustomers.data : null,
+        allCustomers: allCustomers?.data
+          ? allCustomers.data.sort((a: any, b: any) => {
+              return new Date(b.created_at).getTime() -
+                new Date(a.created_at).getTime();
+            })
+          : null,
       },
     };
     return retdata;
