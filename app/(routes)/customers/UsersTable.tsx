@@ -24,6 +24,7 @@ import { EllipsisVertical } from "lucide-react";
 import ManualBVNVerification from "./ManualBVNVerification";
 import ManualNINVerification from "./ManualNINVerification";
 import { AuthContext } from "@/components/AuthProvider";
+import moment from "moment";
 
 const UsersTable = ({ allCustomers, query, statusType }: any) => {
   const router = useRouter();
@@ -59,14 +60,6 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
     }
   }, [allCustomers, statusType, query]);
 
-  if (!filteredCustomers || filteredCustomers.length === 0) {
-    return (
-      <div>
-        <p className="capitalize"> {statusType} users not found!</p>
-      </div>
-    );
-  }
-
   const verificationStatus = (customer: any) => {
     if (customer.nin_is_verified || customer.bvn_is_verified) {
       return "verified";
@@ -75,16 +68,24 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
     }
   };
 
+  if (!filteredCustomers || filteredCustomers.length === 0) {
+    return (
+      <div>
+        <p className="capitalize"> {statusType} users not found!</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="h-[55vh] overflow-auto">
-        <Table className="bg-white rounded-lg p-1">
-          <TableHeader className="bg-[#F9FAFB]">
+        <Table className="bg-white rounded-lg p-1 table-fixed xl:table-auto overflow-auto">
+          <TableHeader className="bg-[#F9FAFB] sticky top-0 z-10">
             <TableRow>
               <TableHead className="text-left font-semibold text-secondary w-[200px]">
                 Customer
               </TableHead>
-              <TableHead className="text-left font-semibold text-secondary w-[180px]">
+              <TableHead className="text-left font-semibold text-secondary w-[200px]">
                 Email
               </TableHead>
               <TableHead className="text-left font-semibold text-secondary w-[140px]">
@@ -92,6 +93,9 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
               </TableHead>
               <TableHead className="text-center font-semibold text-secondary w-[130px]">
                 Status
+              </TableHead>
+              <TableHead className="text-left font-semibold text-secondary w-[180px] pl-10">
+                Created At
               </TableHead>
               <TableHead className="w-[46px] border-b border-table-bottom"></TableHead>
             </TableRow>
@@ -105,14 +109,14 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
                 }}
                 className="cursor-pointer border-t border-[#EAECF0]"
               >
-                <TableCell>
+                <TableCell className="w-[200px]">
                   <div className="flex items-center gap-2">
                     <div className="w-[40px] h-[40px] rounded-full bg-gray-500 flex justify-center items-center">
                       <Image
                         src={
                           customer?.profile_picture?.image_url
                             ? `${customer?.profile_picture?.image_url}`
-                            : "/assets/avatar.png"
+                            : '/assets/avatar.png'
                         }
                         width={36}
                         height={36}
@@ -125,21 +129,29 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
                         {customer?.first_name} {customer?.last_name}
                       </p>
                       <span className="italic text-[14px]">
-                        <span>Role</span> &bull;{" "}
+                        <span>Role</span> &bull;{' '}
                         <span className="text-primary">{customer?.role}</span>
                       </span>
                     </div>
                   </div>
                 </TableCell>
-                <TableCell>{customer?.email}</TableCell>
-                <TableCell className="font-medium text-secondary italic pl-3">
+                <TableCell className="w-[200px]">{customer?.email}</TableCell>
+                <TableCell className="font-medium text-secondary italic pl-3 w-[140px]">
                   {customer?.phone_number}
                 </TableCell>
-                <TableCell>
+                <TableCell className="w-[130px]">
                   <StatusBadge
                     width={79}
                     statusType={verificationStatus(customer)}
                   />
+                </TableCell>
+                <TableCell className="font-medium text-secondary w-[180px] pl-10">
+                  <div>
+                  {moment(customer?.created_at).format('D MMMM, YYYY')}
+                  </div>
+                  <span>
+                    {moment(customer?.created_at).format('hh:mm a')}
+                  </span>
                 </TableCell>
                 <TableCell
                   className="w-[46px]"
@@ -178,11 +190,11 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
       </div>
       <div className="bg-white sticky bottom-0 flex items-center justify-end space-x-3 p-3 rounded-lg">
         <p>
-          1 - {filteredCustomers?.length} of {allCustomers?.length}
+          1 - {filteredCustomers?.length} of {filteredCustomers?.length}
         </p>
         <div className="flex items-center space-x-5">
-          <ChevronLeft color={"#4C52594D"} />
-          <ChevronRight color={"#4C5259"} />
+          <ChevronLeft color={'#4C52594D'} />
+          <ChevronRight color={'#4C5259'} />
         </div>
       </div>
     </>
