@@ -70,7 +70,7 @@ const SigninForm = ({ mutationResult }: any) => {
       await mutationResult.mutateAsync(values);
     } catch (error: any) {
       toast({
-        description: error?.data?.message || "Error occured during login",
+        description: error?.data?.message || "Error occurred during login",
         variant: "destructive",
       });
     }

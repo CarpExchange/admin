@@ -20,3 +20,9 @@ export type UpdateVerificationStatusPayload = {
   email: string;
   verification_type: 'bvn' | 'nin';
 }
+
+export type BlacklistUserPayload = {
+  id: string;
+  uid: string;
+  blacklist: boolean;
+};

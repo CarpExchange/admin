@@ -35,7 +35,7 @@ const ManualNINVerification = ({
       await mutationResult.mutateAsync(formData);
     } catch (error: any) {
       toast({
-        description: 'Error occured',
+        description: 'Error occurred',
         variant: 'destructive',
       });
     }
