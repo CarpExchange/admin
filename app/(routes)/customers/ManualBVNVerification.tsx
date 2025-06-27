@@ -29,7 +29,7 @@ const ManualBVNVerification = ({ id, email, verification_type, mutationResult }:
       await mutationResult.mutateAsync(formData);
     } catch (error: any) {
       toast({
-        description: 'Error occured',
+        description: 'Error occurred',
         variant: 'destructive',
       });
     }

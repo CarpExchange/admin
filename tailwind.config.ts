@@ -42,6 +42,12 @@ const config = {
           200: '#E6EFFE',
           300: '#1A6EFF4D',
         },
+        red: {
+          100: '#EF2B2B',
+          200: '#FEE4E2',
+          300: '#FEF3F2',
+          400: '#F44336'
+        },
       },
       textColor: {
         primary: {

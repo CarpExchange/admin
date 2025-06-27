@@ -1,9 +1,9 @@
-import ServiceError from "@/components/ServiceError";
-import Spinner from "@/components/Spinner";
-import { withFetchCustomersQuery } from "@/hooks/queries/useFetchCustomers";
-import { useRouter } from "next/navigation";
-import React, { useContext, useEffect, useMemo, useState } from "react";
-import { searchFunction, searchInDataset } from "@/hooks/useSearchFunction";
+import ServiceError from '@/components/ServiceError';
+import Spinner from '@/components/Spinner';
+import { withFetchCustomersQuery } from '@/hooks/queries/useFetchCustomers';
+import { useRouter } from 'next/navigation';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { searchFunction, searchInDataset } from '@/hooks/useSearchFunction';
 import {
   Table,
   TableBody,
@@ -11,20 +11,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import Image from "next/image";
+} from '@/components/ui/table';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import StatusBadge from "@/components/StatusBadge";
-import { EllipsisVertical } from "lucide-react";
-import ManualBVNVerification from "./ManualBVNVerification";
-import ManualNINVerification from "./ManualNINVerification";
-import { AuthContext } from "@/components/AuthProvider";
-import moment from "moment";
+} from '@/components/ui/popover';
+import StatusBadge from '@/components/StatusBadge';
+import { EllipsisVertical } from 'lucide-react';
+import ManualBVNVerification from './ManualBVNVerification';
+import ManualNINVerification from './ManualNINVerification';
+import { AuthContext } from '@/components/AuthProvider';
+import moment from 'moment';
 
 const UsersTable = ({ allCustomers, query, statusType }: any) => {
   const router = useRouter();
@@ -38,21 +38,21 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
 
   const filteredCustomers = useMemo(() => {
     if (query) {
-      return searchInDataset(allCustomers ?? [], query || "", [
-        "phone_number",
-        "first_name",
-        "email",
-        "last_name",
+      return searchInDataset(allCustomers ?? [], query || '', [
+        'phone_number',
+        'first_name',
+        'email',
+        'last_name',
       ]);
     }
 
-    if (statusType === "all") {
+    if (statusType === 'all') {
       return allCustomers;
-    } else if (statusType === "verified") {
+    } else if (statusType === 'verified') {
       return allCustomers?.filter(
         (customer: any) => customer.nin_is_verified || customer.bvn_is_verified
       );
-    } else if (statusType === "unverified") {
+    } else if (statusType === 'unverified') {
       return allCustomers?.filter(
         (customer: any) =>
           !customer.nin_is_verified && !customer.bvn_is_verified
@@ -62,9 +62,9 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
 
   const verificationStatus = (customer: any) => {
     if (customer.nin_is_verified || customer.bvn_is_verified) {
-      return "verified";
+      return 'verified';
     } else {
-      return "unverified";
+      return 'unverified';
     }
   };
 
@@ -132,6 +132,11 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
                         <span>Role</span> &bull;{' '}
                         <span className="text-primary">{customer?.role}</span>
                       </span>
+                      {customer?.security_data?.black_listed && (
+                        <p className="text-red-500 text-xs mt-2 italic">
+                          Blacklisted
+                        </p>
+                      )}
                     </div>
                   </div>
                 </TableCell>
@@ -147,11 +152,9 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
                 </TableCell>
                 <TableCell className="font-medium text-secondary w-[180px] pl-10">
                   <div>
-                  {moment(customer?.created_at).format('D MMMM, YYYY')}
+                    {moment(customer?.created_at).format('D MMMM, YYYY')}
                   </div>
-                  <span>
-                    {moment(customer?.created_at).format('hh:mm a')}
-                  </span>
+                  <span>{moment(customer?.created_at).format('hh:mm a')}</span>
                 </TableCell>
                 <TableCell
                   className="w-[46px]"
