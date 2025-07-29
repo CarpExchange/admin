@@ -27,7 +27,7 @@ const NavbarLayout = ({ children }: Props) => {
       </div>
       <div className="w-full h-full flex">
         {/* Sidebar */}
-        <div className="bg-white w-1/4 fixed h-full mt-20 border-r border-primary py-6 px-[1%]">
+        <div className="bg-white w-1/6 fixed h-full mt-20 border-r border-primary py-6 px-[1%]">
           <div className="flex flex-col justify-between h-4/5">
             <div className="space-y-2">
               {navbarData.map((link, index) => {
@@ -90,7 +90,7 @@ const NavbarLayout = ({ children }: Props) => {
           </div>
         </div>
         {/* Body */}
-        <div className="w-3/4 ml-[25%] h-full pt-20">{children}</div>
+        <div className="w-3/4 ml-[20%] h-full pt-20">{children}</div>
       </div>
     </div>
   );

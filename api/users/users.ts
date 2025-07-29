@@ -62,3 +62,4 @@ export async function updateUserVerficationStatusFn({id, email, verification_typ
     throw error.response;
   }
 }
+

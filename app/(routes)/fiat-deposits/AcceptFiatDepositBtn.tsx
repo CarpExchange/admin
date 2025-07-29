@@ -11,7 +11,7 @@ const AcceptFiatDepositBtn = ({
   paid = true,
   status = 'accepted',
   refetch,
-  mutationResult,
+  mutationResult, 
 }: any) => {
   const {
     state: { user_info },

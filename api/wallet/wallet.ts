@@ -65,3 +65,13 @@ export async function updateProcessingFeeFn({
     throw error.response;
   }
 }
+
+
+export async function fetchAllUsersDepositCountFn(id: string) {
+  try {
+    const response = await authApi.get(`/admin/${id}/deposits/count`);
+    return response.data;
+  } catch (error: any) {
+    throw error.response;
+  }
+}
