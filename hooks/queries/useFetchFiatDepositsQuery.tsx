@@ -68,7 +68,7 @@ export function useFetchFiatDepositsQuery({
     };
     return retdata;
   }, [fiatDeposits]);
-
+  // console.log(retdata)
   return { ...retdata, ...rest };
 }
 

@@ -65,6 +65,7 @@ export function useFetchFiatWithdrawalsQuery({
         refetch: response.refetch,
       },
     };
+    // console.log(retdata)
     return retdata;
   }, [fiatWithdrawals]);
 

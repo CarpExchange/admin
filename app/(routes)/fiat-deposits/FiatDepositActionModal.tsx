@@ -36,7 +36,7 @@ const FiatDepositActionModal = ({ depositDetail, page }: any) => {
     data: { refetch },
   } = useFetchFiatDepositsQuery({
     page,
-  });
+  }); 
 
   return (
     <Dialog>

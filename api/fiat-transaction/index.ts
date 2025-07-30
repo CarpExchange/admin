@@ -66,7 +66,10 @@ export async function updateFiatDepositStatusFn({
     const body = { paid, status };
     const response = await authApi.put(
       `/admin/${id}/users/${uid}/deposits/${deposit_id}`,
+ test
+      { paid, status }
       body
+ main
     );
     return response.data;
   } catch (error: any) {
@@ -85,6 +88,25 @@ export async function updateFiatWithdrawalStatusFn({
     const response = await authApi.put(
       `/admin/${id}/users/${uid}/withdrawals/${withdrawal_id}?paid=${paid}&status=${status}`
     );
+    return response.data;
+  } catch (error: any) {
+    throw error.response;
+  }
+}
+
+
+export async function fetchAllUsersDepositCountFn(id: string) {
+  try {
+    const response = await authApi.get(`/admin/${id}/deposits/count`);
+    return response.data;
+  } catch (error: any) {
+    throw error.response;
+  }
+}
+
+export async function fetchAllUsersWithdrawalsCountFn(id: string) {
+  try {
+    const response = await authApi.get(`/admin/${id}/deposits/count`);
     return response.data;
   } catch (error: any) {
     throw error.response;
