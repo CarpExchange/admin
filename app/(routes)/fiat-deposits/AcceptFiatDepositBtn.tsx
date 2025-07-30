@@ -43,7 +43,7 @@ const AcceptFiatDepositBtn = ({
       await mutationResult.mutateAsync(formData);
     } catch (error: any) {
       toast({
-        description: error?.data?.message || 'Error occured',
+        description: error?.data?.message || 'Error occurred',
         variant: 'destructive',
       });
     }

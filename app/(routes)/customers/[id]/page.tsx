@@ -10,10 +10,13 @@ import StatusBadge from '@/components/StatusBadge';
 import copy from 'copy-to-clipboard';
 import { useToast } from '@/hooks/use-toast';
 import moment from 'moment';
+import { Button } from '@/components/ui/button';
+import BlacklistUserBtn from '@/components/users/BlacklistUserBtn';
 
 const CustomerDetails = ({ singleUserDetails }: any) => {
   console.log(singleUserDetails, 'singleUserDetails');
   const { toast } = useToast();
+  const { security_data} = singleUserDetails
 
   const handleCopy = (title: string, value: string) => {
     copy(`${value}`);
@@ -86,7 +89,7 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
               <div className="w-full flex flex-row justify-between">
                 <div className="w-full md:w-1/2">
                   <h5 className="font-figtree leading-[22px] text-black-200">
-                    <b>Verifiation Methods: </b>
+                    <b>Verification Methods: </b>
                   </h5>
                   <div className="flex flex-col gap-2">
                     <div className="flex flex-row gap-2 items-center">
@@ -119,80 +122,83 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
                 <div className="w-full md:w-1/2">
                   <h5 className="font-figtree  leading-[22px] text-black-200">
                     <b>Transaction Pin: </b>{' '}
-                    {singleUserDetails?.has_pin ? 'Yes' : 'Not yet added'}
+                    {singleUserDetails?.has_pin ? 'Added' : 'Not added'}
                   </h5>
                 </div>
               </div>
 
-              <div>
-                <h5 className="font-bold">KYC Details</h5>
-                {singleUserDetails?.kyc ? (
-                  <div className="flex flex-col gap-3 mt-4">
-                    <p className="text-sm">
-                      <b>First Name:</b> {'  '}
-                      {singleUserDetails?.kyc?.last_name ?? 'NA'}
-                    </p>
-                    <p className="text-sm">
-                      <b>Middle Name:</b> {'  '}
-                      {singleUserDetails?.kyc?.middle_name ?? 'NA'}
-                    </p>
-                    <p className="text-sm">
-                      <b>Last Name:</b> {'  '}
-                      {singleUserDetails?.kyc?.last_name ?? 'NA'}
-                    </p>
-                    <p className="text-sm">
-                      <b>DOB:</b> {'  '}
-                      {singleUserDetails?.kyc?.date_of_birth ?? 'NA'}
-                    </p>
-                    <p className="text-sm">
-                      <b>Gender:</b> {'  '}
-                      {singleUserDetails?.kyc?.gender ?? 'NA'}
-                    </p>
-                    <p className="text-sm">
-                      <b>Phone Number:</b> {'  '}
-                      {singleUserDetails?.kyc?.phone_number ?? 'NA'}
-                    </p>
-                    <p className="text-sm">
-                      <b>BVN:</b> {'  '}
-                      {singleUserDetails?.kyc?.bvn ?? 'NA'}
-                    </p>
-                    <p className="text-sm">
-                      <b>BVN Confidence Level:</b> {'  '}
-                      {singleUserDetails?.kyc?.bvn_confidence_level ?? 'NA'}
-                    </p>
-                    <p className="text-sm">
-                      <b>NIN:</b> {'  '}
-                      {singleUserDetails?.kyc?.nin ?? 'NA'}
-                    </p>
-                    <p className="text-sm">
-                      <b>NIN Confidence Level:</b> {'  '}
-                      {singleUserDetails?.kyc?.nin_confidence_level ?? 'NA'}
-                    </p>
-                    <div>
+              <div className="w-full flex flex-row justify-between">
+                <div className="w-full md:w-1/2">
+                  <h5 className="font-bold">KYC Details</h5>
+                  {singleUserDetails?.kyc ? (
+                    <div className="flex flex-col gap-3 mt-4">
                       <p className="text-sm">
-                        <b>Image Submitted:</b> 
+                        <b>First Name:</b> {'  '}
+                        {singleUserDetails?.kyc?.last_name ?? 'NA'}
                       </p>
-                      <Image
-                        src={
-                          singleUserDetails?.kyc?.selfie_image_url
-                            ? `${singleUserDetails?.kyc?.selfie_image_url}`
-                            : '/assets/avatar.png'
-                        }
-                        alt={`${singleUserDetails?.first_name} image`}
-                        className="w-[100px] h-[100px] rounded-full object-cover"
-                        width={100}
-                        height={100}
-                      />
+                      <p className="text-sm">
+                        <b>Middle Name:</b> {'  '}
+                        {singleUserDetails?.kyc?.middle_name ?? 'NA'}
+                      </p>
+                      <p className="text-sm">
+                        <b>Last Name:</b> {'  '}
+                        {singleUserDetails?.kyc?.last_name ?? 'NA'}
+                      </p>
+                      <p className="text-sm">
+                        <b>DOB:</b> {'  '}
+                        {singleUserDetails?.kyc?.date_of_birth ?? 'NA'}
+                      </p>
+                      <p className="text-sm">
+                        <b>Gender:</b> {'  '}
+                        {singleUserDetails?.kyc?.gender ?? 'NA'}
+                      </p>
+                      <p className="text-sm">
+                        <b>Phone Number:</b> {'  '}
+                        {singleUserDetails?.kyc?.phone_number ?? 'NA'}
+                      </p>
+                      <p className="text-sm">
+                        <b>BVN:</b> {'  '}
+                        {singleUserDetails?.kyc?.bvn ?? 'NA'}
+                      </p>
+                      <p className="text-sm">
+                        <b>BVN Confidence Level:</b> {'  '}
+                        {singleUserDetails?.kyc?.bvn_confidence_level ?? 'NA'}
+                      </p>
+                      <p className="text-sm">
+                        <b>NIN:</b> {'  '}
+                        {singleUserDetails?.kyc?.nin ?? 'NA'}
+                      </p>
+                      <p className="text-sm">
+                        <b>NIN Confidence Level:</b> {'  '}
+                        {singleUserDetails?.kyc?.nin_confidence_level ?? 'NA'}
+                      </p>
+                      <div>
+                        <p className="text-sm">
+                          <b>Image Submitted:</b>
+                        </p>
+                        <Image
+                          src={
+                            singleUserDetails?.kyc?.selfie_image_url
+                              ? `${singleUserDetails?.kyc?.selfie_image_url}`
+                              : '/assets/avatar.png'
+                          }
+                          alt={`${singleUserDetails?.first_name} image`}
+                          className="w-[100px] h-[100px] rounded-full object-cover"
+                          width={100}
+                          height={100}
+                        />
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <p className="text-sm">
-                    <b>KYC details:</b> NA
-                  </p>
-                )}
+                  ) : (
+                    <p className="text-sm">
+                      <b>KYC details:</b> NA
+                    </p>
+                  )}
+                </div>
               </div>
 
-              <div>
+              <div className="w-full flex flex-row items-end justify-between">
+              <div className='w-full md:w-1/2'>
                 <h5 className="font-bold">Bank Account Details</h5>
                 <div className="flex flex-col gap-3 mt-3">
                   <p className="text-sm">
@@ -215,6 +221,25 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
                   </p>
                 </div>
               </div>
+
+              <div className="w-full md:w-1/2">
+                  <h5 className="font-figtree leading-[22px] text-black-200 mb-2">
+                    <b>
+                      {security_data?.black_listed
+                        ? 'User is blacklisted:'
+                        : 'User is not blacklisted:'}{' '}
+                    </b>
+                  </h5>
+
+                  <BlacklistUserBtn
+                  // @ts-ignore
+                    status={security_data?.black_listed}
+                    userId={singleUserDetails?.id}
+                  />
+                </div>
+                </div>
+
+
             </div>
           </div>
         </div>

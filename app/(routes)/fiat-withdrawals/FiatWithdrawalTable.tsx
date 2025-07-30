@@ -65,8 +65,8 @@ const FiatWithdrawalTable = ({ query }: any) => {
             <h6 className="text-lg font-semibold text-primary my-2">
               Page {page}
             </h6>
-            <Table className="bg-white rounded-lg p-1">
-              <TableHeader className="bg-[#F9FAFB]">
+            <Table className="bg-white rounded-lg p-1 table-fixed xl:table-auto overflow-auto">
+              <TableHeader className="bg-[#F9FAFB] sticky top-0 z-10">
                 <TableRow>
                   <TableHead className="w-[20px] border-b border-table-bottom"></TableHead>
                   <TableHead className="text-left font-semibold text-secondary w-[140px]">
@@ -75,7 +75,7 @@ const FiatWithdrawalTable = ({ query }: any) => {
                   <TableHead className="text-left font-semibold text-secondary w-[180px]">
                     Rate
                   </TableHead>
-                  <TableHead className="w-[167px] text-center">
+                  <TableHead className="w-[167px] text-left         ">
                     Created Date
                   </TableHead>
                   <TableHead className="text-center font-semibold text-secondary w-[130px]">
@@ -97,12 +97,12 @@ const FiatWithdrawalTable = ({ query }: any) => {
                     </TableCell>
                     <TableCell>₦{withdrawal?.rate?.toLocaleString()}</TableCell>
                     <TableCell>
-                      <div className="ml-10">
+                      <div className="">
                         <div className="font-medium">
-                          {moment(withdrawal?.CreatedAt).format("DD, MMM YYYY")}
+                          {moment(withdrawal?.CreatedAt).format('DD, MMM YYYY')}
                         </div>
                         <span>
-                          {moment(withdrawal?.CreatedAt).format("hh:mm a")}
+                          {moment(withdrawal?.CreatedAt).format('hh:mm a')}
                         </span>
                       </div>
                     </TableCell>
@@ -133,19 +133,19 @@ const FiatWithdrawalTable = ({ query }: any) => {
               <div
                 className="cursor-pointer"
                 onClick={() => {
-                  handlePageCount("backward");
+                  handlePageCount('backward');
                 }}
               >
-                <ChevronLeft color={"#4C5259"} />
+                <ChevronLeft color={'#4C5259'} />
               </div>
 
               <div
                 className="cursor-pointer"
                 onClick={() => {
-                  handlePageCount("forward");
+                  handlePageCount('forward');
                 }}
               >
-                <ChevronRight color={"#4C5259"} />
+                <ChevronRight color={'#4C5259'} />
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import authApi from "..";
 import {
+  BlacklistUserPayload,
   DeleteUserPayload,
   GetUserDetailsPayload,
   LoginPayload,
@@ -63,3 +64,13 @@ export async function updateUserVerficationStatusFn({id, email, verification_typ
   }
 }
 
+export async function blacklistUserFn({id, uid, blacklist}: BlacklistUserPayload) {
+  try {
+    const response = await authApi.put(
+      `admin/${id}/users/${uid}/blacklist?blacklist=${blacklist}`
+    );
+    return response.data;
+  } catch (error: any) {
+    throw error.response;
+  }
+}

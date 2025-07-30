@@ -22,9 +22,10 @@ import { withUpdateProcessingFeeMutation } from '@/hooks/mutations/useUpdateProc
 import moment from 'moment';
 
 const formSchema = z.object({
-  fee: z.number({ required_error: 'Processing fee is required' }).min(1, {
-    message: 'Processing fee must be greater than 0',
-  }),
+  fee: z.number({ required_error: 'Processing fee is required' })
+  // .min(1, {
+  //   message: 'Processing fee must be greater than 0',
+  // }),
 });
 
 const ProcessingFeeComp = ({ mutationResult }: any) => {
@@ -121,7 +122,7 @@ const ProcessingFeeComp = ({ mutationResult }: any) => {
                                 placeholder="Enter processing fee"
                                 className="bg-transparent"
                                 {...field}
-                                value={field.value || ''}
+                                value={field.value || 0}
                                 onChange={(e) =>
                                   field.onChange(e.target.valueAsNumber)
                                 }

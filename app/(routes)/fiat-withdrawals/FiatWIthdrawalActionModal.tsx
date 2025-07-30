@@ -105,7 +105,7 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
               </div>
               <div className="w-full md:w-1/2">
                 <p>
-                  <b>Processing Fee:</b> ₦200
+                ₦{withdrawalDetail?.processing_fee === 0 ? 200 : withdrawalDetail?.processing_fee?.toLocaleString()}
                 </p>
               </div>
             </div>
@@ -143,7 +143,9 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
                 ₦
                 {(
                   withdrawalDetail?.amount * withdrawalDetail?.rate -
-                  200
+                  (withdrawalDetail?.processing_fee === 0
+                  ? 200
+                  : withdrawalDetail?.processing_fee)
                 )?.toLocaleString()}
               </p>
             </div>

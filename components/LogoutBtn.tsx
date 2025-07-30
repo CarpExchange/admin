@@ -42,9 +42,8 @@ const LogoutBtn = ({ mutationResult }: any) => {
     try {
       await mutationResult.mutateAsync(user_info?.uid);
     } catch (error: any) {
-      console.log(error);
       toast({
-        description: error?.data?.message || "Error occured during logout",
+        description: error?.data?.message || "Error occurred during logout",
         variant: "destructive",
       });
     }
