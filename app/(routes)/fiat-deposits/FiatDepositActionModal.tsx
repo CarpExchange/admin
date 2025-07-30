@@ -86,7 +86,7 @@ const FiatDepositActionModal = ({ depositDetail, page }: any) => {
               <div className="w-full md:w-1/2">
                 <p>
                   <b>Processing Fee:</b> ₦
-                  200
+                  {depositDetail?.processing_fee === 0 ? 200 : depositDetail?.processing_fee?.toLocaleString()}
                 </p>
               </div>
               <div className="w-full md:w-1/2">
