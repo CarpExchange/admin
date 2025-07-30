@@ -36,7 +36,7 @@ const FiatDepositActionModal = ({ depositDetail, page }: any) => {
     data: { refetch },
   } = useFetchFiatDepositsQuery({
     page,
-  });
+  }); 
 
   return (
     <Dialog>
@@ -86,12 +86,18 @@ const FiatDepositActionModal = ({ depositDetail, page }: any) => {
               <div className="w-full md:w-1/2">
                 <p>
                   <b>Processing Fee:</b> ₦
-                  {depositDetail?.processing_fee === 0 ? 200 : depositDetail?.processing_fee?.toLocaleString()}
+                  {depositDetail?.processing_fee === 0
+                    ? 200
+                    : depositDetail?.processing_fee?.toLocaleString()}
                 </p>
               </div>
               <div className="w-full md:w-1/2">
                 <p>
-                  <b>Updated Deposit Amount:</b> ₦{(depositDetail?.amount - 200)?.toLocaleString()}
+                  <b>Updated Deposit Amount:</b> ₦{(depositDetail?.amount - (
+                    depositDetail?.processing_fee === 0
+                      ? 200
+                      : depositDetail?.processing_fee
+                  ))?.toLocaleString()}
                 </p>
               </div>
             </div>
@@ -100,7 +106,14 @@ const FiatDepositActionModal = ({ depositDetail, page }: any) => {
               <div className="w-full md:w-1/2">
                 <p>
                   <b>USDT to be Received:</b>{' '}
-                  {((depositDetail?.amount - 200) / depositDetail?.rate)?.toFixed(2)}
+                  {/* {((depositDetail?.amount - 200) / depositDetail?.rate)?.toFixed(2)} */}
+                  {(
+                    (depositDetail?.amount -
+                      (depositDetail?.processing_fee === 0
+                        ? 200
+                        : depositDetail?.processing_fee)) /
+                    depositDetail?.rate
+                  )?.toFixed(2)}
                 </p>
               </div>
               <div className="w-full md:w-1/2">
