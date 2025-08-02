@@ -46,7 +46,7 @@ export async function fetchAllWithdrawalsFn({
 
 export async function fetchProcessingFeeFn(id: string) {
   try {
-    const response = await authApi.get(`/admin/${id}/processing-fee`);
+    const response = await authApi.get(`/markets/processing-fee`);
     return response.data;
   } catch (error: any) {
     throw error.response;

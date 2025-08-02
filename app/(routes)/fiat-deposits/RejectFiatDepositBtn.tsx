@@ -14,7 +14,7 @@ const RejectFiatDepositBtn = ({ uid, deposit_id, refetch, mutationResult }: any)
   const { toast } = useToast()
 
   useEffect(() => {
-    if (mutationResult?.data?.status === 'success') {
+    if (mutationResult?.data?.status === '200') {
       refetch()
       toast({
         description: 'Deposit rejected!!!',
@@ -30,7 +30,7 @@ const RejectFiatDepositBtn = ({ uid, deposit_id, refetch, mutationResult }: any)
         id,
         uid,
         deposit_id,
-        paid: false,
+        paid: true,
         status: 'rejected',
       };
       await mutationResult.mutateAsync(formData);

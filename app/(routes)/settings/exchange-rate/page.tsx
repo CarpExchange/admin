@@ -33,28 +33,16 @@ const ExchangeRate = ({ mutationResult }: any) => {
   const id = user_info?.uid;
   const { exchangeRateData } = useExchangeRateData();
   const { marketData } = useMarketData('usdtngn');
-
   const { toast } = useToast();
-
-  const usdtPrice = parseFloat(marketData?.ticker?.sell);
-  const depositCharges = exchangeRateData?.sell_price?.current_sell_price;
-
-  const depositRate =
-    !!usdtPrice && !!depositCharges
-      ? usdtPrice + depositCharges
-      : 'Fetching rate...';
-
-  const usdtPriceForWithdrawal = parseFloat(marketData?.ticker?.buy);
-  // console.log(usdtPrice, 'usdtPrice');
-  const withdrawalCharges = exchangeRateData?.buy_price?.current_buy_price;
-  // console.log(withdrawalCharges, 'withdrawalCharges');
-
-  const withdrawalRate =
-    !!usdtPriceForWithdrawal && !!withdrawalCharges
-      ? usdtPriceForWithdrawal - withdrawalCharges
-      : 'Fetching rate...';
-
   const router = useRouter();
+
+  const usdtSellPrice = parseFloat(marketData?.ticker?.sell);
+  const sellCharge = exchangeRateData?.sell_price?.current_sell_price;
+  const depositRate = usdtSellPrice && sellCharge ? usdtSellPrice + sellCharge : null;
+
+  const usdtBuyPrice = parseFloat(marketData?.ticker?.buy);
+  const buyCharge = exchangeRateData?.buy_price?.current_buy_price;
+  const withdrawalRate = usdtBuyPrice && buyCharge ? usdtBuyPrice - buyCharge : null;
 
   useEffect(() => {
     if (mutationResult?.data?.status === 'success') {
@@ -77,10 +65,8 @@ const ExchangeRate = ({ mutationResult }: any) => {
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
       const formData = { id, ...data };
-      // console.log(formData)
       await mutationResult.mutateAsync(formData);
     } catch (error: any) {
-      // console.log(error, 'error');
       toast({
         description: error?.data?.message || 'Error occurred during update',
         variant: 'destructive',
@@ -89,109 +75,108 @@ const ExchangeRate = ({ mutationResult }: any) => {
   }
 
   return (
-    <div className="bg-gray-100 h-full max-h-full pt-[24px] pb-[48px] px-[20px]">
+    <div className="min-h-screen py-8">
       <Link
         href="/settings"
-        className="flex flex-row gap-4 items-center w-fit mb-6"
+        className="flex items-center gap-3 mb-6 text-primary font-semibold"
       >
-        <div className="w-[32px] h-[32px] rounded-[23px] bg-blue-200 flex items-center justify-center">
-          <ArrowLeft color="#039" size={24} />
+        <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center">
+          <ArrowLeft className="text-primary" size={20} />
         </div>
-        <span className="text-primary font-figtree font-semibold">Go back</span>
+        Go back
       </Link>
-      <div className="flex flex-col gap-[28px]">
-        <div className="flex flex-col gap-1 font-figtree text-secondary">
-          <h2 className="font-semibold text-2xl ">Exchange Rate</h2>
-          <p className="text-secondary">
-            Manage and update Kript exchange rate
+
+      <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-md p-6 md:p-8 space-y-6">
+        <div className="text-center space-y-1">
+          <h2 className="text-2xl font-semibold text-primary font-figtree">
+            Exchange Rate Management
+          </h2>
+          <p className="text-sm text-gray-500">
+            Set USDT/NGN deposit and withdrawal charges
+          </p>
+        </div>
+
+        <div className="space-y-4 text-[15px] font-medium text-gray-700 bg-gray-50 p-4 rounded-md border border-gray-200">
+          <p>
+            <span className="font-semibold text-gray-800">Deposit Rate:</span>{' '}
+            1 USDT = ₦{depositRate ? depositRate.toLocaleString() : '...'}{' '}
+            <span className="text-sm font-normal">
+              (Charge: ₦{sellCharge || '...'})
+            </span>
+          </p>
+          <p>
+            <span className="font-semibold text-gray-800">Withdrawal Rate:</span>{' '}
+            1 USDT = ₦{withdrawalRate ? withdrawalRate.toLocaleString() : '...'}{' '}
+            <span className="text-sm font-normal">
+              (Charge: ₦{buyCharge || '...'})
+            </span>
           </p>
         </div>
 
         <div>
-          <h3>
-            Current Deposit Rate:{' '}
-            <span>1 USDT = ₦{depositRate.toLocaleString()}</span> {'  '} -{'  '}{' '}
-            Added charges = ₦{depositCharges}
+          <h3 className="text-lg font-semibold text-secondary mb-4">
+            Update Charges
           </h3>
 
-          <h3 className="mt-2">
-            Current Withdrawal Rate:{' '}
-            <span>1 USDT = ₦{withdrawalRate.toLocaleString()}</span>
-            {'  '} - {'  '}
-            Added charges = ₦{withdrawalCharges}
-          </h3>
-
-          <div className="mt-10">
-            <h2 className="text-2xl">Update Exchange Rate</h2>
-
-            <div>
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="mt-2 w-3/5"
-                >
-                  <div className="flex flex-col gap-4">
-                    <div className="w-full">
-                      <FormField
-                        control={form.control}
-                        name="buy_rate"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Deposit Rate Charges</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="Enter deposit rate"
-                                className="bg-transparent"
-                                {...field}
-                                value={field.value || ''}
-                                onChange={(e) =>
-                                  field.onChange(e.target.valueAsNumber)
-                                }
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="flex flex-col gap-6"
+            >
+              <FormField
+                control={form.control}
+                name="buy_rate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Deposit Rate Charge (₦)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="e.g. 25"
+                        className="bg-gray-50"
+                        {...field}
+                        value={field.value || ''}
+                        onChange={(e) =>
+                          field.onChange(e.target.valueAsNumber)
+                        }
                       />
-                    </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                    <div className="w-full">
-                      <FormField
-                        control={form.control}
-                        name="sell_rate"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Withdrawal Rate Charges</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="Enter withdrawal rate"
-                                className="bg-transparent"
-                                {...field}
-                                value={field.value || ''}
-                                onChange={(e) =>
-                                  field.onChange(e.target.valueAsNumber)
-                                }
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+              <FormField
+                control={form.control}
+                name="sell_rate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Withdrawal Rate Charge (₦)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="e.g. 30"
+                        className="bg-gray-50"
+                        {...field}
+                        value={field.value || ''}
+                        onChange={(e) =>
+                          field.onChange(e.target.valueAsNumber)
+                        }
                       />
-                    </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                    <button
-                      type="submit"
-                      className="bg-primary text-white py-4 px-4 rounded-md"
-                    >
-                      Update Exchange Rate
-                    </button>
-                  </div>
-                </form>
-              </Form>
-            </div>
-          </div>
+              <button
+                type="submit"
+                className="bg-primary hover:bg-blue-900 text-white font-medium text-sm py-3 px-6 rounded-lg transition"
+              >
+                Update Exchange Rate
+              </button>
+            </form>
+          </Form>
         </div>
       </div>
     </div>

@@ -125,27 +125,27 @@ const FiatWithdrawalTable = ({ query }: any) => {
               </TableBody>
             </Table>
           </div>
-          <div className="bg-white flex items-center justify-end space-x-3 p-3 rounded-lg">
+          <div className="bg-white flex items-center gap-6 justify-end space-x-3 p-3 rounded-lg">
             {/* <p>
               1 - {customers?.length} of {allCustomers?.length}
             </p> */}
             <div className="flex items-center space-x-5">
               <div
-                className="cursor-pointer"
+                className="cursor-pointer flex flex-row "
                 onClick={() => {
                   handlePageCount('backward');
                 }}
               >
-                <ChevronLeft color={'#4C5259'} />
+                <ChevronLeft color={'#4C5259'} /><p>Prev</p>
               </div>
 
               <div
-                className="cursor-pointer"
+                className="cursor-pointer flex flex-row "
                 onClick={() => {
                   handlePageCount('forward');
                 }}
               >
-                <ChevronRight color={'#4C5259'} />
+                <p>Next</p><ChevronRight color={'#4C5259'} />
               </div>
             </div>
           </div>

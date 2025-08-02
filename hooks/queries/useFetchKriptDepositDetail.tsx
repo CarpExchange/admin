@@ -67,6 +67,7 @@ export function useFetchkriptDepositAccountDetailQuery({
       },
       ...rest,
     };
+    // console.log(retdata)
     return retdata;
   }, [kriptAccountDetail]);
 
