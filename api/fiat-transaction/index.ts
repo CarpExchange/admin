@@ -24,7 +24,7 @@ export async function updateAdminAccountDetailFn({
 export async function fetchKriptDepositAccountDetail(id: string) {
   try {
     const response = await authApi.get(
-      `/users/${id}/accounts/admin/bank-account`
+      `/admin/${id}/bank-account`
     );
     return response.data;
   } catch (error: any) {
@@ -35,7 +35,7 @@ export async function fetchKriptDepositAccountDetail(id: string) {
 export async function fetchFiatDepositsFn(id: string, page: number) {
   try {
     const response = await authApi.get(
-      `/admin/${id}/users/deposits?page=${page}&page_size=10`
+      `/admin/${id}/users/deposits?page=${page}&page_size=20`
     );
     return response.data;
   } catch (error: any) {
@@ -47,7 +47,7 @@ export async function fetchFiatWithdrawalsFn(id: string, page: number) {
   try {
     // console.log(id, page, 'body');
     const response = await authApi.get(
-      `/admin/${id}/users/withdrawals?page=${page}&page_size=10`
+      `/admin/${id}/users/withdrawals?page=${page}&page_size=20`
     );
     return response.data;
   } catch (error: any) {
@@ -103,7 +103,7 @@ export async function fetchAllUsersDepositCountFn(id: string) {
 
 export async function fetchAllUsersWithdrawalsCountFn(id: string) {
   try {
-    const response = await authApi.get(`/admin/${id}/deposits/count`);
+    const response = await authApi.get(`/admin/${id}/withdrawals/count`);
     return response.data;
   } catch (error: any) {
     throw error.response;

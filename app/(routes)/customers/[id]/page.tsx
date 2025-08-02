@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import BlacklistUserBtn from '@/components/users/BlacklistUserBtn';
 
 const CustomerDetails = ({ singleUserDetails }: any) => {
-  console.log(singleUserDetails, 'singleUserDetails');
+  // console.log(singleUserDetails, 'singleUserDetails');
   const { toast } = useToast();
   const { security_data} = singleUserDetails
 
