@@ -8,7 +8,8 @@ import withQuery from '../Helpers/withQuery';
 import { fetchKriptDepositAccountDetail } from '@/api/fiat-transaction';
 import { AuthContext } from '@/components/AuthProvider';
 
-const refetchInterval = 3000;
+
+const refetchInterval = 30000;
 
 const components = {
   Loading: Spinner,
@@ -67,7 +68,7 @@ export function useFetchkriptDepositAccountDetailQuery({
       },
       ...rest,
     };
-    // console.log(retdata)
+    console.log(retdata)
     return retdata;
   }, [kriptAccountDetail]);
 

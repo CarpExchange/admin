@@ -9,6 +9,7 @@ interface UseFetchBannersOptions {
     from: Date | string;
     to: Date | string;
     enabled?: boolean;
+    
 }
 
 export function useFetchBanners({ from, to, enabled = true }: UseFetchBannersOptions) {

@@ -16,6 +16,8 @@ import { AuthContext } from '@/components/AuthProvider';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import UpdateAccDetailsBtn from './UpdateAccDetailsBtn';
+// import { useFetchkriptDepositAccountDetailQuery } from '@/hooks/queries/useFetchKriptDepositDetail';
+
 
 const formSchema = z.object({
   account_name: z.string().min(1, { message: 'Account name is required' }),
@@ -40,7 +42,7 @@ const AdminAccount = ({}: any) => {
 
   const formValues = form.getValues();
   return (
-    <div className="bg-gray-100 h-full max-h-full pt-[24px] pb-[48px] px-[20px]">
+    <div className="h-full max-h-full pt-[24px] pb-[48px]">
       <Link
         href="/settings"
         className="flex flex-row gap-4 items-center w-fit mb-6"
@@ -59,7 +61,7 @@ const AdminAccount = ({}: any) => {
         </div>
 
         <div>
-          <h3>Current Account Details: </h3>
+          {/* <h3>Current Account Details: </h3> */}
 
           {/* <div className="mt-2">
             <p>Account Name: {kriptAccountDetail?.account_name}</p>
@@ -68,7 +70,7 @@ const AdminAccount = ({}: any) => {
           </div> */}
 
           <div className="mt-10">
-            <h2 className="text-2xl">Update Exchange Rate</h2>
+            <h2 className="text-2xl">Update Account Details</h2>
 
             <div>
               <Form {...form}>

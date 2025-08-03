@@ -4,6 +4,7 @@ import {
   UpdateAdminAccountDetailPayload,
   UpdateFiatDepositPayload,
   UpdateFiatWithdrawalPayload,
+  KriptDepositAccountDetail
 } from './types';
 
 export async function updateAdminAccountDetailFn({
@@ -21,7 +22,9 @@ export async function updateAdminAccountDetailFn({
   }
 }
 
-export async function fetchKriptDepositAccountDetail(id: string) {
+export async function fetchKriptDepositAccountDetail({
+  id,
+}: KriptDepositAccountDetail) {
   try {
     const response = await authApi.get(
       `/admin/${id}/bank-account`
