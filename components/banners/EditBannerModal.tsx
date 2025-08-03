@@ -5,6 +5,7 @@ import { useEditBanner } from '@/hooks/mutations/useEditBanner';
 
 interface Props {
   banner: {
+    id: string; // Assuming this is the user ID
     banner_id: string;
     title: string;
     content: string;

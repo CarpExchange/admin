@@ -5,6 +5,7 @@ export type FetchBannersPayload = {
 }
 
 export interface InAppBanner {
+    banner_id: string;
     id: string;
     title: string;
     image_url: string;
