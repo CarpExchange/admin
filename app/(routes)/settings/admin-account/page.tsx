@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -16,9 +16,6 @@ import { AuthContext } from '@/components/AuthProvider';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import UpdateAccDetailsBtn from './UpdateAccDetailsBtn';
-import { withFetchkriptDepositAccountDetailQuery } from '@/hooks/queries/useFetchKriptDepositDetail';
-import ServiceError from '@/components/ServiceError';
-import Spinner from '@/components/Spinner';
 
 const formSchema = z.object({
   account_name: z.string().min(1, { message: 'Account name is required' }),
@@ -26,7 +23,7 @@ const formSchema = z.object({
   bank_name: z.string().min(1, { message: 'Bank is required' }),
 });
 
-const AdminAccount = ({ kriptAccountDetail }: any) => {
+const AdminAccount = ({}: any) => {
   const {
     state: { user_info },
   } = useContext(AuthContext);
@@ -41,108 +38,109 @@ const AdminAccount = ({ kriptAccountDetail }: any) => {
     },
   });
 
-  const formValues = form.watch();
-
+  const formValues = form.getValues();
   return (
-    <div className="min-h-screen py-8 font-figtree text-secondary">
-      <Link href="/settings" className="flex items-center gap-3 mb-6 w-fit">
-        <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center">
-          <ArrowLeft color="#003399" size={20} />
+    <div className="bg-gray-100 h-full max-h-full pt-[24px] pb-[48px] px-[20px]">
+      <Link
+        href="/settings"
+        className="flex flex-row gap-4 items-center w-fit mb-6"
+      >
+        <div className="w-[32px] h-[32px] rounded-[23px] bg-blue-200 flex items-center justify-center">
+          <ArrowLeft color="#039" size={24} />
         </div>
-        <span className="text-primary font-medium">Back to Settings</span>
+        <span className="text-primary font-figtree font-semibold">Go back</span>
       </Link>
-
-      <div className="grid gap-10">
-        <div className="grid gap-1">
-          <h1 className="text-3xl font-semibold text-primary">Admin Bank Account</h1>
-          <p className="text-sm text-muted-foreground">
-            Manage and update Kript’s company bank account details here.
+      <div className="flex flex-col gap-[28px]">
+        <div className="flex flex-col gap-1 font-figtree text-secondary">
+          <h2 className="font-semibold text-2xl ">Admin Bank Account</h2>
+          <p className="text-secondary">
+            Manage and update Kript bank account details
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 mt-4">
-          {/* Current Account Details */}
-          <div className="bg-white shadow rounded-2xl p-6 border border-gray-100">
-            <h3 className="text-lg font-semibold text-primary mb-4">Current Details</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <span className="text-muted-foreground">Account Name:</span>{' '}
-                <strong className="text-secondary">{kriptAccountDetail?.account_name || 'N/A'}</strong>
-              </li>
-              <li>
-                <span className="text-muted-foreground">Account Number:</span>{' '}
-                <strong className="text-secondary">{kriptAccountDetail?.account_number || 'N/A'}</strong>
-              </li>
-              <li>
-                <span className="text-muted-foreground">Bank Name:</span>{' '}
-                <strong className="text-secondary">{kriptAccountDetail?.bank_name || 'N/A'}</strong>
-              </li>
-            </ul>
-          </div>
+        <div>
+          <h3>Current Account Details: </h3>
 
-          {/* Update Form */}
-          <div className="bg-white shadow rounded-2xl p-6 border border-gray-100">
-            <h3 className="text-lg font-semibold text-primary mb-6">Update Details</h3>
+          {/* <div className="mt-2">
+            <p>Account Name: {kriptAccountDetail?.account_name}</p>
+            <p>Account Number: {kriptAccountDetail?.account_number}</p>
+            <p>Bank Name: {kriptAccountDetail?.bank_name}</p>
+          </div> */}
 
-            <Form {...form}>
-              <form className="space-y-5">
-                <FormField
-                  control={form.control}
-                  name="account_name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Account Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="e.g. Kript Technologies Ltd"
-                          className="bg-white"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+          <div className="mt-10">
+            <h2 className="text-2xl">Update Exchange Rate</h2>
 
-                <FormField
-                  control={form.control}
-                  name="account_number"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Account Number</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="e.g. 0123456789"
-                          className="bg-white"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            <div>
+              <Form {...form}>
+                <form className="mt-2 w-3/5">
+                  <div className="flex flex-col gap-4">
+                    <div className="w-full">
+                      <FormField
+                        control={form.control}
+                        name="account_name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Account Name</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Enter account name"
+                                className="bg-transparent"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
 
-                <FormField
-                  control={form.control}
-                  name="bank_name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Bank Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="e.g. Wema Bank"
-                          className="bg-white"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    <div className="w-full">
+                      <FormField
+                        control={form.control}
+                        name="account_number"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Account Number</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Enter account number"
+                                className="bg-transparent"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
 
-                <UpdateAccDetailsBtn formData={{ id, ...formValues }} />
-              </form>
-            </Form>
+                    <div className="w-full">
+                      <FormField
+                        control={form.control}
+                        name="bank_name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Bank Name</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Enter bank name"
+                                className="bg-transparent"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <UpdateAccDetailsBtn 
+                    // @ts-ignore
+                    formData={{ id, ...formValues }} />
+                  </div>
+                </form>
+              </Form>
+            </div>
           </div>
         </div>
       </div>
@@ -150,6 +148,8 @@ const AdminAccount = ({ kriptAccountDetail }: any) => {
   );
 };
 
-export default withFetchkriptDepositAccountDetailQuery(AdminAccount, {
-  components: { ServiceError, Loading: Spinner },
-});
+export default AdminAccount;
+
+// export default withFetchkriptDepositAccountDetailQuery(AdminAccount, {
+//   components: { ServiceError: ServiceError, Loading: Spinner },
+// });

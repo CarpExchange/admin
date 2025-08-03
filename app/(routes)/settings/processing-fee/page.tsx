@@ -74,7 +74,7 @@ const ProcessingFeeComp = ({ mutationResult }: any) => {
         <span className="text-[#003399] font-semibold">Back to Settings</span>
       </Link>
 
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-3xl">
         <div className="mb-10">
           <h1 className="text-3xl font-semibold text-[#003399]">Processing Fee</h1>
           <p className="text-sm text-muted mt-1">
