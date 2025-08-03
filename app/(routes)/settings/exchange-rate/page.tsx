@@ -86,7 +86,7 @@ const ExchangeRate = ({ mutationResult }: any) => {
         Go back
       </Link>
 
-      <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-md p-6 md:p-8 space-y-6">
+      <div className="max-w-2xl bg-white rounded-2xl shadow-md p-6 md:p-8 space-y-6">
         <div className="text-center space-y-1">
           <h2 className="text-2xl font-semibold text-primary font-figtree">
             Exchange Rate Management

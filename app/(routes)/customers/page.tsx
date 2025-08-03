@@ -8,7 +8,7 @@ import UsersTable from './UsersTable';
 const Customers = () => {
   const [query, setQuery] = useState<string>('');
   return (
-    <div className="bg-gray-100 py-[48px] px-[20px]">
+    <div className="py-[48px]">
       <div className="flex flex-col gap-[28px]">
         <div className="flex flex-col gap-1 font-figtree text-secondary">
           <h2 className="font-semibold text-2xl ">Customers</h2>
