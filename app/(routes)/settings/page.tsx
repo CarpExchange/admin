@@ -1,5 +1,7 @@
+import { link } from 'fs';
 import { MoveRight } from 'lucide-react';
 import Link from 'next/link';
+import { title } from 'process';
 import React from 'react';
 
 const Settings = () => {
@@ -19,6 +21,16 @@ const Settings = () => {
       id: 3,
       title: 'Update Processing Fee',
       link: '/settings/processing-fee'
+    },
+    {
+      id: 4,
+      title: 'Update App Version',
+      link: '/settings/app-version'
+    },
+    {
+      id: 5,
+      title: 'Update Minimum Deposit',
+      link: '/settings/minimum-deposit'
     }
   ]
 

@@ -1,14 +1,81 @@
 import authApi from "..";
 import { FetchBannersPayload } from "./types";
 
-/**
- * Fetches in-app banners for a given user ID and date range.
- * Dates should be provided as Date objects or ISO strings.
- */
+
+export async function fetchAppVersionFn({
+  id,
+}: {
+  id: string;
+}) {
+  try {
+    const response = await authApi.get(`/admin/${id}/app-version`);
+    return response.data;
+  } catch (error: any) {
+    throw error.response;
+  }
+}
+
+export async function updateAppVersionFn({
+  id,
+  new_version,
+  message,
+  action,
+  m_a_v,
+}: {
+  id: string;
+  new_version: string;
+  message: string;
+  action: string;
+  m_a_v: string;
+}) {
+  try {
+    const response = await authApi.put(`/admin/${id}/app-version`, { 
+      new_version,
+      message,
+      action,
+      m_a_v,
+     });
+    return response.data;
+  } catch (error: any) {
+    throw error.response;
+  }
+}
+
+export async function updateMinimumDeposit({
+  id,
+  denom,
+  amount,
+}: {
+  id: string;
+  denom: string;
+  amount: string | number;
+}) {
+  try {
+    const response = await authApi.put(`/admin/${id}/minimum-deposit`, { 
+        denom,
+        amount,
+     });
+    return response.data;
+  } catch (error: any) {
+    throw error.response;
+  }
+}
+
+export async function fetchMinimumDepositsFn(id: string) {
+  try {
+    const response = await authApi.get(`/admin/${id}/minimum-deposits`);
+    return response.data;
+  } catch (error: any) {
+    throw error.response;
+  }
+}
+
+
+
 export async function fetchBannersFn({
   id,
   from,
-  to,
+  // to,
 }: FetchBannersPayload) {
   try {
     // Ensure from and to are properly formatted ISO strings in UTC

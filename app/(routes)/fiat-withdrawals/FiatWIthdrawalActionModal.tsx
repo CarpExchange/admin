@@ -158,19 +158,19 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
                 {/* <span className="flex flex-row items-center gap-1.5"> */}
                 {singleUserDetails?.withdrawal_account ? (
                   <div className="flex flex-col gap-1.5 mt-3">
-                    <p>
+                    <span>
                       <b>Account Name:</b>{' '}
                       {singleUserDetails?.withdrawal_account?.account_name}
-                    </p>
-                    <p>
+                    </span>
+                    <span>
                       <b>Bank Name:</b>{' '}
                       {singleUserDetails?.withdrawal_account?.bank_name}
-                    </p>
+                    </span>
                     <div className="flex flex-row gap-1.5 items-center">
-                      <p>
+                      <span>
                         <b>Account Number:</b>{' '}
                         {singleUserDetails?.withdrawal_account?.account_number}
-                      </p>
+                      </span>
                       <Copy
                         size={16}
                         className="cursor-pointer"

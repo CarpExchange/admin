@@ -59,9 +59,9 @@ export default function BannerViewer() {
             setTo(new Date());
             refetch();
           }}
-          className="bg-[#003399] hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow"
+          className="bg-[#003399] hover:bg-blue-900 text-white px-4 py-2 rounded-lg shadow"
         >
-          Jump to Today
+          Jump to Now
         </button>
       </div>
 

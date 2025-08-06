@@ -76,6 +76,8 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
     );
   }
 
+
+
   return (
     <>
       <div className="h-[55vh] overflow-auto">
@@ -207,3 +209,4 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
 export default withFetchCustomersQuery(UsersTable, {
   components: { ServiceError: ServiceError, Loading: Spinner },
 });
+
