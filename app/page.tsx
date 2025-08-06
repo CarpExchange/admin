@@ -2,6 +2,7 @@
 
 
 import BannerViewer from "@/components/banners/Banners";
+import Recent from "@/components/recentTransactions/recent";
 import useFetchDepositsCount from "@/hooks/queries/useFetchTotalDepositCount";
 import useFetchWithdrawalsCount from "@/hooks/queries/useFetchTotalWithdrawalCount";
 import Icon from "@/public/assets/svgs/icon";
@@ -57,7 +58,6 @@ export default function Home() {
             <div className="flex flex-row justify-between items-center">
               <div>
                 <p>{totalWithdrawals > 0 ? totalWithdrawals : <span className="text-red-100">0</span>}</p>
-                {/* <p className="text-[10px]">10% high</p> */}
               </div>
               <Icon />
             </div>
@@ -78,11 +78,16 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="justify-between gap-1">
-        <div className="">
+      <div className="flex flex-row justify-between gap-4">
+        <div className="w-2/3">
           <BannerViewer />
         </div>
-        <div className=""></div>
+        <div className="w-1/3">
+          <div className="border border-gray-300 rounded-[6px] p-4">
+            {/* Placeholder for recent transactions */}
+            <Recent/>
+          </div>
+        </div>
       </div>
     </main>
   );

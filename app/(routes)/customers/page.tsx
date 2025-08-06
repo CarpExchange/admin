@@ -4,8 +4,11 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Search, ListFilter, XIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import UsersTable from './UsersTable';
+import { withFetchCustomersQuery } from '@/hooks/queries/useFetchCustomers';
+
 
 const Customers = () => {
+  
   const [query, setQuery] = useState<string>('');
   return (
     <div className="py-[48px]">
@@ -14,6 +17,9 @@ const Customers = () => {
           <h2 className="font-semibold text-2xl ">Customers</h2>
           <p className="text-secondary">Manage all customers</p>
         </div>
+<div className="">
+  customers count
+</div>
 
         <div>
           <Tabs defaultValue="all" className="mt-5 w-full">

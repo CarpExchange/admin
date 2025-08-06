@@ -15,7 +15,7 @@ import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
-  EllipsisVertical,
+  EllipsisVertical, 
 } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import useFetchFiatWithdrawalsQuery from "@/hooks/queries/useFetchWithdrawalQuery";
