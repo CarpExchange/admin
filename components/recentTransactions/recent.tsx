@@ -1,8 +1,9 @@
 import useFetchFiatWithdrawalsQuery from '@/hooks/queries/useFetchWithdrawalQuery'
 import moment from 'moment';
-import React from 'react'
+import React, { useState } from 'react'
 import { useFetchRecentFiatWithdrawalsQuery } from '@/hooks/queries/useFetchRecentWithdraw';
 import Link from 'next/link';
+
 
 // const statusIcon = {
 //   accepted: '✅',
@@ -12,10 +13,10 @@ import Link from 'next/link';
 
 const Recent = () => {
 
+  const [page] = useState<number>(1);
 
   const { data, isPending, isSuccess, isError } = useFetchRecentFiatWithdrawalsQuery({
-    page: 1,
-    page_size: 5,
+    page
   }) as {
     data?: {
       recentFiatWithdrawals: {
@@ -61,7 +62,7 @@ const Recent = () => {
         <p className="text-red-500 text-sm">Error loading transactions.</p>
       )}
 
-      {isSuccess && recentFiatWithdrawals?.length > 0 ? (
+      {isSuccess ? (
         <div className="space-y-3">
           {recentFiatWithdrawals?.map((withdrawal: any) => (
             <div
