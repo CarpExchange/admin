@@ -39,7 +39,7 @@ const BlacklistUserBtn = (props: BlacklistUserBtnProps) => {
       });
       router.refresh();
     }
-  }, [mutationResult, toast, router]);
+  }, [mutationResult, status, toast, router]);
 
   const handleSubmit = async (e: any) => {
     try {

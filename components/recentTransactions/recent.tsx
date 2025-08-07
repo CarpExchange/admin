@@ -13,10 +13,10 @@ import Link from 'next/link';
 
 const Recent = () => {
 
-  const [page] = useState<number>(1);
+  // const [page] = useState<number>(1);
 
   const { data, isPending, isSuccess, isError } = useFetchRecentFiatWithdrawalsQuery({
-    page
+    
   }) as {
     data?: {
       recentFiatWithdrawals: {
