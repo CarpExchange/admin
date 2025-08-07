@@ -39,9 +39,9 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
     page,
   });
 
-  const { data, isPending, isSuccess, isError } = useFetchAUserQuery(
-      withdrawalDetail?.uid
-  );
+  const { data, isPending, isSuccess, isError } = useFetchAUserQuery({
+    userId: withdrawalDetail?.uid,
+  });
 
   const { singleUserDetails } = data;
   // console.log(singleUserDetails, "singleUserDetails");
@@ -162,15 +162,15 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
                       <b>Account Name:</b>{' '}
                       {singleUserDetails?.withdrawal_account?.account_name}
                     </span>
-                    <span>
+                    <p>
                       <b>Bank Name:</b>{' '}
                       {singleUserDetails?.withdrawal_account?.bank_name}
-                    </span>
+                    </p>
                     <div className="flex flex-row gap-1.5 items-center">
-                      <span>
+                      <p>
                         <b>Account Number:</b>{' '}
                         {singleUserDetails?.withdrawal_account?.account_number}
-                      </span>
+                      </p>
                       <Copy
                         size={16}
                         className="cursor-pointer"

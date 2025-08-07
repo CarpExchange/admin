@@ -8,7 +8,7 @@ import { useContext, useMemo } from 'react';
 import withQuery from '../Helpers/withQuery';
 import { AuthContext } from '@/components/AuthProvider';
 import { useParams, useSearchParams } from 'next/navigation';
-const refetchInterval = 3000;
+const refetchInterval = 30000;
 
 const components = {
   Loading: Spinner,
@@ -45,7 +45,13 @@ export function useFetchAUserQuery({
     refetchInterval,
     notifyOnChangeProps: ['data', 'error'],
   },
-} = {}) {
+} : {
+  userId?: string;
+  options?: {
+    refetchInterval?: number;
+    notifyOnChangeProps?: string[];
+  };
+}) {
   const { id: user_id } = useParams();
   // console.log(user_id, 'user_id')
   const {
@@ -72,6 +78,8 @@ export function useFetchAUserQuery({
         refetch: response.refetch,
       },
     };
+
+    // console.log(retdata)
     return retdata;
   }, [singleUserDetails]);
 
