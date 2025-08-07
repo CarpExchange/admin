@@ -1,4 +1,4 @@
-// import useFetchFiatWithdrawalsQuery from '@/hooks/queries/useFetchWithdrawalQuery'
+import useFetchFiatWithdrawalsQuery from '@/hooks/queries/useFetchWithdrawalQuery'
 import moment from 'moment';
 import React from 'react'
 import { useFetchRecentFiatWithdrawalsQuery } from '@/hooks/queries/useFetchRecentWithdraw';
@@ -10,13 +10,29 @@ import Link from 'next/link';
 //   rejected: '❌',
 // };
 
-const Recent = ({ query }: any) => {
+const Recent = () => {
+
+
   const { data, isPending, isSuccess, isError } = useFetchRecentFiatWithdrawalsQuery({
     page: 1,
     page_size: 5,
-  });
+  }) as {
+    data?: {
+      recentFiatWithdrawals: {
+        id: string;
+        amount: number;
+        CreatedAt: string;
+        status: 'accepted' | 'processing' | 'rejected';
+      }[];
+      refetch: () => void;
+    };
+    isPending: boolean;
+    isSuccess: boolean;
+    isError: boolean;
+  };
+  
 
-  const { recentFiatWithdrawals, refetch } = data || {};
+  const { recentFiatWithdrawals = [], refetch } = data || {};
 
   return (
     <div className="p-4 bg-white rounded-xl border border-border shadow-sm">
@@ -47,7 +63,7 @@ const Recent = ({ query }: any) => {
 
       {isSuccess && recentFiatWithdrawals?.length > 0 ? (
         <div className="space-y-3">
-          {recentFiatWithdrawals.map((withdrawal: any) => (
+          {recentFiatWithdrawals?.map((withdrawal: any) => (
             <div
               key={withdrawal.id}
               className="rounded-lg border border-border bg-white p-4 shadow-sm"
