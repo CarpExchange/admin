@@ -21,7 +21,7 @@ import moment from "moment";
 const FiatDepositsTable = ({ query }: any) => {
   const [page, setPage] = useState<number>(1);
   const { data, isPending, isSuccess, isError } = useFetchFiatDepositsQuery({
-    page,
+    
   });
 
   const router = useRouter();
