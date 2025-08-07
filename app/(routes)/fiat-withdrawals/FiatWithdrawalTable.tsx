@@ -24,9 +24,7 @@ import moment from "moment";
 
 const FiatWithdrawalTable = ({ query }: any) => {
   const [page, setPage] = useState<number>(1);
-  const { data, isPending, isSuccess, isError } = useFetchFiatWithdrawalsQuery({
-    page,
-  });
+  const { data, isPending, isSuccess, isError } = useFetchFiatWithdrawalsQuery({page});
 
   const { fiatWithdrawals, refetch } = data;
   // console.log(fiatWithdrawals);

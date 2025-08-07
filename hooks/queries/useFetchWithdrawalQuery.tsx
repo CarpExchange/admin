@@ -45,28 +45,33 @@ export function useFetchFiatWithdrawalsQuery({
     refetchInterval,
     notifyOnChangeProps: ['data', 'error'],
   },
-} = {}) {
+}: {
+  page: number;
+  options?: {
+    refetchInterval?: number;
+    notifyOnChangeProps?: string[];
+  };
+}) {
   const {
     state: { user_info },
   } = useContext(AuthContext);
   const id = user_info?.uid;
+
   const response = useQuery({
-    queryKey: ['fiatWithdrawals', id, page], // Add  to the query key
-    queryFn: () => fetchFiatWithdrawalsFn(id, page), // Pass  to fetchTasksFn
-    options,
+    queryKey: ['fiatWithdrawals', id, page],
+    queryFn: () => fetchFiatWithdrawalsFn(id, page),
+    ...options,
   });
 
   const { data: fiatWithdrawals, ...rest } = response;
 
   const retdata = useMemo(() => {
-    const retdata = {
+    return {
       data: {
-        fiatWithdrawals: fiatWithdrawals?.data ? fiatWithdrawals.data : null,
+        fiatWithdrawals: fiatWithdrawals?.data ?? null,
         refetch: response.refetch,
       },
     };
-    // console.log(retdata)
-    return retdata;
   }, [fiatWithdrawals]);
 
   return { ...retdata, ...rest };
