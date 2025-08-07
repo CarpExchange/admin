@@ -36,11 +36,11 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
   const {
     data: { refetch },
   } = useFetchFiatWithdrawalsQuery({
-    page,
+   
   });
 
   const { data, isPending, isSuccess, isError } = useFetchAUserQuery({
-    userId: withdrawalDetail?.uid,
+    // userId: withdrawalDetail?.uid,
   });
 
   const { singleUserDetails } = data;
