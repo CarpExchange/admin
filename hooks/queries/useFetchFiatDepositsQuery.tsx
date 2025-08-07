@@ -45,8 +45,13 @@ export function useFetchFiatDepositsQuery({
     refetchInterval,
     notifyOnChangeProps: ['data', 'error'],
   },
-} = {}) {
-  // console.log(page)
+}: {
+  page: number;
+  options?: {
+    refetchInterval?: number;
+    notifyOnChangeProps?: string[];
+  };
+}) {
   const {
     state: { user_info },
   } = useContext(AuthContext);
