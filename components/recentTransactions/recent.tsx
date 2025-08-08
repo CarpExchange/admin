@@ -67,7 +67,7 @@ const Recent = () => {
           {recentFiatWithdrawals?.map((withdrawal: any) => (
             <div
               key={withdrawal.id}
-              className="rounded-lg border border-border bg-white p-4 shadow-sm"
+              className="rounded-lg md:border border-none md:border-border bg-white p-1 md:p-4 shadow-sm"
             >
               <div className="flex items-center justify-between">
                 <div>

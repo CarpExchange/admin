@@ -30,7 +30,7 @@ export default function BannerViewer() {
 
   return (
     <div className="p-0 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col md:flex-row items-start gap-4 md:items-center justify-between mb-6">
         <h2 className="text-3xl font-bold text-[#003399]">In-App Banners</h2>
         <button
           onClick={() => setCreatingBanner(true)}
@@ -41,7 +41,8 @@ export default function BannerViewer() {
       </div>
 
       {/* Date Filter */}
-      <div className="flex gap-4 items-center mb-6">
+      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center mb-6">
+        <div className="">
         <input
           type="date"
           value={from.toISOString().split('T')[0]}
@@ -54,6 +55,7 @@ export default function BannerViewer() {
           onChange={(e) => setTo(new Date(e.target.value))}
           className="border px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#003399]"
         />
+        </div>
         <button
           onClick={() => {
             setTo(new Date());

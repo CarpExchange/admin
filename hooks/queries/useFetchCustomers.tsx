@@ -65,7 +65,9 @@ export function useFetchCustomersQuery({
             })
           : null,
       },
+      length: allCustomers?.data ? allCustomers.data.length : 0,
     };
+    // console.log(retdata.length)
     return retdata;
   }, [allCustomers]);
 
