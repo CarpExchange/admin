@@ -1,4 +1,4 @@
-import { ArrowRightLeft, History, House, Settings, UsersRound } from "lucide-react";
+import { History, ArrowDownLeftFromCircleIcon,ArrowUpRightFromCircleIcon ,House, Settings, UsersRound } from "lucide-react";
 
 export interface NavbarData {
   activeIcon?: string | JSX.Element;
@@ -24,15 +24,15 @@ export const navbarData: NavbarData[] = [
     exactRoute: 'customers'
   },
   {
-    activeIcon: <ArrowRightLeft color="#039" size={24} />,
-    inactiveIcon: <ArrowRightLeft color="#000" size={24} />,
+    activeIcon: <ArrowDownLeftFromCircleIcon color="#039" size={24} />,
+    inactiveIcon: <ArrowDownLeftFromCircleIcon color="#000" size={24} />,
     linkName: 'Fiat Deposits',
     route: '/fiat-deposits',
     exactRoute: 'fiat-deposits'
   },
   {
-    activeIcon: <ArrowRightLeft color="#039" size={24} />,
-    inactiveIcon: <ArrowRightLeft color="#000" size={24} />,
+    activeIcon: <ArrowUpRightFromCircleIcon color="#039" size={24} />,
+    inactiveIcon: <ArrowUpRightFromCircleIcon color="#000" size={24} />,
     linkName: 'Fiat Withdrawals',
     route: '/fiat-withdrawals',
     exactRoute: 'fiat-withdrawals'

@@ -25,7 +25,7 @@ const NavbarLayout = ({ children }: Props) => {
             height={40}
             className="size-10"
           />
-          <p className="text-2xl font-semibold ">
+          <p className="flex gap-2 text-2xl font-semibold ">
             Kript <span className="hidden md:block">Technologies</span>
           </p>
         </div>

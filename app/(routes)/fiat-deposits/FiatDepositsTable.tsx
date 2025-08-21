@@ -68,16 +68,16 @@ const FiatDepositsTable = ({ query }: any) => {
                   <TableHead className="text-left font-semibold text-secondary w-[180px]">
                     Account Name
                   </TableHead>
-                  <TableHead className="text-left font-semibold text-secondary w-[180px]">
+                  <TableHead className="hidden md:table-cell text-left font-semibold text-secondary w-[180px]">
                     Bank
                   </TableHead>
                   <TableHead className="text-left font-semibold text-secondary w-[140px]">
                     Amount
                   </TableHead>
-                  <TableHead className="text-left font-semibold text-secondary w-[180px]">
+                  <TableHead className="hidden md:table-cell text-left font-semibold text-secondary w-[180px]">
                     Rate
                   </TableHead>
-                  <TableHead className="w-[167px] text-center">
+                  <TableHead className="hidden md:table-cell w-[167px] text-center">
                     Created Date
                   </TableHead>
                   <TableHead className="text-center font-semibold text-secondary w-[130px]">
@@ -97,12 +97,12 @@ const FiatDepositsTable = ({ query }: any) => {
                   >
                     <TableCell className="w-[20px]">{index + 1}.</TableCell>
                     <TableCell>{deposit?.name}</TableCell>
-                    <TableCell>{deposit?.bank}</TableCell>
+                    <TableCell className="hidden md:table-cell">{deposit?.bank}</TableCell>
                     <TableCell className="font-medium text-secondary pl-3">
                       ₦{deposit?.amount?.toLocaleString()}
                     </TableCell>
-                    <TableCell>₦{deposit?.rate?.toLocaleString()}</TableCell>
-                    <TableCell>
+                    <TableCell className="hidden md:table-cell">₦{deposit?.rate?.toLocaleString()}</TableCell>
+                    <TableCell className="hidden md:table-cell">
                       <div>
                         <div className="font-medium">
                           {moment(deposit?.CreatedAt).format('DD, MMM YYYY')}
