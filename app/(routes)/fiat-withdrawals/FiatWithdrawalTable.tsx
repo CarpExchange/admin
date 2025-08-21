@@ -73,7 +73,7 @@ const FiatWithdrawalTable = ({ query }: any) => {
                   <TableHead className="text-left font-semibold text-secondary w-[180px]">
                     Rate
                   </TableHead>
-                  <TableHead className="w-[167px] text-left         ">
+                  <TableHead className="hidden md:table-cell w-[167px] text-left         ">
                     Created Date
                   </TableHead>
                   <TableHead className="text-center font-semibold text-secondary w-[130px]">
@@ -94,7 +94,7 @@ const FiatWithdrawalTable = ({ query }: any) => {
                       {withdrawal?.amount?.toLocaleString()}
                     </TableCell>
                     <TableCell>₦{withdrawal?.rate?.toLocaleString()}</TableCell>
-                    <TableCell>
+                    <TableCell className="hidden md:table-cell">
                       <div className="">
                         <div className="font-medium">
                           {moment(withdrawal?.CreatedAt).format('DD, MMM YYYY')}

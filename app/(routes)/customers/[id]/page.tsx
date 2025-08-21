@@ -3,20 +3,18 @@ import ServiceError from '@/components/ServiceError';
 import Spinner from '@/components/Spinner';
 import { withFetchAUserQuery } from '@/hooks/queries/useFetchSingleUser';
 import { ArrowLeft, Copy } from 'lucide-react';
-import React, { useContext } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import StatusBadge from '@/components/StatusBadge';
 import copy from 'copy-to-clipboard';
 import { useToast } from '@/hooks/use-toast';
 import moment from 'moment';
-import { Button } from '@/components/ui/button';
 import BlacklistUserBtn from '@/components/users/BlacklistUserBtn';
 
 const CustomerDetails = ({ singleUserDetails }: any) => {
-  // console.log(singleUserDetails, 'singleUserDetails');
   const { toast } = useToast();
-  const { security_data} = singleUserDetails
+  const { security_data } = singleUserDetails;
 
   const handleCopy = (title: string, value: string) => {
     copy(`${value}`);
@@ -35,32 +33,34 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
   };
 
   return (
-    <div className="bg-gray-100 h-full max-h-full pt-[24px]">
-      <div className="w-full px-[20px] border-b border-b-primary">
+    <div className="h-full max-h-full pt-6 px-4 md:px-0">
+      {/* Back Button */}
+      <div className="w-full flex-col gap-6 border-b border-b-primary pb-4">
         <Link
           href="/customers"
-          className="flex flex-row gap-4 items-center w-fit mb-6"
+          className="flex flex-row gap-4 items-center w-fit"
         >
-          <div className="w-[32px] h-[32px] rounded-[23px] bg-blue-200 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full bg-blue-200 flex items-center justify-center">
             <ArrowLeft color="#039" size={24} />
           </div>
           <span className="text-primary font-figtree font-semibold">
             Go back
           </span>
-        </Link>
-      </div>
-
-      <div className="flex flex-row">
-        <div className="w-3/4 pb-[48px] pt-[20px] px-[20px]">
-          <div className="flex flex-col gap-[28px]">
+        </Link> <div className="flex flex-col gap-[28px]">
             <div className="flex flex-col gap-1 font-figtree text-secondary">
               <h2 className="font-semibold text-2xl ">User details</h2>
               <p className="text-secondary">Manage and monitor user details</p>
             </div>
           </div>
-          <div className="mt-6 bg-white rounded-[8px] px-5 py-4">
+      </div>
+
+
+      <div className="flex flex-col-reverse md:flex-row">
+        <div className="md:w-3/4 pb-[48px] pt-[20px] md:px-[20px]">
+         
+          <div className="mt-6 bg-white rounded-[8px] md:px-5 py-4">
             <div className="flex flex-col gap-8 ">
-              <div className="w-full flex flex-row justify-between">
+              <div className="w-full flex flex-col gap-4 md:gap-0 md:flex-row justify-between">
                 <div className="w-full md:w-1/2 flex gap-2 items-center">
                   <h5 className="font-figtree leading-[22px] text-black-200">
                     <b>Status: </b>
@@ -79,15 +79,15 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
                     <b>Last login: </b>{' '}
                     {singleUserDetails?.security_data
                       ? moment(
-                          singleUserDetails?.security_data?.last_login_time
-                        ).format('MMMM Do YYYY, h:mm:ss a')
+                        singleUserDetails?.security_data?.last_login_time
+                      ).format('MMMM Do YYYY, h:mm:ss a')
                       : 'NA'}
                   </h5>
                 </div>
               </div>
 
-              <div className="w-full flex flex-row justify-between">
-                <div className="w-full md:w-1/2">
+              <div className="w-full gap-4 md:gap-0 flex flex-col md:flex-row justify-between">
+                <div className="w-full md:w-1/2 gap-4 md:gap-2">
                   <h5 className="font-figtree leading-[22px] text-black-200">
                     <b>Verification Methods: </b>
                   </h5>
@@ -197,32 +197,32 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
                 </div>
               </div>
 
-              <div className="w-full flex flex-row items-end justify-between">
-              <div className='w-full md:w-1/2'>
-                <h5 className="font-bold">Bank Account Details</h5>
-                <div className="flex flex-col gap-3 mt-3">
-                  <p className="text-sm">
-                    <b>Account Name:</b>{' '}
-                    {singleUserDetails?.withdrawal_account?.account_name ??
-                      'NA'}
-                  </p>
-                  <p className="text-sm">
-                    <b>Account Number:</b>{' '}
-                    {singleUserDetails?.withdrawal_account?.account_number ??
-                      'NA'}
-                  </p>
-                  <p className="text-sm">
-                    <b>Bank Name:</b>{' '}
-                    {singleUserDetails?.withdrawal_account?.bank_name ?? 'NA'}
-                  </p>
-                  <p className="text-sm">
-                    <b>Bank Code:</b>{' '}
-                    {singleUserDetails?.withdrawal_account?.bank_code ?? 'NA'}
-                  </p>
+              <div className="w-full flex flex-col md:flex-row items-end justify-between gap-4 md:gap-0">
+                <div className='w-full md:w-1/2'>
+                  <h5 className="font-bold">Bank Account Details</h5>
+                  <div className="flex flex-col gap-3 mt-3">
+                    <p className="text-sm">
+                      <b>Account Name:</b>{' '}
+                      {singleUserDetails?.withdrawal_account?.account_name ??
+                        'NA'}
+                    </p>
+                    <p className="text-sm">
+                      <b>Account Number:</b>{' '}
+                      {singleUserDetails?.withdrawal_account?.account_number ??
+                        'NA'}
+                    </p>
+                    <p className="text-sm">
+                      <b>Bank Name:</b>{' '}
+                      {singleUserDetails?.withdrawal_account?.bank_name ?? 'NA'}
+                    </p>
+                    <p className="text-sm">
+                      <b>Bank Code:</b>{' '}
+                      {singleUserDetails?.withdrawal_account?.bank_code ?? 'NA'}
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="w-full md:w-1/2">
+                <div className="w-full md:w-1/2">
                   <h5 className="font-figtree leading-[22px] text-black-200 mb-2">
                     <b>
                       {security_data?.black_listed
@@ -232,19 +232,19 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
                   </h5>
 
                   <BlacklistUserBtn
-                  // @ts-ignore
+                    // @ts-ignore
                     status={security_data?.black_listed}
                     userId={singleUserDetails?.id}
                   />
                 </div>
-                </div>
+              </div>
 
 
             </div>
           </div>
         </div>
 
-        <div className="w-1/4 border-l border-l-primary pt-[20px] pb-[48px] px-[10px]">
+        <div className="md:w-1/4 md:border-l md:border-l-primary pt-[20px] md:pb-[48px] md:px-[10px]">
           <div className="flex flex-col gap-3">
             <div className="flex justify-center ">
               <div>

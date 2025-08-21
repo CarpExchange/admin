@@ -2,11 +2,13 @@
 
 
 import BannerViewer from "@/components/banners/Banners";
+import CustomersCount from "@/components/customersCount/customersCount";
+import ExchangeRate from "@/components/exchangeRate/ExchangeRate";
+import MinimumDeposits from "@/components/minimumDeposits/MinimumDeposits";
 import Recent from "@/components/recentTransactions/recent";
 import useFetchDepositsCount from "@/hooks/queries/useFetchTotalDepositCount";
 import useFetchWithdrawalsCount from "@/hooks/queries/useFetchTotalWithdrawalCount";
 import Icon from "@/public/assets/svgs/icon";
-import { use } from "react";
 
 
 export default function Home() {
@@ -30,20 +32,25 @@ export default function Home() {
           <h1 className="text-[20px] md:text-[35px] font-semibold">Welcome onboard, </h1>
           <p>This is your dashboard where you get everything in one click</p>
         </div>
-        <button className="hidden md:block border border-gray-300 p-2 rounded-[6px]">
+        {/* <button className="hidden border border-gray-300 p-2 rounded-[6px]">
           Export CSV
-        </button>
+        </button> */}
+
+<ExchangeRate/>
       </div>
+
+
+      {/* Total Users */}
+      <CustomersCount />
 
       {/* Main section */}
       <div className="flex flex-col md:flex-row justify-between items-center w-full gap-4">
-        {/* Total Users */}
         <div className="border border-gray-300 w-full md:w-1/3 rounded-[6px]">
           <div className="flex flex-col gap-4 p-4">
             <h2 className="font-semibold">Total Deposit</h2>
             <div className="flex flex-row justify-between items-center">
               <div>
-                <p>{totalDeposits > 0 ? totalDeposits : <span className="text-red-100">0</span>}</p>
+                <p className="text-3xl font-extrabold text-gray-800">{totalDeposits > 0 ? totalDeposits : <span className="text-red-100">0</span>}</p>
               </div>
               <Icon />
             </div>
@@ -57,7 +64,7 @@ export default function Home() {
             <h2 className="font-semibold">Total Withdrawals</h2>
             <div className="flex flex-row justify-between items-center">
               <div>
-                <p>{totalWithdrawals > 0 ? totalWithdrawals : <span className="text-red-100">0</span>}</p>
+                <p className="text-3xl font-extrabold text-gray-800">{totalWithdrawals > 0 ? totalWithdrawals : <span className="text-red-100">0</span>}</p>
               </div>
               <Icon />
             </div>
@@ -70,7 +77,7 @@ export default function Home() {
             <h2 className="font-semibold">Total Transaction Count</h2>
             <div className="flex flex-row justify-between items-center">
               <div>
-                <p>{totalCount.toLocaleString()}</p>
+                <p className="text-3xl font-extrabold text-gray-800">{totalCount.toLocaleString()}</p>
               </div>
               <Icon />
             </div>
@@ -85,8 +92,14 @@ export default function Home() {
         <div className="w-full md:w-1/3">
           <div className="border border-gray-300 rounded-[6px] p-4">
             {/* Placeholder for recent transactions */}
-            <Recent/>
+            <Recent />
           </div>
+          <br />
+          <div className="border border-gray-300 rounded-[6px] p-4">
+            <p>Minimum Deposits</p>
+            <MinimumDeposits />
+          </div>
+          <br />
         </div>
       </div>
     </main>

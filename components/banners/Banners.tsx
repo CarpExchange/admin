@@ -42,7 +42,7 @@ export default function BannerViewer() {
 
       {/* Date Filter */}
       <div className="flex flex-col md:flex-row gap-4 items-start md:items-center mb-6">
-        <div className="">
+        <div className="flex items-center gap-2">
         <input
           type="date"
           value={from.toISOString().split('T')[0]}
