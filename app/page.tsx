@@ -2,11 +2,12 @@
 
 
 import BannerViewer from "@/components/banners/Banners";
+import CustomersCount from "@/components/customersCount/customersCount";
+import MinimumDeposits from "@/components/minimumDeposits/MinimumDeposits";
 import Recent from "@/components/recentTransactions/recent";
 import useFetchDepositsCount from "@/hooks/queries/useFetchTotalDepositCount";
 import useFetchWithdrawalsCount from "@/hooks/queries/useFetchTotalWithdrawalCount";
 import Icon from "@/public/assets/svgs/icon";
-import { use } from "react";
 
 
 export default function Home() {
@@ -35,9 +36,12 @@ export default function Home() {
         </button>
       </div>
 
+      
+        {/* Total Users */}
+        <CustomersCount />
+
       {/* Main section */}
       <div className="flex flex-col md:flex-row justify-between items-center w-full gap-4">
-        {/* Total Users */}
         <div className="border border-gray-300 w-full md:w-1/3 rounded-[6px]">
           <div className="flex flex-col gap-4 p-4">
             <h2 className="font-semibold">Total Deposit</h2>
@@ -87,6 +91,8 @@ export default function Home() {
             {/* Placeholder for recent transactions */}
             <Recent/>
           </div>
+          <br />
+          <MinimumDeposits/>
         </div>
       </div>
     </main>

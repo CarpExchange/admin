@@ -1,0 +1,26 @@
+{
+    "theme_color": "#6882ee",
+    "background_color": "#003399",
+    "icons": [
+        {
+            "purpose": "maskable",
+            "sizes": "512x512",
+            "src": "icon512_maskable.png",
+            "type": "image/png"
+        },
+        {
+            "purpose": "any",
+            "sizes": "512x512",
+            "src": "icon512_rounded.png",
+            "type": "image/png"
+        }
+    ],
+    "orientation": "any",
+    "display": "standalone",
+    "dir": "auto",
+    "lang": "en-US",
+    "name": "kript",
+    "short_name": "kript",
+    "start_url": "/",
+    "scope": "/"
+}
