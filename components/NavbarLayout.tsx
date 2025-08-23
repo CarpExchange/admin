@@ -17,7 +17,7 @@ const NavbarLayout = ({ children }: Props) => {
     <div className="w-full bg-secondary">
       {/* Navbar */}
       <div className="bg-white fixed w-full flex items-center h-20 px-4 md:px-[1%] justify-between border-b-[0.5px] border-primary z-50">
-        <div className="flex items-center space-x-3">
+        <Link href='/' className="flex items-center space-x-3">
           <Image
             alt="Logo"
             src={"/assets/kript.png"}
@@ -28,7 +28,7 @@ const NavbarLayout = ({ children }: Props) => {
           <p className="flex gap-2 text-2xl font-semibold ">
             Kript <span className="hidden md:block">Technologies</span>
           </p>
-        </div>
+        </Link>
         <button
           className="md:hidden p-2"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
