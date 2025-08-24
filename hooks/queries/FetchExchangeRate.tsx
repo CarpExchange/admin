@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchExchangeRate } from '@/api/market';
 
 
-const refetchInterval = 5000;
+const refetchInterval = 20000; // 20 seconds
 
 export function useExchangeRateData() {
   const queryClient = useQueryClient();

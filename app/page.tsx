@@ -27,16 +27,15 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col w-full gap-8 px-4">
-      <div className="flex flex-col md:flex-row justify-between items-center w-full mt-10">
-        <div>
+      <div className="flex flex-col md:flex-row justify-between gap-4 items-center w-full mt-10">
+        <div className="w-full md:w-2/3">
           <h1 className="text-[20px] md:text-[35px] font-semibold">Welcome onboard, </h1>
           <p>This is your dashboard where you get everything in one click</p>
         </div>
-        {/* <button className="hidden border border-gray-300 p-2 rounded-[6px]">
-          Export CSV
-        </button> */}
-
-<ExchangeRate/>
+        {/* Exchange Rate */}
+        <div className="w-full md:w-1/3">
+        <ExchangeRate />
+        </div>
       </div>
 
 

@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useContext, useMemo } from 'react';
 import withQuery from '../Helpers/withQuery';
 import { AuthContext } from '@/components/AuthProvider';
-const refetchInterval = 3000;
+const refetchInterval = 5000;
 
 const components = {
   Loading: Spinner,
