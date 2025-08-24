@@ -1,10 +1,11 @@
 "use client"
 import React, { useState } from 'react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Search, ListFilter, XIcon } from 'lucide-react';
+import { Search, ListFilter, XIcon,  } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import UsersTable from './UsersTable';
 import CustomersCount from '@/components/customersCount/customersCount';
+import DownloadXls from '@/components/DownloadXls';
 
 
 
@@ -16,9 +17,12 @@ const Customers = () => {
   return (
     <div className="p-2 md:py-[48px]">
       <div className="flex flex-col gap-[28px]">
-        <div className="flex flex-col gap-1 font-figtree text-secondary">
-          <h2 className="font-semibold text-2xl ">Customers</h2>
-          <p className="text-secondary">Manage all customers</p>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1 font-figtree text-secondary">
+          <div className="w-full md:w-auto text-left md:text-left">
+            <h2 className="font-semibold text-2xl ">Customers</h2>
+            <p className="text-secondary">Manage all customers</p>
+          </div>
+          <DownloadXls />
         </div>
 
         <CustomersCount />
