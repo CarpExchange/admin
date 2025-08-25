@@ -14,6 +14,7 @@ export default withPWA({
   dest: 'public', // Destination directory for PWA files (service worker, etc.)
   disable: process.env.NODE_ENV === 'development', // Disable PWA in development
   // other PWA options as needed (e.g., register, scope, swSrc)
+  
 })(nextConfig);
 
 
