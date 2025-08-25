@@ -19,8 +19,8 @@
     "display": "standalone",
     "dir": "auto",
     "lang": "en-US",
-    "name": "kript",
-    "short_name": "kript",
+    "name": "Kript-Admin",
+    "short_name": "Kript-Admin",
     "start_url": "/",
     "scope": "/"
 }

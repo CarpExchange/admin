@@ -1,3 +1,5 @@
+import withPWA from 'next-pwa';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -5,17 +7,13 @@ const nextConfig = {
   },
   // exportPathMap: '***.html',
   // trailingSlash: true
+  reactStrictMode: true,
 };
 
-export default nextConfig;
+export default withPWA({
+  dest: 'public', // Destination directory for PWA files (service worker, etc.)
+  disable: process.env.NODE_ENV === 'development', // Disable PWA in development
+  // other PWA options as needed (e.g., register, scope, swSrc)
+})(nextConfig);
 
 
-// const withPWA = require('next-pwa')({
-//   dest: 'public'
-// })
-
-// module.exports = withPWA({
-//   images: {
-//     domains: ['res.cloudinary.com'],
-//   },
-// })

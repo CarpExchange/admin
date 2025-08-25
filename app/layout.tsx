@@ -22,6 +22,9 @@ export default function RootLayout({
     <QueryProvider>
       <AuthProvider>
         <html lang="en">
+          <head>
+            <link rel="manifest" href="/manifest.json" />
+          </head>
           <body className={inter.className}>
             <ProtectedRoute>
               {children}
