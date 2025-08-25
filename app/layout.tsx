@@ -9,8 +9,19 @@ import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Kript Admin",
-  description: "Kript Admin App to manage activities",
+  title: "Kript",
+  description: "Kript makes crypto simple — buy, sell, swap, and spend crypto instantly.",
+  manifest: "/manifest.json", // 👈 App Router supports manifest directly
+  themeColor: "#0d0d2b",
+  icons: {
+    icon: "/icon-192x192.png",
+    apple: "/icon-192x192.png",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Kript",
+  },
 };
 
 export default function RootLayout({
