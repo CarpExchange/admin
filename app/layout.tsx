@@ -10,8 +10,9 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Kript",
-  description: "Kript makes crypto simple — buy, sell, swap, and spend crypto instantly.",
-  manifest: "/manifest.json", // 👈 App Router supports manifest directly
+  description:
+    "Kript makes crypto simple — buy, sell, swap, and spend crypto instantly.",
+  manifest: "/manifest.json",
   themeColor: "#0d0d2b",
   icons: {
     icon: "/icon-192x192.png",
@@ -26,21 +27,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <QueryProvider>
       <AuthProvider>
         <html lang="en">
-          <head>
-            <link rel="manifest" href="/manifest.json" />
-            <meta name="theme-color" content="#003399" />
-          </head>
           <body className={inter.className}>
-            <ProtectedRoute>
-              {children}
-            </ProtectedRoute>
+            <ProtectedRoute>{children}</ProtectedRoute>
             <Toaster />
           </body>
         </html>
