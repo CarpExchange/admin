@@ -17,6 +17,7 @@ export type UpdateFiatDepositPayload = {
   deposit_id: string;
   paid: boolean;
   status: 'processing' | 'accepted' | 'rejected'
+  Currency: 'usdt' | 'usdc' | 'ngn';
 }
 
 export type UpdateFiatWithdrawalPayload = {

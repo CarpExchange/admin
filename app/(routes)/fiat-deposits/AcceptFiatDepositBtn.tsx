@@ -9,6 +9,7 @@ const AcceptFiatDepositBtn = ({
   uid,
   deposit_id,
   paid = true,
+  Currency = 'usdt',
   status = 'accepted',
   refetch,
   mutationResult, 
@@ -39,6 +40,7 @@ const AcceptFiatDepositBtn = ({
         deposit_id,
         paid,
         status,
+        Currency,
       };
       await mutationResult.mutateAsync(formData);
     } catch (error: any) {
