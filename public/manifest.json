@@ -1,6 +1,6 @@
 {
-    "name": "Kript",
-    "short_name": "Kript",
+    "name": "Kript Admin",
+    "short_name": "Kript Admin",
     "description": "Kript makes crypto simple — buy, sell, swap, and spend crypto instantly.",
     "start_url": "/",
     "display": "standalone",
