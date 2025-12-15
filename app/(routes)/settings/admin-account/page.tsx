@@ -42,7 +42,7 @@ const AdminAccount = ({}: any) => {
 
   const formValues = form.getValues();
   return (
-    <div className="h-full max-h-full pt-[24px] pb-[48px]">
+    <div className="h-full max-h-full p-4 pt-[24px] pb-[48px]">
       <Link
         href="/settings"
         className="flex flex-row gap-4 items-center w-fit mb-6"
@@ -69,12 +69,12 @@ const AdminAccount = ({}: any) => {
             <p>Bank Name: {kriptAccountDetail?.bank_name}</p>
           </div> */}
 
-          <div className="mt-10">
+          <div className="">
             <h2 className="text-2xl">Update Account Details</h2>
 
             <div>
               <Form {...form}>
-                <form className="mt-2 w-3/5">
+                <form className="mt-2 md:w-3/5">
                   <div className="flex flex-col gap-4">
                     <div className="w-full">
                       <FormField

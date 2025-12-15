@@ -29,6 +29,11 @@ const Settings = () => {
       title: 'Update Minimum Deposit',
       link: '/settings/minimum-deposit',
     },
+    {
+      id: 6,
+      title: 'Update Airtime Rate',
+      link: '/settings/airtime-rate',
+    },
   ];
 
   return (

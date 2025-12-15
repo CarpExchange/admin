@@ -75,3 +75,25 @@ export async function fetchAllUsersDepositCountFn(id: string) {
     throw error.response;
   }
 }
+
+export async function fetchAirtimeRate(id: string) {
+  try {
+    const response = await authApi.get(`/markets/airtime-rate`);
+    return response.data;
+  } catch (error: any) {
+    throw error.response;
+  }
+}
+
+export async function updateAirtimeRateFn({
+  id,
+  rate,
+}: any) {
+  try {
+    const body = { rate };
+    const response = await authApi.put(`/admin/${id}/airtime-rate`, body);
+    return response.data;
+  } catch (error: any) {
+    throw error.response;
+  }
+}

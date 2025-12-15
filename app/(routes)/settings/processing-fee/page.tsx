@@ -65,7 +65,7 @@ const ProcessingFeeComp = ({ mutationResult }: any) => {
   }
 
   return (
-    <div className="min-h-screen px-0 pt-8 pb-16 font-figtree text-[#1E1E1E]">
+    <div className="min-h-screen  px-4 md:px-0 pt-8 pb-16 font-figtree text-[#1E1E1E]">
       {/* Go Back */}
       <Link href="/settings" className="flex items-center gap-3 mb-6">
         <div className="w-9 h-9 rounded-full bg-[#E6EEFF] flex items-center justify-center">
