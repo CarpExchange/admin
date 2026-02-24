@@ -98,14 +98,14 @@ const ExchangeRate = ({ mutationResult }: any) => {
 
         <div className="space-y-4 text-[15px] font-medium text-gray-700 bg-gray-50 p-4 rounded-md border border-gray-200">
           <p>
-            <span className="font-semibold text-gray-800">Withdrawal Rate:</span>{' '}
+            <span className="font-semibold text-gray-800">Deposit Rate:</span>{' '}
             1 USDT = ₦{depositRate ? depositRate.toLocaleString() : '...'}{' '}
             <span className="text-sm font-normal">
               (Charge: ₦{sellCharge || '...'})
             </span>
           </p>
           <p>
-            <span className="font-semibold text-gray-800">Deposit Rate:</span>{' '}
+            <span className="font-semibold text-gray-800">Withdrawal Rate:</span>{' '}
             1 USDT = ₦{withdrawalRate ? withdrawalRate.toLocaleString() : '...'}{' '}
             <span className="text-sm font-normal">
               (Charge: ₦{buyCharge || '...'})
