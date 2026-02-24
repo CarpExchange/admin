@@ -3,7 +3,7 @@
 
 import BannerViewer from "@/components/banners/Banners";
 import CustomersCount from "@/components/customersCount/customersCount";
-import ExchangeRate from "@/components/exchangeRate/ExchangeRate";
+// import ExchangeRate from "@/components/exchangeRate/ExchangeRate";
 import MinimumDeposits from "@/components/minimumDeposits/MinimumDeposits";
 import Recent from "@/components/recentTransactions/recent";
 import useFetchDepositsCount from "@/hooks/queries/useFetchTotalDepositCount";
@@ -34,7 +34,7 @@ export default function Home() {
         </div>
         {/* Exchange Rate */}
         <div className="w-full md:w-1/3">
-        <ExchangeRate />
+        {/* <ExchangeRate /> */}
         </div>
       </div>
 
