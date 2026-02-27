@@ -13,7 +13,10 @@ export default function BannerViewer() {
   const [to, setTo] = useState<Date | null>(new Date());
   const { state: { user_info } } = useContext(AuthContext);
 
-  const { banners, isLoading, refetch } = useFetchBanners({ from, to });
+  const { banners, isLoading, refetch } = useFetchBanners({
+    from: from || new Date('2024-01-01'),
+    to: to || new Date(),
+  });
   const inAppBanners = banners?.data ?? [];
 
   const [selectedBanner, setSelectedBanner] = useState<any>(null);
@@ -139,11 +142,10 @@ export default function BannerViewer() {
                   </a>
 
                   <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      banner.is_active
+                    className={`px-3 py-1 rounded-full text-xs font-medium ${banner.is_active
                         ? "bg-green-50 text-green-600"
                         : "bg-gray-100 text-gray-500"
-                    }`}
+                      }`}
                   >
                     {banner.is_active ? "Active" : "Inactive"}
                   </span>
