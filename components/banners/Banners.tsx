@@ -1,150 +1,165 @@
-import { useContext, useState } from 'react';
-import { useFetchBanners } from '@/hooks/queries/FetchBanners';
-import { InAppBanner } from '@/api/banners/types';
-import Edit from '@/public/assets/svgs/Edit';
-import BannerEditForm from './EditBannerModal';
-import Modal from './Modal';
-import { AuthContext } from '../AuthProvider';
-import CreateBannerForm from './CreateBannerModal';
-import SkeletonBanner from './SkeletonLoader';
+import { useContext, useState } from "react";
+import { useFetchBanners } from "@/hooks/queries/FetchBanners";
+import { InAppBanner } from "@/api/banners/types";
+import { AuthContext } from "../AuthProvider";
+import BannerEditForm from "./EditBannerModal";
+import CreateBannerForm from "./CreateBannerModal";
+import Modal from "./Modal";
+import SkeletonBanner from "./SkeletonLoader";
+import { Edit2 } from "lucide-react";
 
 export default function BannerViewer() {
-  const [from, setFrom] = useState(new Date('2025-07-12'));
-  const [to, setTo] = useState(new Date('2025-07-14'));
+  const [from, setFrom] = useState<Date | null>(new Date('2024-01-01'));
+  const [to, setTo] = useState<Date | null>(new Date());
   const { state: { user_info } } = useContext(AuthContext);
 
   const { banners, isLoading, refetch } = useFetchBanners({ from, to });
   const inAppBanners = banners?.data ?? [];
 
-  const [selectedBanner, setSelectedBanner] = useState<{
-    id: string;
-    banner_id: string;
-    title: string;
-    content: string;
-    image_url: string;
-    action_url: string;
-    is_active: boolean;
-  } | null>(null);
-
+  const [selectedBanner, setSelectedBanner] = useState<any>(null);
   const [creatingBanner, setCreatingBanner] = useState(false);
 
   return (
-    <div className="p-0 max-w-6xl mx-auto">
-      <div className="flex flex-col md:flex-row items-start gap-4 md:items-center justify-between mb-6">
-        <h2 className="text-3xl font-bold text-[#003399]">In-App Banners</h2>
+    <section className="bg-white p-0">
+
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
+        <div>
+          <h2 className="text-xl font-semibold text-gray-900">
+            Campaign Banners
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Manage in-app announcements and marketing campaigns.
+          </p>
+        </div>
+
         <button
           onClick={() => setCreatingBanner(true)}
-          className="bg-[#003399] hover:bg-[#002080] text-white px-4 py-2 rounded-lg shadow transition"
+          className="bg-black text-white px-4 py-2 text-sm rounded-lg hover:opacity-90 transition"
         >
-          + Create Banner
+          + New Banner
         </button>
       </div>
 
-      {/* Date Filter */}
-      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center mb-6">
-        <div className="flex items-center gap-2">
+      {/* Filters */}
+      <div className="flex flex-wrap items-center gap-3 mb-6">
         <input
           type="date"
-          value={from.toISOString().split('T')[0]}
-          onChange={(e) => setFrom(new Date(e.target.value))}
-          className="border px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#003399]"
+          value={from ? from.toISOString().split("T")[0] : ""}
+          onChange={(e) => setFrom(e.target.value ? new Date(e.target.value) : null)}
+          className="border border-gray-200 px-3 py-2 rounded-lg text-sm focus:ring-2 focus:ring-black outline-none"
         />
         <input
           type="date"
-          value={to.toISOString().split('T')[0]}
-          onChange={(e) => setTo(new Date(e.target.value))}
-          className="border px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#003399]"
+          value={to ? to.toISOString().split("T")[0] : ""}
+          onChange={(e) => setTo(e.target.value ? new Date(e.target.value) : null)}
+          className="border border-gray-200 px-3 py-2 rounded-lg text-sm focus:ring-2 focus:ring-black outline-none"
         />
-        </div>
+
         <button
           onClick={() => {
-            setTo(new Date());
+            setFrom(null);
+            setTo(null);
             refetch();
           }}
-          className="bg-[#003399] hover:bg-blue-900 text-white px-4 py-2 rounded-lg shadow"
+          className="text-sm px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition"
         >
-          Jump to Now
+          Reset
         </button>
       </div>
 
+      {/* Loading */}
       {isLoading && <SkeletonBanner />}
 
-      {inAppBanners.length > 0 ? (
+      {/* Banner Grid */}
+      {!isLoading && inAppBanners.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[...inAppBanners]
-            .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+            .sort(
+              (a, b) =>
+                new Date(b.updated_at).getTime() -
+                new Date(a.updated_at).getTime()
+            )
             .map((banner: InAppBanner) => (
               <div
                 key={banner.id}
-                className="relative border rounded-2xl shadow-md p-4 bg-white hover:shadow-lg transition"
+                className="border border-gray-200 rounded-xl p-5 hover:shadow-md transition"
               >
-                {/* Image */}
-                <div className="flex items-center gap-4 mb-4">
-                  <img
-                    src={banner.image_url}
-                    alt={banner.title}
-                    className="w-16 h-16 rounded-full object-cover border"
-                  />
+                {/* Top Section */}
+                <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-xl font-semibold text-[#003399]">{banner.title}</h3>
-                    <p className="text-sm text-gray-700">{banner.content}</p>
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {banner.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                      {banner.content}
+                    </p>
                   </div>
+
+                  <button
+                    onClick={() => {
+                      if (!user_info?.uid) return;
+
+                      setSelectedBanner({
+                        id: user_info.uid,
+                        banner_id: banner.id,
+                        title: banner.title,
+                        content: banner.content,
+                        image_url: banner.image_url,
+                        action_url: banner.action_url,
+                        is_active: banner.is_active,
+                      });
+                    }}
+                    className="p-2 rounded-lg hover:bg-gray-100 transition"
+                  >
+                    <Edit2 size={16} />
+                  </button>
                 </div>
 
-                {/* Action link */}
-                <a
-                  href={banner.action_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-blue-600 underline text-sm mb-4"
-                >
-                  Visit Link
-                </a>
-
-                {/* Status toggle */}
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-sm font-medium">Active</span>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={banner.is_active}
-                      readOnly
-                      className="sr-only peer"
+                {/* Image Preview */}
+                {banner.image_url && (
+                  <div className="mb-4">
+                    <img
+                      src={banner.image_url}
+                      alt={banner.title}
+                      className="w-full h-36 object-cover rounded-lg border border-gray-200"
                     />
-                    <div className="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-[#003399] transition-all"></div>
-                    <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
-                  </label>
+                  </div>
+                )}
+
+                {/* Footer */}
+                <div className="flex justify-between items-center text-sm">
+                  <a
+                    href={banner.action_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-600 hover:text-black underline"
+                  >
+                    Open Link
+                  </a>
+
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      banner.is_active
+                        ? "bg-green-50 text-green-600"
+                        : "bg-gray-100 text-gray-500"
+                    }`}
+                  >
+                    {banner.is_active ? "Active" : "Inactive"}
+                  </span>
                 </div>
-
-                {/* Edit button */}
-                <button
-                  onClick={() => {
-                    if (!user_info?.uid) {
-                      console.error('User not available');
-                      return;
-                    }
-
-                    setSelectedBanner({
-                      id: user_info.uid,
-                      banner_id: banner.id,
-                      title: banner.title,
-                      content: banner.content,
-                      image_url: banner.image_url,
-                      action_url: banner.action_url,
-                      is_active: banner.is_active,
-                    });
-                  }}
-                  className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition"
-                >
-                  <Edit />
-                </button>
               </div>
             ))}
         </div>
-      ) : (
-        !isLoading && (
-          <p className="text-center text-gray-500">No banners found for the selected date range.</p>
-        )
+      )}
+
+      {/* Empty State */}
+      {!isLoading && inAppBanners.length === 0 && (
+        <div className="text-center py-16 border border-dashed border-gray-200 rounded-xl">
+          <p className="text-gray-500 text-sm">
+            No banners found for the selected range.
+          </p>
+        </div>
       )}
 
       {/* Edit Modal */}
@@ -165,10 +180,10 @@ export default function BannerViewer() {
         <Modal onClose={() => setCreatingBanner(false)}>
           <CreateBannerForm
             banner={{
-              title: '',
-              content: '',
-              image_url: '',
-              action_url: '',
+              title: "",
+              content: "",
+              image_url: "",
+              action_url: "",
               is_active: true,
             }}
             onClose={() => {
@@ -178,6 +193,6 @@ export default function BannerViewer() {
           />
         </Modal>
       )}
-    </div>
+    </section>
   );
 }

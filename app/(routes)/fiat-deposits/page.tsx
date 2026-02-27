@@ -4,53 +4,60 @@ import { Search, XIcon, ListFilter } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import FiatDepositsTable from './FiatDepositsTable';
 
-const FiatDeposits = ({}: any) => {
-  const [query, setQuery] = useState('')
-  return (
-    <>
-        <div className="w-full max-w-full h-full px-6 py-8">
-          <div>
-            <div className="space-y-0.5">
-              <p className="font-semibold text-2xl">Fiat Deposits</p>
-              <p>Track, and manage fiat deposits for USDT</p>
-            </div>
+const FiatDeposits = () => {
+  const [query, setQuery] = useState('');
 
-            <div className="flex justify-between items-center space-x-3 mt-7">
-              <div className="flex bg-white items-center border border-[#4C52594D] rounded-md px-2">
-                <Search size={24} />
-                <Input
-                  type="text"
-                  placeholder="Search..."
-                  className="border-none min-w-[200px]"
-                  onChange={(e) => {
-                    setQuery(e.target.value);
-                  }}
-                  value={query}
-                />
-                {query.length > 0 && (
-                  <XIcon
-                    onClick={() => {
-                      setQuery('');
-                    }}
-                  />
-                )}
-              </div>
-              <div
-                className="flex items-center space-x-2 cursor-pointer"
-                onClick={() => {
-                  // @ts-ignore
-                  // setShowDropdown(!showDropdown);
-                }}
-              >
-                <ListFilter color="#095AD3" size={16} />
-                <p className="text-[#095AD3] xl:flex hidden">Filter by</p>
-              </div>
-            </div>
+  return (
+    <div className="w-full h-full py-8">
+      {/* Header */}
+      <div className="mb-8">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-bold text-gray-900">Fiat Deposits</h1>
+          <p className="text-gray-500 text-sm">
+            Track and manage fiat deposits for USDT
+          </p>
+        </div>
+
+        {/* Search & Filter */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mt-6 gap-4">
+          {/* Search Box */}
+          <div className="flex items-center bg-white border border-gray-300 rounded-lg shadow-sm px-3 py-2 w-full md:max-w-md">
+            <Search size={20} className="text-gray-400" />
+            <Input
+              type="text"
+              placeholder="Search by user, email, wallet ID..."
+              className="border-none ml-2 placeholder-gray-400 focus:ring-0 focus:outline-none"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+            {query.length > 0 && (
+              <XIcon
+                size={20}
+                className="text-gray-400 cursor-pointer hover:text-red-500 transition"
+                onClick={() => setQuery('')}
+              />
+            )}
           </div>
 
-          <FiatDepositsTable query={query} />
+          {/* Filter Button */}
+          <button
+            type="button"
+            className="flex items-center space-x-2 text-primary font-medium px-3 py-2 bg-white border border-primary rounded-lg shadow-sm hover:bg-primary/10 transition"
+            onClick={() => {
+              // Toggle filter dropdown logic here
+            }}
+          >
+            <ListFilter size={16} className="text-primary" />
+            <span className="hidden xl:inline">Filter by</span>
+          </button>
         </div>
-    </>
+      </div>
+
+      {/* Table */}
+      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <FiatDepositsTable query={query} />
+      </div>
+    </div>
   );
 };
 

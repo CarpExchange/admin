@@ -1,104 +1,124 @@
-import useFetchFiatWithdrawalsQuery from '@/hooks/queries/useFetchWithdrawalQuery'
-import moment from 'moment';
-import React, { useState } from 'react'
-import { useFetchRecentFiatWithdrawalsQuery } from '@/hooks/queries/useFetchRecentWithdraw';
-import Link from 'next/link';
-
-
-// const statusIcon = {
-//   accepted: '✅',
-//   processing: '⏳',
-//   rejected: '❌',
-// };
+import { useFetchRecentFiatWithdrawalsQuery } from "@/hooks/queries/useFetchRecentWithdraw";
+import moment from "moment";
+import Link from "next/link";
 
 const Recent = () => {
-
-  // const [page] = useState<number>(1);
-
-  const { data, isPending, isSuccess, isError } = useFetchRecentFiatWithdrawalsQuery({
-    
-  }) as {
-    data?: {
-      recentFiatWithdrawals: {
-        id: string;
-        amount: number;
-        CreatedAt: string;
-        status: 'accepted' | 'processing' | 'rejected';
-      }[];
-      refetch: () => void;
+  const { data, isPending, isSuccess, isError } =
+    useFetchRecentFiatWithdrawalsQuery({}) as {
+      data?: {
+        recentFiatWithdrawals: {
+          id: string;
+          amount: number;
+          CreatedAt: string;
+          status: "accepted" | "processing" | "rejected";
+        }[];
+      };
+      isPending: boolean;
+      isSuccess: boolean;
+      isError: boolean;
     };
-    isPending: boolean;
-    isSuccess: boolean;
-    isError: boolean;
-  };
-  
 
-  const { recentFiatWithdrawals = [], refetch } = data || {};
+  const recentFiatWithdrawals = data?.recentFiatWithdrawals ?? [];
+
+  const StatusBadge = ({ status }: { status: string }) => {
+    const base =
+      "px-3 py-1 text-xs font-medium rounded-full capitalize";
+
+    const variants: Record<string, string> = {
+      accepted: "bg-green-50 text-green-600",
+      processing: "bg-yellow-50 text-yellow-600",
+      rejected: "bg-red-50 text-red-600",
+    };
+
+    return (
+      <span className={`${base} ${variants[status]}`}>
+        {status}
+      </span>
+    );
+  };
 
   return (
-    <div className="p-4 bg-white rounded-xl border border-border shadow-sm">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-primary">Recent Transactions</h2>
-        <Link href="/fiat-withdrawals" className="text-sm text-blue-600 hover:underline">
-          View all
+    <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+
+      {/* Header */}
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h2 className="text-base font-semibold text-gray-900">
+            Recent Withdrawals
+          </h2>
+          <p className="text-xs text-gray-500 mt-1">
+            Latest fiat withdrawal activity
+          </p>
+        </div>
+
+        <Link
+          href="/fiat-withdrawals"
+          className="text-sm text-gray-600 hover:text-black transition"
+        >
+          View all →
         </Link>
       </div>
 
+      {/* Loading State */}
       {isPending && (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {[...Array(3)].map((_, idx) => (
             <div
               key={idx}
-              className="animate-pulse bg-muted rounded-lg p-4 border border-muted-foreground"
+              className="animate-pulse flex justify-between items-center"
             >
-              <div className="h-4 w-3/4 bg-gray-300 rounded mb-2"></div>
-              <div className="h-3 w-1/2 bg-gray-200 rounded"></div>
+              <div className="space-y-2">
+                <div className="h-4 w-32 bg-gray-200 rounded" />
+                <div className="h-3 w-40 bg-gray-100 rounded" />
+              </div>
+              <div className="h-6 w-20 bg-gray-200 rounded-full" />
             </div>
           ))}
         </div>
       )}
 
+      {/* Error State */}
       {isError && (
-        <p className="text-red-500 text-sm">Error loading transactions.</p>
+        <div className="text-sm text-red-600 bg-red-50 px-4 py-3 rounded-lg">
+          Failed to load recent withdrawals.
+        </div>
       )}
 
-      {isSuccess ? (
-        <div className="space-y-3">
-          {recentFiatWithdrawals?.map((withdrawal: any) => (
+      {/* Data */}
+      {isSuccess && recentFiatWithdrawals.length > 0 && (
+        <div className="divide-y divide-gray-100">
+          {recentFiatWithdrawals.map((withdrawal) => (
             <div
               key={withdrawal.id}
-              className="rounded-lg md:border border-none md:border-border bg-white p-1 md:p-4 shadow-sm"
+              className="py-4 flex justify-between items-center hover:bg-gray-50 transition rounded-lg px-2"
             >
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-base font-medium text-foreground">
-                   {Number(withdrawal.amount).toLocaleString()} USDT 
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {moment(withdrawal?.CreatedAt).format('DD MMM, YYYY • hh:mm a')}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span
-                    className={`
-                      text-sm font-medium capitalize
-                      ${withdrawal.status === 'accepted' ? 'text-green-600'
-                        : withdrawal.status === 'processing' ? 'text-yellow-500'
-                        : 'text-red-500'}
-                    `}
-                  >
-                     {withdrawal.status}
-                  </span>
-                </div>
+              {/* Left */}
+              <div>
+                <p className="text-sm font-semibold text-gray-900">
+                  {Number(withdrawal.amount).toLocaleString()} USDT
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  {moment(withdrawal.CreatedAt).format(
+                    "DD MMM YYYY • hh:mm A"
+                  )}
+                </p>
               </div>
+
+              {/* Right */}
+              <StatusBadge status={withdrawal.status} />
             </div>
           ))}
         </div>
-      ) : (
-        !isPending && <p className="text-muted-foreground text-sm">No recent transactions available.</p>
+      )}
+
+      {/* Empty State */}
+      {isSuccess && recentFiatWithdrawals.length === 0 && (
+        <div className="text-center py-10 text-sm text-gray-500">
+          No recent withdrawals available.
+        </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Recent
+export default Recent;

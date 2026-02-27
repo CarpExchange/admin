@@ -2,8 +2,8 @@ import ServiceError from '@/components/ServiceError';
 import Spinner from '@/components/Spinner';
 import { withFetchCustomersQuery } from '@/hooks/queries/useFetchCustomers';
 import { useRouter } from 'next/navigation';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { searchFunction, searchInDataset } from '@/hooks/useSearchFunction';
+import React, { useContext, useMemo } from 'react';
+import { searchInDataset } from '@/hooks/useSearchFunction';
 import {
   Table,
   TableBody,
@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, EllipsisVertical } from 'lucide-react';
 import Image from 'next/image';
 import {
   Popover,
@@ -20,7 +20,6 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import StatusBadge from '@/components/StatusBadge';
-import { EllipsisVertical } from 'lucide-react';
 import ManualBVNVerification from './ManualBVNVerification';
 import ManualNINVerification from './ManualNINVerification';
 import { AuthContext } from '@/components/AuthProvider';
@@ -32,13 +31,12 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
   const {
     state: { user_info },
   } = useContext(AuthContext);
-  const uid = user_info?.uid;
 
-  // const [customers, setAllCustomers] = useState([]);
+  const uid = user_info?.uid;
 
   const filteredCustomers = useMemo(() => {
     if (query) {
-      return searchInDataset(allCustomers ?? [], query || '', [
+      return searchInDataset(allCustomers ?? [], query, [
         'phone_number',
         'first_name',
         'email',
@@ -46,167 +44,186 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
       ]);
     }
 
-    if (statusType === 'all') {
-      return allCustomers;
-    } else if (statusType === 'verified') {
+    if (statusType === 'verified') {
       return allCustomers?.filter(
-        (customer: any) => customer.nin_is_verified || customer.bvn_is_verified
-      );
-    } else if (statusType === 'unverified') {
-      return allCustomers?.filter(
-        (customer: any) =>
-          !customer.nin_is_verified && !customer.bvn_is_verified
+        (c: any) => c.nin_is_verified || c.bvn_is_verified
       );
     }
-  }, [allCustomers, statusType, query]);
 
-  const verificationStatus = (customer: any) => {
-    if (customer.nin_is_verified || customer.bvn_is_verified) {
-      return 'verified';
-    } else {
-      return 'unverified';
+    if (statusType === 'unverified') {
+      return allCustomers?.filter(
+        (c: any) => !c.nin_is_verified && !c.bvn_is_verified
+      );
     }
-  };
 
-  if (!filteredCustomers || filteredCustomers.length === 0) {
+    return allCustomers;
+  }, [allCustomers, query, statusType]);
+
+  const verificationStatus = (customer: any) =>
+    customer.nin_is_verified || customer.bvn_is_verified
+      ? 'verified'
+      : 'unverified';
+
+  if (!filteredCustomers?.length) {
     return (
-      <div>
-        <p className="capitalize"> {statusType} users not found!</p>
+      <div className="bg-white border border-gray-200 rounded-xl p-10 text-center">
+        <p className="text-sm text-gray-500">
+          No {statusType} users found.
+        </p>
       </div>
     );
   }
 
-
-
   return (
-    <>
-      <div className="h-[55vh] overflow-auto">
-        <Table className="bg-white rounded-lg p-1 table-fixed xl:table-auto overflow-auto">
-          <TableHeader className="bg-[#F9FAFB] sticky top-0 z-10">
+    <div className="bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col">
+      {/* Table */}
+      <div className="h-[60vh] overflow-auto">
+        <Table className="table-auto">
+          <TableHeader className="bg-gray-50 sticky top-0 z-10 border-b border-gray-100">
             <TableRow>
-              <TableHead className="text-left font-semibold text-secondary w-[200px]">
+              <TableHead className="uppercase text-[11px] tracking-wider text-gray-500 font-semibold py-4">
                 Customer
               </TableHead>
-              <TableHead className="text-left font-semibold text-secondary w-[200px]">
+              <TableHead className="uppercase text-[11px] tracking-wider text-gray-500 font-semibold">
                 Email
               </TableHead>
-              <TableHead className="text-left font-semibold text-secondary w-[140px]">
-                Phone Number
+              <TableHead className="uppercase text-[11px] tracking-wider text-gray-500 font-semibold">
+                Phone
               </TableHead>
-              <TableHead className="text-center font-semibold text-secondary w-[130px]">
+              <TableHead className="uppercase text-[11px] tracking-wider text-gray-500 font-semibold text-center">
                 Status
               </TableHead>
-              <TableHead className="text-left font-semibold text-secondary w-[180px] pl-10">
-                Created At
+              <TableHead className="uppercase text-[11px] tracking-wider text-gray-500 font-semibold">
+                Created
               </TableHead>
-              <TableHead className="w-[46px] border-b border-table-bottom"></TableHead>
+              <TableHead />
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {filteredCustomers?.map((customer: any) => (
+
+          <TableBody className="divide-y divide-gray-100">
+            {filteredCustomers.map((customer: any) => (
               <TableRow
-                key={customer?.id}
-                onClick={() => {
-                  router.push(`/customers/${customer?.id}`);
-                }}
-                className="cursor-pointer border-t border-[#EAECF0]"
+                key={customer.id}
+                onClick={() => router.push(`/customers/${customer.id}`)}
+                className="hover:bg-gray-50 transition cursor-pointer"
               >
-                <TableCell className="w-[200px]">
-                  <div className="flex items-center gap-2">
-                    <div className="w-[40px] h-[40px] rounded-full bg-gray-500 flex justify-center items-center">
+                {/* Customer */}
+                <TableCell className="py-4">
+                  <div className="flex items-center gap-3">
+                    <div className="relative w-10 h-10">
                       <Image
                         src={
-                          customer?.profile_picture?.image_url
-                            ? `${customer?.profile_picture?.image_url}`
-                            : '/assets/avatar.png'
+                          customer?.profile_picture?.image_url ||
+                          '/assets/avatar.png'
                         }
-                        width={36}
-                        height={36}
-                        className="rounded-full h-[40px] w-[40px]"
+                        width={40}
+                        height={40}
+                        className="rounded-full object-cover border border-gray-200"
                         alt={customer?.first_name}
                       />
                     </div>
+
                     <div>
-                      <p className="font-medium text-secondary">
-                        {customer?.first_name} {customer?.last_name}
+                      <p className="font-semibold text-gray-900 text-sm">
+                        {customer.first_name} {customer.last_name}
                       </p>
-                      <span className="italic text-[14px]">
-                        <span>Role</span> &bull;{' '}
-                        <span className="text-primary">{customer?.role}</span>
-                      </span>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {customer.role}
+                      </p>
+
                       {customer?.security_data?.black_listed && (
-                        <p className="text-red-500 text-xs mt-2 italic">
+                        <p className="text-xs text-red-500 mt-1">
                           Blacklisted
                         </p>
                       )}
                     </div>
                   </div>
                 </TableCell>
-                <TableCell className="w-[200px]">{customer?.email}</TableCell>
-                <TableCell className="font-medium text-secondary italic pl-3 w-[140px]">
-                  {customer?.phone_number}
+
+                {/* Email */}
+                <TableCell className="text-sm text-gray-700">
+                  {customer.email}
                 </TableCell>
-                <TableCell className="w-[130px]">
+
+                {/* Phone */}
+                <TableCell className="text-sm text-gray-600">
+                  {customer.phone_number}
+                </TableCell>
+
+                {/* Status */}
+                <TableCell className="text-center">
                   <StatusBadge
-                    width={79}
+                    width={85}
                     statusType={verificationStatus(customer)}
                   />
                 </TableCell>
-                <TableCell className="font-medium text-secondary w-[180px] pl-10">
+
+                {/* Created */}
+                <TableCell className="text-sm text-gray-600">
                   <div>
-                    {moment(customer?.created_at).format('D MMMM, YYYY')}
+                    {moment(customer.created_at).format('D MMM YYYY')}
                   </div>
-                  <span>{moment(customer?.created_at).format('hh:mm a')}</span>
+                  <div className="text-xs text-gray-400">
+                    {moment(customer.created_at).format('hh:mm a')}
+                  </div>
                 </TableCell>
+
+                {/* Actions */}
                 <TableCell
-                  className="w-[46px]"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-right pr-4"
                 >
-                  {!customer?.bvn_is_verified && !customer?.nin_is_verified && (
-                    <Popover>
-                      <PopoverTrigger>
-                        <div className="flex items-center justify-center">
-                          <EllipsisVertical color="#475467" size={24} />
-                        </div>
-                      </PopoverTrigger>
-                      <PopoverContent className="!translate-x-[-50px] !translate-y-[5px] bg-white border-none w-[220px]">
-                        <div className="flex flex-col justify-center items-center gap-1">
-                          <ManualBVNVerification
-                            id={uid}
-                            email={customer?.email}
-                            verification_type="bvn"
+                  {!customer.bvn_is_verified &&
+                    !customer.nin_is_verified && (
+                      <Popover>
+                        <PopoverTrigger>
+                          <EllipsisVertical
+                            size={18}
+                            className="text-gray-500 hover:text-gray-700"
                           />
-                          <ManualNINVerification
-                            id={uid}
-                            email={customer?.email}
-                            verification_type="nin"
-                          />
-                        </div>
-                      </PopoverContent>
-                    </Popover>
-                  )}
+                        </PopoverTrigger>
+                        <PopoverContent className="w-[220px] p-3 border border-gray-200 shadow-md rounded-lg">
+                          <div className="flex flex-col gap-2">
+                            <ManualBVNVerification
+                              id={uid}
+                              email={customer.email}
+                              verification_type="bvn"
+                            />
+                            <ManualNINVerification
+                              id={uid}
+                              email={customer.email}
+                              verification_type="nin"
+                            />
+                          </div>
+                        </PopoverContent>
+                      </Popover>
+                    )}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-      <div className="bg-white sticky bottom-0 flex items-center justify-end space-x-3 p-3 rounded-lg">
-        <p>
-          1 - {filteredCustomers?.length} of {filteredCustomers?.length}
-        </p>
-        <div className="flex items-center space-x-5">
-          <ChevronLeft color={'#4C52594D'} />
-          <ChevronRight color={'#4C5259'} />
+
+      {/* Footer */}
+      <div className="border-t border-gray-100 px-6 py-4 flex items-center justify-between text-sm text-gray-500">
+        <span>
+          Showing {filteredCustomers.length} of {filteredCustomers.length} users
+        </span>
+
+        <div className="flex items-center gap-4">
+          <button className="p-2 rounded-md hover:bg-gray-100">
+            <ChevronLeft size={18} />
+          </button>
+          <button className="p-2 rounded-md hover:bg-gray-100">
+            <ChevronRight size={18} />
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
 export default withFetchCustomersQuery(UsersTable, {
-  components: { ServiceError: ServiceError, Loading: Spinner },
+  components: { ServiceError, Loading: Spinner },
 });
-

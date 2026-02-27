@@ -1,106 +1,110 @@
 "use client";
 
-
 import BannerViewer from "@/components/banners/Banners";
 import CustomersCount from "@/components/customersCount/customersCount";
-// import ExchangeRate from "@/components/exchangeRate/ExchangeRate";
 import MinimumDeposits from "@/components/minimumDeposits/MinimumDeposits";
 import Recent from "@/components/recentTransactions/recent";
 import useFetchDepositsCount from "@/hooks/queries/useFetchTotalDepositCount";
 import useFetchWithdrawalsCount from "@/hooks/queries/useFetchTotalWithdrawalCount";
 import Icon from "@/public/assets/svgs/icon";
 
-
 export default function Home() {
+  const { depositscount, isLoading: depositsLoading } = useFetchDepositsCount();
+  const { withdrawalsCount, isLoading: withdrawalsLoading } =
+    useFetchWithdrawalsCount();
 
-  const { depositscount } = useFetchDepositsCount();
-
-  // totalCount is under data.totalCount
   const totalDeposits = depositscount?.totalCount ?? 0;
-
-  const { withdrawalsCount } = useFetchWithdrawalsCount();
-
-  // totalCount is under data.totalCount
   const totalWithdrawals = withdrawalsCount?.totalCount ?? 0;
-
   const totalCount = totalDeposits + totalWithdrawals;
 
-  return (
-    <main className="flex min-h-screen flex-col w-full gap-8 px-4">
-      <div className="flex flex-col md:flex-row justify-between gap-4 items-center w-full mt-10">
-        <div className="w-full md:w-2/3">
-          <h1 className="text-[20px] md:text-[35px] font-semibold">Welcome onboard, </h1>
-          <p>This is your dashboard where you get everything in one click</p>
+  const StatCard = ({
+    title,
+    value,
+    loading,
+  }: {
+    title: string;
+    value: number;
+    loading?: boolean;
+  }) => (
+    <div className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 w-full">
+      <div className="flex flex-col gap-6 p-6">
+        <div className="flex justify-between items-start">
+          <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+            {title}
+          </h2>
+          <Icon />
         </div>
-        {/* Exchange Rate */}
-        <div className="w-full md:w-1/3">
-        {/* <ExchangeRate /> */}
+
+        <div>
+          {loading ? (
+            <div className="h-8 w-24 bg-gray-200 animate-pulse rounded-md" />
+          ) : (
+            <p className="text-3xl font-bold text-gray-900">
+              {value.toLocaleString()}
+            </p>
+          )}
         </div>
       </div>
+    </div>
+  );
 
+  return (
+    <main className="min-h-screen px-2 md:px-0 py-10 flex flex-col gap-10">
+      
+      {/* Header */}
+      <section className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h1 className="text-2xl md:text-4xl font-bold text-gray-900">
+            Dashboard
+          </h1>
+          <p className="text-gray-500 mt-2">
+            Monitor platform performance and transaction activity in real-time.
+          </p>
+        </div>
+      </section>
 
-      {/* Total Users */}
+      {/* Customers Overview */}
       <CustomersCount />
 
-      {/* Main section */}
-      <div className="flex flex-col md:flex-row justify-between items-center w-full gap-4">
-        <div className="border border-gray-300 w-full md:w-1/3 rounded-[6px]">
-          <div className="flex flex-col gap-4 p-4">
-            <h2 className="font-semibold">Total Deposit</h2>
-            <div className="flex flex-row justify-between items-center">
-              <div>
-                <p className="text-3xl font-extrabold text-gray-800">{totalDeposits > 0 ? totalDeposits : <span className="text-red-100">0</span>}</p>
-              </div>
-              <Icon />
-            </div>
+      {/* Statistics Section */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <StatCard
+          title="Total Deposits"
+          value={totalDeposits}
+          loading={depositsLoading}
+        />
+        <StatCard
+          title="Total Withdrawals"
+          value={totalWithdrawals}
+          loading={withdrawalsLoading}
+        />
+        <StatCard
+          title="Total Transactions"
+          value={totalCount}
+        />
+      </section>
 
+      {/* Bottom Section */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        {/* Left Side */}
+        <div className="md:col-span-2">
+          <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+            <BannerViewer />
           </div>
         </div>
 
-        {/* Total Transactions (placeholder) */}
-        <div className="border border-gray-300 w-full md:w-1/3 rounded-[6px]">
-          <div className="flex flex-col gap-4 p-4">
-            <h2 className="font-semibold">Total Withdrawals</h2>
-            <div className="flex flex-row justify-between items-center">
-              <div>
-                <p className="text-3xl font-extrabold text-gray-800">{totalWithdrawals > 0 ? totalWithdrawals : <span className="text-red-100">0</span>}</p>
-              </div>
-              <Icon />
-            </div>
-          </div>
-        </div>
-
-        {/* Total Volume Transacted (placeholder) */}
-        <div className="border border-gray-300 w-full md:w-1/3 rounded-[6px]">
-          <div className="flex flex-col gap-4 p-4">
-            <h2 className="font-semibold">Total Transaction Count</h2>
-            <div className="flex flex-row justify-between items-center">
-              <div>
-                <p className="text-3xl font-extrabold text-gray-800">{totalCount.toLocaleString()}</p>
-              </div>
-              <Icon />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex flex-col-reverse md:flex-row justify-between gap-4">
-        <div className="w-full md:w-2/3">
-          <BannerViewer />
-        </div>
-        <div className="w-full md:w-1/3">
-          <div className="border border-gray-300 rounded-[6px] p-4">
-            {/* Placeholder for recent transactions */}
+        {/* Right Side */}
+        <div className="flex flex-col gap-6">
+          <div>
             <Recent />
           </div>
-          <br />
-          <div className="border border-gray-300 rounded-[6px] p-4">
-            <p>Minimum Deposits</p>
+
+          <div>
             <MinimumDeposits />
           </div>
-          <br />
         </div>
-      </div>
+      </section>
     </main>
   );
 }
