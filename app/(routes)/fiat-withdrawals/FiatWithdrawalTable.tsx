@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import ServiceError from "@/components/ServiceError";
 import Spinner from "@/components/Spinner";
-import { useRouter } from "next/navigation";
-import { searchFunction } from "@/hooks/useSearchFunction";
 import {
   Table,
   TableBody,
@@ -11,12 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
-  EllipsisVertical, 
-} from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import useFetchFiatWithdrawalsQuery from "@/hooks/queries/useFetchWithdrawalQuery";
 import FiatWithdrawalActionModal from "./FiatWIthdrawalActionModal";
@@ -24,95 +17,106 @@ import moment from "moment";
 
 const FiatWithdrawalTable = ({ query }: any) => {
   const [page, setPage] = useState<number>(1);
-  const { data, isPending, isSuccess, isError } = useFetchFiatWithdrawalsQuery({page});
 
-  const { fiatWithdrawals, refetch } = data;
-  // console.log(fiatWithdrawals);
+  const { data, isPending, isSuccess, isError } =
+    useFetchFiatWithdrawalsQuery({ page });
 
-  const router = useRouter();
-
-  // const canGo = (type: 'forward' | 'backward') => {
-  //   // if (!observationsData?.pageCount) return false;
-
-  //   return type === 'forward' ? page < observationsData.pageCount : page > 1; // Backward only if page > 1
-  // };
+  const { fiatWithdrawals } = data || {};
 
   const handlePageCount = (type: "forward" | "backward") => {
-    // if (canGo(type)) {
-    setPage(type === "forward" ? page + 1 : page - 1);
-    // }
-  };
+    if (type === "forward") {
+      setPage((prev) => prev + 1);
+    }
 
-  // const getPageDescription = (
-  //   page: number,
-  //   itemsPerPage: number,
-  //   totalItems: number,
-  // ): string => {
-  //   const start = (page - 1) * itemsPerPage + 1; // Starting index for the current page
-  //   const end = Math.min(page * itemsPerPage, totalItems); // Ending index for the current page
-  //   return `${start}-${end}`;
-  // };
+    if (type === "backward" && page > 1) {
+      setPage((prev) => prev - 1);
+    }
+  };
 
   return (
     <>
       {isError && <ServiceError />}
       {isPending && <Spinner />}
+
       {isSuccess && (
         <>
-          <div className="h-[55vh] overflow-auto">
-            <h6 className="text-lg font-semibold text-primary my-2">
-              Page {page}
-            </h6>
-            <Table className="bg-white rounded-lg p-1 table-fixed xl:table-auto overflow-auto">
-              <TableHeader className="bg-[#F9FAFB] sticky top-0 z-10">
+          <div className="overflow-x-auto rounded-xl border bg-white">
+
+            {/* Header */}
+            <div className="px-4 py-3 border-b">
+              <h6 className="text-lg font-semibold text-primary">
+                Page {page}
+              </h6>
+            </div>
+
+            <Table>
+              <TableHeader className="bg-gray-50 sticky top-0">
                 <TableRow>
-                  <TableHead className="w-[20px] border-b border-table-bottom"></TableHead>
-                  <TableHead className="text-left font-semibold text-secondary w-[140px]">
-                    Amount of USDT
+                  <TableHead className="w-[30px]">#</TableHead>
+
+                  {/* MOBILE + DESKTOP */}
+                  <TableHead className="font-semibold">
+                    Amount
                   </TableHead>
-                  <TableHead className="text-left font-semibold text-secondary w-[180px]">
+
+                  {/* DESKTOP ONLY */}
+                  <TableHead className="hidden md:table-cell font-semibold">
                     Rate
                   </TableHead>
-                  <TableHead className="hidden md:table-cell w-[167px] text-left         ">
+
+                  <TableHead className="hidden md:table-cell font-semibold">
                     Created Date
                   </TableHead>
-                  <TableHead className="text-center font-semibold text-secondary w-[130px]">
+
+                  {/* MOBILE + DESKTOP */}
+                  <TableHead className="text-center font-semibold">
                     Status
                   </TableHead>
-                  <TableHead className="w-[46px] border-b border-table-bottom"></TableHead>
+
+                  <TableHead className="w-[60px]"></TableHead>
                 </TableRow>
               </TableHeader>
+
               <TableBody>
-                {fiatWithdrawals?.map((withdrawal: any, index: any) => (
+                {fiatWithdrawals?.map((withdrawal: any, index: number) => (
                   <TableRow
                     key={withdrawal?.id}
-                    className="cursor-pointer border-t border-[#EAECF0]"
+                    className="hover:bg-gray-50 transition"
                   >
-                    <TableCell className="w-[20px]">{index + 1}.</TableCell>
+                    <TableCell>{index + 1}</TableCell>
 
-                    <TableCell className="font-semibold text-secondary ">
-                      {withdrawal?.amount?.toLocaleString()}
+                    {/* AMOUNT */}
+                    <TableCell className="font-semibold text-secondary">
+                      {withdrawal?.amount?.toLocaleString()} USDT
                     </TableCell>
-                    <TableCell>₦{withdrawal?.rate?.toLocaleString()}</TableCell>
+
+                    {/* RATE - DESKTOP */}
                     <TableCell className="hidden md:table-cell">
-                      <div className="">
-                        <div className="font-medium">
-                          {moment(withdrawal?.CreatedAt).format('DD, MMM YYYY')}
-                        </div>
-                        <span>
-                          {moment(withdrawal?.CreatedAt).format('hh:mm a')}
+                      ₦{withdrawal?.rate?.toLocaleString()}
+                    </TableCell>
+
+                    {/* DATE - DESKTOP */}
+                    <TableCell className="hidden md:table-cell">
+                      <div className="flex flex-col">
+                        <span className="font-medium">
+                          {moment(withdrawal?.CreatedAt).format("DD MMM YYYY")}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {moment(withdrawal?.CreatedAt).format("hh:mm a")}
                         </span>
                       </div>
                     </TableCell>
-                    <TableCell>
-                      <div>
-                        <StatusBadge
-                          width={60}
-                          statusType={withdrawal?.status?.toLowerCase()}
-                        />
-                      </div>
+
+                    {/* STATUS */}
+                    <TableCell className="text-center">
+                      <StatusBadge
+                        width={70}
+                        statusType={withdrawal?.status?.toLowerCase()}
+                      />
                     </TableCell>
-                    <TableCell className="w-[46px]">
+
+                    {/* ACTION */}
+                    <TableCell>
                       <FiatWithdrawalActionModal
                         page={page}
                         withdrawalDetail={withdrawal}
@@ -123,29 +127,31 @@ const FiatWithdrawalTable = ({ query }: any) => {
               </TableBody>
             </Table>
           </div>
-          <div className="bg-white flex items-center gap-6 justify-end space-x-3 p-3 rounded-lg">
-            {/* <p>
-              1 - {customers?.length} of {allCustomers?.length}
-            </p> */}
-            <div className="flex items-center space-x-5">
-              <div
-                className="cursor-pointer flex flex-row "
-                onClick={() => {
-                  handlePageCount('backward');
-                }}
-              >
-                <ChevronLeft color={'#4C5259'} /><p>Prev</p>
-              </div>
 
-              <div
-                className="cursor-pointer flex flex-row "
-                onClick={() => {
-                  handlePageCount('forward');
-                }}
-              >
-                <p>Next</p><ChevronRight color={'#4C5259'} />
-              </div>
-            </div>
+          {/* Pagination */}
+          <div className="flex justify-end items-center mt-4 gap-4">
+
+            <button
+              onClick={() => handlePageCount("backward")}
+              disabled={page === 1}
+              className="flex items-center gap-1 px-3 py-1 border rounded-lg hover:bg-gray-100 disabled:opacity-40"
+            >
+              <ChevronLeft size={18} />
+              Prev
+            </button>
+
+            <span className="text-sm font-medium">
+              Page {page}
+            </span>
+
+            <button
+              onClick={() => handlePageCount("forward")}
+              className="flex items-center gap-1 px-3 py-1 border rounded-lg hover:bg-gray-100"
+            >
+              Next
+              <ChevronRight size={18} />
+            </button>
+
           </div>
         </>
       )}

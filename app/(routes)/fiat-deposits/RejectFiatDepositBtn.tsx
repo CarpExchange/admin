@@ -32,6 +32,7 @@ const RejectFiatDepositBtn = ({ uid, deposit_id, refetch, mutationResult }: any)
         deposit_id,
         paid: true,
         status: 'rejected',
+        Currency: 'usdt',
       };
       await mutationResult.mutateAsync(formData);
     } catch (error: any) {

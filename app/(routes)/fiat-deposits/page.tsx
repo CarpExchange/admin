@@ -1,62 +1,66 @@
 'use client';
-import React, { useState } from 'react';
-import { Search, XIcon, ListFilter } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import FiatDepositsTable from './FiatDepositsTable';
+
+import React, { useState } from "react";
+import { Search, XIcon, ListFilter } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import FiatDepositsTable from "./FiatDepositsTable";
 
 const FiatDeposits = () => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
 
   return (
-    <div className="w-full h-full py-8">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-bold text-gray-900">Fiat Deposits</h1>
-          <p className="text-gray-500 text-sm">
-            Track and manage fiat deposits for USDT
-          </p>
-        </div>
+    <div className="w-full px-4 md:px-8 py-6 md:py-10">
 
-        {/* Search & Filter */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mt-6 gap-4">
-          {/* Search Box */}
-          <div className="flex items-center bg-white border border-gray-300 rounded-lg shadow-sm px-3 py-2 w-full md:max-w-md">
-            <Search size={20} className="text-gray-400" />
-            <Input
-              type="text"
-              placeholder="Search by user, email, wallet ID..."
-              className="border-none ml-2 placeholder-gray-400 focus:ring-0 focus:outline-none"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            {query.length > 0 && (
-              <XIcon
-                size={20}
-                className="text-gray-400 cursor-pointer hover:text-red-500 transition"
-                onClick={() => setQuery('')}
-              />
-            )}
-          </div>
-
-          {/* Filter Button */}
-          <button
-            type="button"
-            className="flex items-center space-x-2 text-primary font-medium px-3 py-2 bg-white border border-primary rounded-lg shadow-sm hover:bg-primary/10 transition"
-            onClick={() => {
-              // Toggle filter dropdown logic here
-            }}
-          >
-            <ListFilter size={16} className="text-primary" />
-            <span className="hidden xl:inline">Filter by</span>
-          </button>
-        </div>
+      {/* Page Header */}
+      <div className="flex flex-col gap-2 mb-8">
+        <h1 className="text-2xl md:text-3xl font-semibold text-secondary">
+          Fiat Deposits
+        </h1>
+        <p className="text-sm md:text-base text-gray-500">
+          Track and manage fiat deposits for USDT conversions.
+        </p>
       </div>
 
-      {/* Table */}
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+      {/* Search + Filter */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+
+        {/* Search */}
+        <div className="flex items-center bg-white border rounded-lg px-3 w-full md:w-[350px]">
+          <Search size={20} className="text-gray-400" />
+
+          <Input
+            type="text"
+            placeholder="Search name or bank..."
+            className="border-none focus-visible:ring-0"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+
+          {query && (
+            <XIcon
+              size={18}
+              className="cursor-pointer text-gray-400 hover:text-red-500"
+              onClick={() => setQuery("")}
+            />
+          )}
+        </div>
+
+        {/* Filter Button */}
+        <button
+          type="button"
+          className="flex items-center justify-center gap-2 px-4 py-2 border rounded-lg bg-white hover:bg-gray-50 transition"
+        >
+          <ListFilter size={18} />
+          <span className="text-sm font-medium">Filter</span>
+        </button>
+
+      </div>
+
+      {/* Table Container */}
+      <div className="bg-white border rounded-xl overflow-hidden">
         <FiatDepositsTable query={query} />
       </div>
+
     </div>
   );
 };

@@ -1,112 +1,101 @@
 'use client';
-import React, { useState } from 'react';
-import { Search, XIcon, ListFilter } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import FiatWithdrawalTable from './FiatWithdrawalTable';
+
+import React, { useState } from "react";
+import { Search, XIcon } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import FiatWithdrawalTable from "./FiatWithdrawalTable";
 import useFetchDepositsCount from "@/hooks/queries/useFetchTotalDepositCount";
 import useFetchWithdrawalsCount from "@/hooks/queries/useFetchTotalWithdrawalCount";
 import Icon from "@/public/assets/svgs/icon";
 
-const FiatWithdrawals = ({ }: any) => {
-
+const FiatWithdrawals = () => {
   const { depositscount } = useFetchDepositsCount();
-
-  // totalCount is under data.totalCount
   const totalDeposits = depositscount?.totalCount ?? 0;
 
   const { withdrawalsCount } = useFetchWithdrawalsCount();
-
-  // totalCount is under data.totalCount
   const totalWithdrawals = withdrawalsCount?.totalCount ?? 0;
 
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState("");
 
   return (
-    <>
-      <div className="w-full max-w-full h-full px-4 md:px-6 py-6 md:py-8">
-        <div>
-          <div className="space-y-1">
-            <p className="font-semibold text-xl md:text-2xl">Fiat Withdrawals</p>
-            <p className="text-sm md:text-base">Track, and manage crypto withdrawal for NGN payment</p>
-          </div>
-          <div className="flex flex-col md:flex-row justify-between items-center w-full gap-4 mt-6">
-            {/* Total Users */}
-            <div className="border border-gray-300 w-full md:w-1/3 rounded-[6px]">
-              <div className="flex flex-col gap-4 p-4">
-                <h2 className="font-semibold text-sm md:text-base">Total Deposit</h2>
-                <div className="flex flex-row justify-between items-center">
-                  <div>
-                    <p className="text-lg md:text-xl">{totalDeposits > 0 ? totalDeposits : <span className="text-red-100">0</span>}</p>
-                  </div>
-                  <Icon />
-                </div>
-              </div>
-            </div>
+    <div className="w-full px-4 md:px-8 py-6 md:py-10">
 
-            {/* Total Transactions */}
-            <div className="border border-gray-300 w-full md:w-1/3 rounded-[6px]">
-              <div className="flex flex-col gap-4 p-4">
-                <h2 className="font-semibold text-sm md:text-base">Total Withdrawals</h2>
-                <div className="flex flex-row justify-between items-center">
-                  <div>
-                    <p className="text-lg md:text-xl">{totalWithdrawals > 0 ? totalWithdrawals : <span className="text-red-100">0</span>}</p>
-                  </div>
-                  <Icon />
-                </div>
-              </div>
-            </div>
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl md:text-3xl font-semibold text-secondary">
+          Fiat Withdrawals
+        </h1>
+        <p className="text-sm md:text-base text-gray-500 mt-1">
+          Track and manage crypto withdrawals converted to NGN.
+        </p>
+      </div>
 
-            {/* Total Volume Transacted */}
-            <div className="border border-gray-300 w-full md:w-1/3 rounded-[6px]">
-              <div className="flex flex-col gap-4 p-4">
-                <h2 className="font-semibold text-sm md:text-base">Total Volume Transacted</h2>
-                <div className="flex flex-row justify-between items-center">
-                  <div>
-                    <p className="text-lg md:text-xl">200</p>
-                    <p className="text-[10px] md:text-xs">10% high</p>
-                  </div>
-                  <Icon />
-                </div>
-              </div>
-            </div>
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+
+        {/* Total Deposits */}
+        <div className="bg-white border rounded-xl p-5 flex justify-between items-center">
+          <div>
+            <p className="text-sm text-gray-500">Total Deposits</p>
+            <p className="text-xl font-semibold mt-1">
+              {totalDeposits}
+            </p>
           </div>
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-3 md:space-y-0 md:space-x-3 mt-7">
-            <div className="flex bg-white items-center border border-[#4C52594D] rounded-md px-2 w-full md:w-auto">
-              <Search size={24} />
-              <Input
-                type="text"
-                placeholder="Search..."
-                className="border-none min-w-[200px]"
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                }}
-                value={query}
-              />
-              {query.length > 0 && (
-                <XIcon
-                  onClick={() => {
-                    setQuery('');
-                  }}
-                  className="cursor-pointer"
-                />
-              )}
-            </div>
-            <div
-              className="flex items-center space-x-2 cursor-pointer w-full md:w-auto"
-              onClick={() => {
-                // @ts-ignore
-                // setShowDropdown(!showDropdown);
-              }}
-            >
-              <ListFilter color="#095AD3" size={16} />
-              <p className="text-[#095AD3] hidden md:flex">Filter by</p>
-            </div>
-          </div>
+          <Icon />
         </div>
 
-        <FiatWithdrawalTable query={query} />
+        {/* Total Withdrawals */}
+        <div className="bg-white border rounded-xl p-5 flex justify-between items-center">
+          <div>
+            <p className="text-sm text-gray-500">Total Withdrawals</p>
+            <p className="text-xl font-semibold mt-1">
+              {totalWithdrawals}
+            </p>
+          </div>
+          <Icon />
+        </div>
+
+        {/* Total Volume */}
+        <div className="bg-white border rounded-xl p-5 flex justify-between items-center">
+          <div>
+            <p className="text-sm text-gray-500">Total Volume</p>
+            <p className="text-xl font-semibold mt-1">200</p>
+            <p className="text-xs text-green-500">+10% this month</p>
+          </div>
+          <Icon />
+        </div>
+
       </div>
-    </>
+
+      {/* Search */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+
+        <div className="flex items-center bg-white border rounded-lg px-3 w-full md:w-[300px]">
+          <Search size={20} className="text-gray-400" />
+
+          <Input
+            type="text"
+            placeholder="Search withdrawal..."
+            className="border-none focus-visible:ring-0"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+
+          {query && (
+            <XIcon
+              size={18}
+              className="cursor-pointer text-gray-400"
+              onClick={() => setQuery("")}
+            />
+          )}
+        </div>
+
+      </div>
+
+      {/* Table */}
+      <FiatWithdrawalTable query={query} />
+
+    </div>
   );
 };
 
