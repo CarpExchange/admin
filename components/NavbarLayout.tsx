@@ -126,7 +126,8 @@ const NavbarLayout = ({ children }: Props) => {
               })}
 
               {/* Logout */}
-              <LogoutBtn />
+             {/* @ts-ignore */} 
+             <LogoutBtn />
             </div>
           </div>
         </aside>
