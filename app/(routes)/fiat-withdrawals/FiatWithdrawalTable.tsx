@@ -87,7 +87,7 @@ const FiatWithdrawalTable = ({ query }: any) => {
 
                     {/* AMOUNT */}
                     <TableCell className="font-semibold text-secondary">
-                      {withdrawal?.amount?.toLocaleString()} USDT
+                      {withdrawal?.amount?.toLocaleString()} {withdrawal?.currency.toUpperCase()}
                     </TableCell>
 
                     {/* RATE - DESKTOP */}

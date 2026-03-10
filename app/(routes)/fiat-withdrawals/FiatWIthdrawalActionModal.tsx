@@ -84,7 +84,7 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
               <div className="w-full md:w-1/2">
                 <p>
                   <b>Amount Withdrawn:</b>{' '}
-                  {withdrawalDetail?.amount?.toLocaleString()}
+                 {withdrawalDetail?.currency.toUpperCase()} {withdrawalDetail?.amount?.toLocaleString()}
                 </p>
               </div>
               <div className="w-full md:w-1/2">

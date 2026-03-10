@@ -34,8 +34,9 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
 
   return (
     <div className="h-full max-h-full pt-6 px-4 md:px-0">
-      {/* Back Button */}
-      <div className="w-full flex-col gap-6 border-b border-b-primary pb-4">
+
+      {/* BACK BUTTON */}
+      <div className="w-full border-b border-b-primary pb-4">
         <Link
           href="/customers"
           className="flex flex-row gap-4 items-center w-fit"
@@ -43,332 +44,357 @@ const CustomerDetails = ({ singleUserDetails }: any) => {
           <div className="w-8 h-8 rounded-full bg-blue-200 flex items-center justify-center">
             <ArrowLeft color="#039" size={24} />
           </div>
-          <span className="text-primary font-figtree font-semibold">
+
+          <span className="text-primary font-semibold">
             Go back
           </span>
-        </Link> <div className="flex flex-col gap-[28px]">
-            <div className="flex flex-col gap-1 font-figtree text-secondary">
-              <h2 className="font-semibold text-2xl ">User details</h2>
-              <p className="text-secondary">Manage and monitor user details</p>
-            </div>
-          </div>
+        </Link>
+
+        <div className="mt-4">
+          <h2 className="font-semibold text-2xl">User details</h2>
+          <p className="text-secondary">
+            Manage and monitor user details
+          </p>
+        </div>
       </div>
 
 
-      <div className="flex flex-col-reverse md:flex-row">
-        <div className="md:w-3/4 pb-[48px] pt-[20px] md:px-[20px]">
-         
-          <div className="mt-6 bg-white rounded-[8px] md:px-5 py-4">
-            <div className="flex flex-col gap-8 ">
-              <div className="w-full flex flex-col gap-4 md:gap-0 md:flex-row justify-between">
-                <div className="w-full md:w-1/2 flex gap-2 items-center">
-                  <h5 className="font-figtree leading-[22px] text-black-200">
-                    <b>Status: </b>
-                  </h5>
+      {/* USER HEADER */}
+      <div className="bg-white rounded-lg border border-gray-100 p-6 mt-6 flex items-center justify-between">
 
-                  <span>
-                    <StatusBadge
-                      statusType={verificationStatus(singleUserDetails)}
-                      width={79}
-                    />
-                  </span>
-                </div>
+        <div className="flex items-center gap-4">
 
-                <div className="w-full md:w-1/2">
-                  <h5 className="font-figtree  leading-[22px] text-black-200">
-                    <b>Last login: </b>{' '}
-                    {singleUserDetails?.security_data
-                      ? moment(
-                        singleUserDetails?.security_data?.last_login_time
-                      ).format('MMMM Do YYYY, h:mm:ss a')
-                      : 'NA'}
-                  </h5>
-                </div>
-              </div>
+          <Image
+            src={
+              singleUserDetails?.profile_picture?.image_url ??
+              '/assets/avatar.png'
+            }
+            alt="profile"
+            width={64}
+            height={64}
+            className="rounded-full object-cover"
+          />
 
-              <div className="w-full gap-4 md:gap-0 flex flex-col md:flex-row justify-between">
-                <div className="w-full md:w-1/2 gap-4 md:gap-2">
-                  <h5 className="font-figtree leading-[22px] text-black-200">
-                    <b>Verification Methods: </b>
-                  </h5>
-                  <div className="flex flex-col gap-2">
-                    <div className="flex flex-row gap-2 items-center">
-                      <p>BVN: </p>
-                      <span>
-                        <StatusBadge
-                          statusType={
-                            singleUserDetails?.bvn_is_verified
-                              ? 'verified'
-                              : 'unverified'
-                          }
-                        />
-                      </span>
-                    </div>
-                    <div className="flex flex-row gap-2 items-center">
-                      <p>NIN: </p>
-                      <span>
-                        <StatusBadge
-                          statusType={
-                            singleUserDetails?.nin_is_verified
-                              ? 'verified'
-                              : 'unverified'
-                          }
-                        />
-                      </span>
-                    </div>
-                  </div>
-                </div>
+          <div className="flex flex-col">
 
-                <div className="w-full md:w-1/2">
-                  <h5 className="font-figtree  leading-[22px] text-black-200">
-                    <b>Transaction Pin: </b>{' '}
-                    {singleUserDetails?.has_pin ? 'Added' : 'Not added'}
-                  </h5>
-                </div>
-              </div>
+            <h3 className="text-lg font-semibold">
+              {singleUserDetails?.first_name} {singleUserDetails?.last_name}
+            </h3>
 
-              <div className="w-full flex flex-row justify-between">
-                <div className="w-full md:w-1/2">
-                  <h5 className="font-bold">KYC Details</h5>
-                  {singleUserDetails?.kyc ? (
-                    <div className="flex flex-col gap-3 mt-4">
-                      <p className="text-sm">
-                        <b>First Name:</b> {'  '}
-                        {singleUserDetails?.kyc?.last_name ?? 'NA'}
-                      </p>
-                      <p className="text-sm">
-                        <b>Middle Name:</b> {'  '}
-                        {singleUserDetails?.kyc?.middle_name ?? 'NA'}
-                      </p>
-                      <p className="text-sm">
-                        <b>Last Name:</b> {'  '}
-                        {singleUserDetails?.kyc?.last_name ?? 'NA'}
-                      </p>
-                      <p className="text-sm">
-                        <b>DOB:</b> {'  '}
-                        {singleUserDetails?.kyc?.date_of_birth ?? 'NA'}
-                      </p>
-                      <p className="text-sm">
-                        <b>Gender:</b> {'  '}
-                        {singleUserDetails?.kyc?.gender ?? 'NA'}
-                      </p>
-                      <p className="text-sm">
-                        <b>Phone Number:</b> {'  '}
-                        {singleUserDetails?.kyc?.phone_number ?? 'NA'}
-                      </p>
-                      <p className="text-sm">
-                        <b>BVN:</b> {'  '}
-                        {singleUserDetails?.kyc?.bvn ?? 'NA'}
-                      </p>
-                      <p className="text-sm">
-                        <b>BVN Confidence Level:</b> {'  '}
-                        {singleUserDetails?.kyc?.bvn_confidence_level ?? 'NA'}
-                      </p>
-                      <p className="text-sm">
-                        <b>NIN:</b> {'  '}
-                        {singleUserDetails?.kyc?.nin ?? 'NA'}
-                      </p>
-                      <p className="text-sm">
-                        <b>NIN Confidence Level:</b> {'  '}
-                        {singleUserDetails?.kyc?.nin_confidence_level ?? 'NA'}
-                      </p>
-                      <div>
-                        <p className="text-sm">
-                          <b>Image Submitted:</b>
-                        </p>
-                        <Image
-                          src={
-                            singleUserDetails?.kyc?.selfie_image_url
-                              ? `${singleUserDetails?.kyc?.selfie_image_url}`
-                              : '/assets/avatar.png'
-                          }
-                          alt={`${singleUserDetails?.first_name} image`}
-                          className="w-[100px] h-[100px] rounded-full object-cover"
-                          width={100}
-                          height={100}
-                        />
-                      </div>
-                    </div>
-                  ) : (
-                    <p className="text-sm">
-                      <b>KYC details:</b> NA
-                    </p>
-                  )}
-                </div>
-              </div>
+            <p className="text-sm text-gray-500">
+              {singleUserDetails?.email}
+            </p>
 
-              <div className="w-full flex flex-col md:flex-row items-end justify-between gap-4 md:gap-0">
-                <div className='w-full md:w-1/2'>
-                  <h5 className="font-bold">Bank Account Details</h5>
-                  <div className="flex flex-col gap-3 mt-3">
-                    <p className="text-sm">
-                      <b>Account Name:</b>{' '}
-                      {singleUserDetails?.withdrawal_account?.account_name ??
-                        'NA'}
-                    </p>
-                    <p className="text-sm">
-                      <b>Account Number:</b>{' '}
-                      {singleUserDetails?.withdrawal_account?.account_number ??
-                        'NA'}
-                    </p>
-                    <p className="text-sm">
-                      <b>Bank Name:</b>{' '}
-                      {singleUserDetails?.withdrawal_account?.bank_name ?? 'NA'}
-                    </p>
-                    <p className="text-sm">
-                      <b>Bank Code:</b>{' '}
-                      {singleUserDetails?.withdrawal_account?.bank_code ?? 'NA'}
-                    </p>
-                  </div>
-                </div>
+            <div className="flex items-center gap-2 mt-1">
+              <StatusBadge
+                statusType={verificationStatus(singleUserDetails)}
+              />
 
-                <div className="w-full md:w-1/2">
-                  <h5 className="font-figtree leading-[22px] text-black-200 mb-2">
-                    <b>
-                      {security_data?.black_listed
-                        ? 'User is blacklisted:'
-                        : 'User is not blacklisted:'}{' '}
-                    </b>
-                  </h5>
-
-                  <BlacklistUserBtn
-                    // @ts-ignore
-                    status={security_data?.black_listed}
-                    userId={singleUserDetails?.id}
-                  />
-                </div>
-              </div>
-
-
+              <span className="text-xs text-gray-400">
+                Created {moment(singleUserDetails?.created_at).fromNow()}
+              </span>
             </div>
+
           </div>
         </div>
 
-        <div className="md:w-1/4 md:border-l md:border-l-primary pt-[20px] md:pb-[48px] md:px-[10px]">
-          <div className="flex flex-col gap-3">
-            <div className="flex justify-center ">
-              <div>
-                <Image
-                  src={
-                    singleUserDetails?.profile_picture?.image_url ??
-                    '/assets/avatar.png'
-                  }
-                  alt={`${singleUserDetails?.first_name} image`}
-                  className="w-[100px] h-[100px] rounded-full object-cover"
-                  width={100}
-                  height={100}
-                />
-              </div>
-            </div>
-            <div>
-              <p className="text-sm">User ID:</p>
-              <div className="flex flex-row justify-between mt-1">
-                <p className="text-sm">
-                  <b>{singleUserDetails?.id ?? 'NA'}</b>
-                </p>
+        <div className="flex gap-3">
 
-                <div>
-                  <Copy
-                    size={16}
-                    className="cursor-pointer"
-                    onClick={() => handleCopy('User ID', singleUserDetails?.id)}
-                  />
-                </div>
-              </div>
-            </div>
-            <div>
-              <p className="text-sm">Email address:</p>
-              <div className="flex flex-row justify-between mt-1">
-                <p className="text-sm">
-                  <b>{singleUserDetails?.email ?? 'NA'}</b>
-                </p>
+          <button className="px-4 py-2 border rounded-md text-sm hover:bg-gray-50">
+            View Transactions
+          </button>
 
-                <div>
-                  <Copy
-                    size={16}
-                    className="cursor-pointer"
-                    onClick={() =>
-                      handleCopy('Email', singleUserDetails?.email)
-                    }
-                  />
-                </div>
-              </div>
-            </div>
+          <button className="px-4 py-2 border rounded-md text-sm hover:bg-gray-50">
+            View Deposits
+          </button>
 
-            <div>
-              <p className="text-sm">Phone Number:</p>
-              <div className="flex flex-row justify-between mt-1">
-                <p className="text-sm">
-                  <b>{singleUserDetails?.phone_number ?? 'NA'}</b>
-                </p>
+          <button className="px-4 py-2 border rounded-md text-sm hover:bg-gray-50">
+            View Withdrawals
+          </button>
 
-                <div>
-                  <Copy
-                    size={16}
-                    className="cursor-pointer"
-                    onClick={() =>
-                      handleCopy(
-                        'Phone Number',
-                        singleUserDetails?.phone_number
-                      )
-                    }
-                  />
-                </div>
-              </div>
-            </div>
-            <div>
-              <p className="text-sm">Wallet ID:</p>
-              <div className="flex flex-row justify-between mt-1">
-                <p className="text-sm">
-                  <b>{singleUserDetails?.wallet?.wallet_uid ?? 'NA'}</b>
-                </p>
-
-                <div>
-                  <Copy
-                    size={16}
-                    className="cursor-pointer"
-                    onClick={() =>
-                      handleCopy(
-                        'Wallet ID',
-                        singleUserDetails?.wallet?.wallet_uid
-                      )
-                    }
-                  />
-                </div>
-              </div>
-            </div>
-            <div>
-              <p className="text-sm">Username:</p>
-              <div className="flex flex-row justify-between mt-1">
-                <p className="text-sm">
-                  <b>{singleUserDetails?.username ?? 'NA'}</b>
-                </p>
-
-                <div>
-                  <Copy
-                    size={16}
-                    className="cursor-pointer"
-                    onClick={() =>
-                      handleCopy('Username', singleUserDetails?.username)
-                    }
-                  />
-                </div>
-              </div>
-            </div>
-            <div>
-              <p className="text-sm">Account Created:</p>
-              <div className="mt-1">
-                <p className="text-sm">
-                  <b>
-                    {moment(singleUserDetails?.created_at).format(
-                      'MMMM Do YYYY, h:mm:ss a'
-                    )}
-                  </b>
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
+
+      </div>
+
+
+      <div className="flex flex-col md:flex-row gap-6 mt-6">
+
+        {/* MAIN CONTENT */}
+        <div className="md:w-3/4 grid md:grid-cols-2 gap-6">
+
+          {/* KYC CARD */}
+          <div className="bg-white rounded-lg border p-5">
+
+            <h4 className="font-semibold mb-4">
+              KYC Information
+            </h4>
+
+            {singleUserDetails?.kyc ? (
+
+              <div className="grid grid-cols-2 gap-4 text-sm">
+
+                <p>
+                  <b>First Name:</b>{' '}
+                  {singleUserDetails?.kyc?.first_name ?? 'NA'}
+                </p>
+
+                <p>
+                  <b>Last Name:</b>{' '}
+                  {singleUserDetails?.kyc?.last_name ?? 'NA'}
+                </p>
+
+                <p>
+                  <b>DOB:</b>{' '}
+                  {singleUserDetails?.kyc?.date_of_birth ?? 'NA'}
+                </p>
+
+                <p>
+                  <b>Gender:</b>{' '}
+                  {singleUserDetails?.kyc?.gender ?? 'NA'}
+                </p>
+
+                <p>
+                  <b>BVN:</b>{' '}
+                  {singleUserDetails?.kyc?.bvn ?? 'NA'}
+                </p>
+
+                <p>
+                  <b>NIN:</b>{' '}
+                  {singleUserDetails?.kyc?.nin ?? 'NA'}
+                </p>
+
+                <p>
+                  <b>BVN Confidence:</b>{' '}
+                  {singleUserDetails?.kyc?.bvn_confidence_level
+                    ? `${singleUserDetails?.kyc?.bvn_confidence_level.toFixed(2)}%`
+                    : 'NA'}
+                </p>
+
+                <p>
+                  <b>NIN Confidence:</b>{' '}
+                  {singleUserDetails?.kyc?.nin_confidence_level
+                    ? `${singleUserDetails?.kyc?.nin_confidence_level.toFixed(2)}%`
+                    : 'NA'}
+                </p>
+
+              </div>
+
+            ) : (
+              <p>KYC details unavailable</p>
+            )}
+
+          </div>
+
+
+          {/* WALLET CARD */}
+          <div className="bg-white rounded-lg border p-5">
+
+            <h4 className="font-semibold mb-4">
+              Wallet Details
+            </h4>
+
+            <div className="flex flex-col gap-3 text-sm">
+
+              <p>
+                <b>Wallet ID:</b>{' '}
+                {singleUserDetails?.wallet?.wallet_uid ?? 'NA'}
+              </p>
+
+              <p>
+                <b>Address:</b>{' '}
+                {singleUserDetails?.wallet?.address ?? 'NA'}
+              </p>
+
+              <p>
+                <b>Network:</b>{' '}
+                {singleUserDetails?.wallet?.network ?? 'NA'}
+              </p>
+
+              <p>
+                <b>Currency:</b>{' '}
+                {singleUserDetails?.wallet?.currency ?? 'NA'}
+              </p>
+
+            </div>
+
+          </div>
+
+
+          {/* BANKING */}
+          <div className="bg-white rounded-lg border p-5">
+
+            <h4 className="font-semibold mb-4">
+              Withdrawal Account
+            </h4>
+
+            <div className="flex flex-col gap-3 text-sm">
+
+              <p>
+                <b>Account Name:</b>{' '}
+                {singleUserDetails?.withdrawal_account?.account_name ?? 'NA'}
+              </p>
+
+              <p>
+                <b>Account Number:</b>{' '}
+                {singleUserDetails?.withdrawal_account?.account_number ?? 'NA'}
+              </p>
+
+              <p>
+                <b>Bank Name:</b>{' '}
+                {singleUserDetails?.withdrawal_account?.bank_name ?? 'NA'}
+              </p>
+
+              <p>
+                <b>Bank Code:</b>{' '}
+                {singleUserDetails?.withdrawal_account?.bank_code ?? 'NA'}
+              </p>
+
+            </div>
+
+          </div>
+
+
+          {/* DEPOSIT ACCOUNT */}
+          <div className="bg-white rounded-lg border p-5">
+
+            <h4 className="font-semibold mb-4">
+              Deposit Account
+            </h4>
+
+            <div className="flex flex-col gap-3 text-sm">
+
+              <p>
+                <b>Account Name:</b>{' '}
+                {singleUserDetails?.deposit_account?.account_name ?? 'NA'}
+              </p>
+
+              <p>
+                <b>Account Number:</b>{' '}
+                {singleUserDetails?.deposit_account?.account_number ?? 'NA'}
+              </p>
+
+              <p>
+                <b>Bank Name:</b>{' '}
+                {singleUserDetails?.deposit_account?.bank_name ?? 'NA'}
+              </p>
+
+              <p>
+                <b>Account Type:</b>{' '}
+                {singleUserDetails?.deposit_account?.account_type ?? 'NA'}
+              </p>
+
+            </div>
+
+          </div>
+
+
+          {/* SECURITY */}
+          <div className="bg-white rounded-lg border p-5 md:col-span-2">
+
+            <h4 className="font-semibold mb-4">
+              Security Information
+            </h4>
+
+            <div className="grid md:grid-cols-2 gap-4 text-sm">
+
+              <p>
+                <b>Last Login:</b>{' '}
+                {moment(security_data?.last_login_time).format(
+                  'MMMM Do YYYY, h:mm:ss a'
+                )}
+              </p>
+
+              <p>
+                <b>Login IP:</b>{' '}
+                {security_data?.last_login_ip ?? 'NA'}
+              </p>
+
+              <p>
+                <b>Password Reset Requested:</b>{' '}
+                {security_data?.initiate_reset_password ? 'Yes' : 'No'}
+              </p>
+
+              <p>
+                <b>Pin Reset Requested:</b>{' '}
+                {security_data?.initiate_reset_pin ? 'Yes' : 'No'}
+              </p>
+
+            </div>
+
+            <div className="mt-6">
+
+              <h5 className="mb-2">
+                {security_data?.black_listed
+                  ? 'User is blacklisted'
+                  : 'User is not blacklisted'}
+              </h5>
+
+              <BlacklistUserBtn
+              // @ts-ignore
+                status={security_data?.black_listed}
+                userId={singleUserDetails?.id}
+              />
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        {/* RIGHT SIDEBAR */}
+        <div className="md:w-1/4 flex flex-col gap-6">
+
+          {/* USER META */}
+          <div className="bg-white rounded-lg border p-4 flex flex-col gap-3">
+
+            <p><b>User ID:</b> {singleUserDetails?.id}</p>
+            <p><b>Username:</b> {singleUserDetails?.username}</p>
+            <p><b>Phone:</b> {singleUserDetails?.phone_number}</p>
+            <p><b>Role:</b> {singleUserDetails?.role}</p>
+            <p><b>Preferred Asset:</b> {singleUserDetails?.asset}</p>
+
+            <p>
+              <b>Account Created:</b>{' '}
+              {moment(singleUserDetails?.created_at).format(
+                'MMMM Do YYYY'
+              )}
+            </p>
+
+          </div>
+
+
+          {/* ADMIN ACTIONS */}
+          <div className="bg-white rounded-lg border p-4">
+
+            <h4 className="font-semibold mb-4">
+              Admin Actions
+            </h4>
+
+            <div className="flex flex-col gap-3">
+
+              <button className="w-full py-2 border rounded-md text-sm hover:bg-gray-50">
+                Reset Password
+              </button>
+
+              <button className="w-full py-2 border rounded-md text-sm hover:bg-gray-50">
+                Reset PIN
+              </button>
+
+              <button className="w-full py-2 border rounded-md text-sm hover:bg-gray-50">
+                View Login History
+              </button>
+
+              <button className="w-full py-2 border rounded-md text-red-600 hover:bg-red-50">
+                Suspend Account
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
     </div>
   );
