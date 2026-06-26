@@ -1,4 +1,4 @@
-import { History, ArrowDownLeftFromCircleIcon,ArrowUpRightFromCircleIcon ,House, Settings, UsersRound } from "lucide-react";
+import { History, ArrowDownLeftFromCircleIcon, ArrowUpRightFromCircleIcon, House, Settings, UsersRound } from "lucide-react";
 
 export interface NavbarData {
   activeIcon?: string | JSX.Element;
@@ -44,14 +44,23 @@ export const navbarData: NavbarData[] = [
   //   route: '/history',
   //   exactRoute: 'history'
   // },
+
 ];
 
 export const navbarDataTwo: NavbarData[] = [
   {
-    activeIcon: <Settings color="#039" size={24} />,
-    inactiveIcon: <Settings color="#000" size={24} />,
-    linkName: 'Settings',
-    route: '/settings',
-    exactRoute: 'settings'
-  },
+  activeIcon: <UsersRound color="#039" size={24} />,
+  inactiveIcon: <UsersRound color="#000" size={24} />,
+  linkName: 'Admin Management',
+  route: '/admins',
+  exactRoute: 'admins'
+
+},
+{
+  activeIcon: <Settings color="#039" size={24} />,
+  inactiveIcon: <Settings color="#000" size={24} />,
+  linkName: 'Settings',
+  route: '/settings',
+  exactRoute: 'settings'
+},
 ]

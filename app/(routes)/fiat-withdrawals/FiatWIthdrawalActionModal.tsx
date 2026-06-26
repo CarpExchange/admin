@@ -156,36 +156,36 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
               <p>
                 <b>Withdrawal account details</b>{' '}
                 {/* <span className="flex flex-row items-center gap-1.5"> */}
-                {singleUserDetails?.withdrawal_account ? (
+                {withdrawalDetail?.rate !== 0 && singleUserDetails?.withdrawal_account ? (
                   <div className="flex flex-col gap-1.5 mt-3">
-                    <span>
-                      <b>Account Name:</b>{' '}
-                      {singleUserDetails?.withdrawal_account?.account_name}
-                    </span>
+                  <span>
+                    <b>Account Name:</b>{' '}
+                    {singleUserDetails?.withdrawal_account?.account_name}
+                  </span>
+                  <p>
+                    <b>Bank Name:</b>{' '}
+                    {singleUserDetails?.withdrawal_account?.bank_name}
+                  </p>
+                  <div className="flex flex-row gap-1.5 items-center">
                     <p>
-                      <b>Bank Name:</b>{' '}
-                      {singleUserDetails?.withdrawal_account?.bank_name}
+                    <b>Account Number:</b>{' '}
+                    {singleUserDetails?.withdrawal_account?.account_number}
                     </p>
-                    <div className="flex flex-row gap-1.5 items-center">
-                      <p>
-                        <b>Account Number:</b>{' '}
-                        {singleUserDetails?.withdrawal_account?.account_number}
-                      </p>
-                      <Copy
-                        size={16}
-                        className="cursor-pointer"
-                        onClick={() =>
-                          handleCopyRecipientEmail(
-                            'Withdrawal Account Number',
-                            singleUserDetails?.withdrawal_account
-                              ?.account_number
-                          )
-                        }
-                      />
-                      {showCopy ? (
-                        <div className="text-xs text-green-500">Copied!</div>
-                      ) : null}
-                    </div>
+                    <Copy
+                    size={16}
+                    className="cursor-pointer"
+                    onClick={() =>
+                      handleCopyRecipientEmail(
+                      'Withdrawal Account Number',
+                      singleUserDetails?.withdrawal_account
+                        ?.account_number
+                      )
+                    }
+                    />
+                    {showCopy ? (
+                    <div className="text-xs text-green-500">Copied!</div>
+                    ) : null}
+                  </div>
                   </div>
                 ) : null}
               </p>
@@ -193,7 +193,7 @@ const FiatWithdrawalActionModal = ({ withdrawalDetail, page }: any) => {
           </div>
 
           {withdrawalDetail?.status !== 'accepted' &&
-          withdrawalDetail?.status !== 'rejected' ? (
+          withdrawalDetail?.status !== 'rejected' && withdrawalDetail.rate !== 0 ? (
             <div className="flex flex-row gap-6 mt-6">
               <AcceptFiatWithdrawalBtn
                 uid={withdrawalDetail?.uid}

@@ -8,6 +8,7 @@ const ManualNINVerification = ({
   id,
   email,
   verification_type,
+  status,
   mutationResult,
 }: any) => {
   const { toast } = useToast();
@@ -31,6 +32,7 @@ const ManualNINVerification = ({
         id,
         email,
         verification_type,
+        status: 'true',
       };
       await mutationResult.mutateAsync(formData);
     } catch (error: any) {

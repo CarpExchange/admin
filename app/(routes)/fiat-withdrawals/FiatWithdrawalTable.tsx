@@ -109,10 +109,14 @@ const FiatWithdrawalTable = ({ query }: any) => {
 
                     {/* STATUS */}
                     <TableCell className="text-center">
+                      {withdrawal?.rate === 0 ? (
+                      <span className="text-green-600 font-semibold">Done</span>
+                      ) : (
                       <StatusBadge
                         width={70}
                         statusType={withdrawal?.status?.toLowerCase()}
                       />
+                      )}
                     </TableCell>
 
                     {/* ACTION */}

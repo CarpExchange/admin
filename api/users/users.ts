@@ -57,7 +57,7 @@ export async function fetchAUserDetailsFn({ id, uid }: GetUserDetailsPayload) {
 
 export async function updateUserVerficationStatusFn({id, email, verification_type}: UpdateVerificationStatusPayload) {
   try {
-    const response = await authApi.put(`/admin/${id}/user/${email}/verify?verification_type=${verification_type}&status=true`);
+    const response = await authApi.put(`/admin/${id}/user/${email}/verify?verification_type=${verification_type}&status=${status}`);
     return response.data;
   } catch (error: any) {
     throw error.response;
