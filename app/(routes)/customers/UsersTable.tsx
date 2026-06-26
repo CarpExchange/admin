@@ -185,15 +185,15 @@ const UsersTable = ({ allCustomers, query, statusType }: any) => {
                         <PopoverContent className="w-[220px] p-3 border border-gray-200 shadow-md rounded-lg">
                           <div className="flex flex-col gap-2">
                             <ManualBVNVerification
-                              id={uid}
-                              email={customer.email}
-                              verification_type="bvn"
-                            />
+                            id={uid}
+                            email={customer.email}
+                            verification_type="bvn" 
+                            status={'true'}                            />
                             <ManualNINVerification
-                              id={uid}
-                              email={customer.email}
-                              verification_type="nin"
-                            />
+                            id={uid}
+                            email={customer.email}
+                            verification_type="nin" 
+                            status={'true'}                            />
                           </div>
                         </PopoverContent>
                       </Popover>
