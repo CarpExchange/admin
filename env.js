@@ -1,1 +1,1 @@
-export const API_URL = 'https://livematter23.kript.africa';
+export const BASE_API_URL = process.env.BASE_API_URL || "";
