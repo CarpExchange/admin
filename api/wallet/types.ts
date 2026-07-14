@@ -4,6 +4,7 @@ export type updateExchangeRatePayload = {
   id: string;
   sell_rate: number;
   buy_rate: number;
+  idempotencyKey?: string;
 }
 
 export type fetchAllDepositsPayload = {
@@ -15,4 +16,11 @@ export type fetchAllDepositsPayload = {
 export type updateProcessingFeePayload = {
   id: string;
   fee: number;
+  idempotencyKey?: string;
+}
+
+export type updateAirtimeRatePayload = {
+  id: string;
+  rate: number;
+  idempotencyKey?: string;
 }

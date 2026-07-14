@@ -1,14 +1,76 @@
 import authApi from '..';
-import { fetchAllDepositsPayload, updateProcessingFeePayload } from './types';
+import {
+  fetchAllDepositsPayload,
+  updateAirtimeRatePayload,
+  updateExchangeRatePayload,
+  updateProcessingFeePayload,
+} from './types';
+import { clearKey, setKey } from '@/lib/store/slices/idempotency-slice';
+import { store } from '@/lib/store/store';
+import { IDEMPOTENCY_HEADER, resolveIdempotencyEntry } from '@/lib/idempotency';
 // import { UpdateExchangeRatePayload } from './types';
 
-export async function updateExchangeRateFn({ id, buy_rate, sell_rate }: any) {
+const WALLET_ACTIONS = {
+  updateExchangeRate: 'wallet_update_exchange_rate',
+  updateProcessingFee: 'wallet_update_processing_fee',
+  updateAirtimeRate: 'wallet_update_airtime_rate',
+};
+
+const resolveWalletActionKey = async (
+  action: string,
+  snapshot: Record<string, unknown>,
+  explicitIdempotencyKey?: string,
+) => {
+  if (explicitIdempotencyKey) return explicitIdempotencyKey;
+
+  const existingEntry = store.getState().idempotency.keys[action];
+  const resolved = await resolveIdempotencyEntry(existingEntry, snapshot);
+
+  if (!resolved.isReused) {
+    store.dispatch(
+      setKey({
+        action,
+        key: resolved.key,
+        payloadHash: resolved.payloadHash,
+      }),
+    );
+  }
+
+  return resolved.key;
+};
+
+export async function updateExchangeRateFn({
+  id,
+  buy_rate,
+  sell_rate,
+  idempotencyKey,
+}: updateExchangeRatePayload & { idempotencyKey?: string }) {
   try {
+    const action = WALLET_ACTIONS.updateExchangeRate;
+    const actionKey = await resolveWalletActionKey(
+      action,
+      {
+        id,
+        buy_pair: 'usdtngn',
+        sell_pair: 'ngnusdt',
+        buy_rate,
+        sell_rate,
+      },
+      idempotencyKey,
+    );
+
     const body = { buy_rate, sell_rate };
     const response = await authApi.put(
       `admin/${id}/exchange-rate?buy_pair=usdtngn&sell_pair=ngnusdt`,
-      body
+      body,
+      {
+        headers: {
+          [IDEMPOTENCY_HEADER]: actionKey,
+        },
+      },
     );
+
+    store.dispatch(clearKey(action));
     return response.data;
   } catch (error: any) {
     throw error.response;
@@ -56,10 +118,27 @@ export async function fetchProcessingFeeFn(id: string) {
 export async function updateProcessingFeeFn({
   id,
   fee,
-}: any) {
+  idempotencyKey,
+}: updateProcessingFeePayload & { idempotencyKey?: string }) {
   try {
+    const action = WALLET_ACTIONS.updateProcessingFee;
+    const actionKey = await resolveWalletActionKey(
+      action,
+      {
+        id,
+        fee,
+      },
+      idempotencyKey,
+    );
+
     const body = { fee };
-    const response = await authApi.put(`/admin/${id}/processing-fee`, body);
+    const response = await authApi.put(`/admin/${id}/processing-fee`, body, {
+      headers: {
+        [IDEMPOTENCY_HEADER]: actionKey,
+      },
+    });
+
+    store.dispatch(clearKey(action));
     return response.data;
   } catch (error: any) {
     throw error.response;
@@ -88,10 +167,27 @@ export async function fetchAirtimeRate(id: string) {
 export async function updateAirtimeRateFn({
   id,
   rate,
-}: any) {
+  idempotencyKey,
+}: updateAirtimeRatePayload) {
   try {
+    const action = WALLET_ACTIONS.updateAirtimeRate;
+    const actionKey = await resolveWalletActionKey(
+      action,
+      {
+        id,
+        rate,
+      },
+      idempotencyKey,
+    );
+
     const body = { rate };
-    const response = await authApi.put(`/admin/${id}/airtime-rate`, body);
+    const response = await authApi.put(`/admin/${id}/airtime-rate`, body, {
+      headers: {
+        [IDEMPOTENCY_HEADER]: actionKey,
+      },
+    });
+
+    store.dispatch(clearKey(action));
     return response.data;
   } catch (error: any) {
     throw error.response;
