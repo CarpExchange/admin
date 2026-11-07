@@ -1,6 +1,6 @@
 import { BASE_API_URL } from "../env";
 import axios from "axios";
-import { IDEMPOTENCY_HEADER, createIdempotencyKey } from "@/lib/idempotency";
+// import { IDEMPOTENCY_HEADER, createIdempotencyKey } from "@/lib/idempotency";
 
 const WALLET_WRITE_PATTERNS = [
   /\/admin\/[^/]+\/exchange-rate(\?|$)/i,
@@ -43,12 +43,12 @@ authApi.interceptors.request.use(
       config.headers.Authorization = `Bearer ${await getToken()}`;
     }
 
-    if (
-      shouldAttachIdempotencyKey(config.url, config.method) &&
-      !config.headers[IDEMPOTENCY_HEADER]
-    ) {
-      config.headers[IDEMPOTENCY_HEADER] = createIdempotencyKey();
-    }
+    // if (
+    //   shouldAttachIdempotencyKey(config.url, config.method) &&
+    //   !config.headers[IDEMPOTENCY_HEADER]
+    // ) {
+    //   config.headers[IDEMPOTENCY_HEADER] = createIdempotencyKey();
+    // }
 
     return config;
   },
