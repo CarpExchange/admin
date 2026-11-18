@@ -167,7 +167,7 @@ export async function fetchAirtimeRate(id: string) {
 export async function updateAirtimeRateFn({
   id,
   rate,
-  idempotencyKey,
+  // idempotencyKey,
 }: updateAirtimeRatePayload) {
   try {
     const action = WALLET_ACTIONS.updateAirtimeRate;
@@ -177,7 +177,7 @@ export async function updateAirtimeRateFn({
         id,
         rate,
       },
-      idempotencyKey,
+      // idempotencyKey,
     );
 
     const body = { rate };
